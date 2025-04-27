@@ -57,8 +57,6 @@ import Footer from '~/components/layout/Footer.vue'
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: url('~/assets/images/background-image.jpg') no-repeat center
-    center;
   background-size: cover;
   opacity: 0.08;
 }
