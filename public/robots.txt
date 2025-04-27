@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /
+Allow: /$
+Allow: /login/
+Allow: /public/
+Sitemap: https://agro-app.com/sitemap.xml

@@ -1,0 +1,9 @@
+.el-scrollbar__thumb {
+  background-color: var(--el-color-primary) !important;
+  opacity: 1 !important;
+  transition: 0s !important;
+}
+
+.el-scrollbar__thumb:hover {
+  background-color: var(--el-color-primary-light-3) !important;
+}

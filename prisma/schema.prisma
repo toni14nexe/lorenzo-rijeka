@@ -1,0 +1,62 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                    Int                    @id @default(autoincrement())
+  email                 String                 @unique
+  firstname             String?
+  lastname              String?
+  mobile                String?
+  country               String?
+  place                 String?
+  address               String?
+  createdAt             DateTime               @default(now())
+  password              String
+  role                  String?                @default("user")
+  deletedAt             DateTime?
+  forgetPassHash        String?
+  verified              Boolean?               @default(false)
+  verificationToken     String?
+  firstLogin            DateTime?
+  lastLogin             DateTime?
+}
+
+model Category {
+  id              Int         @id @default(autoincrement())
+  name            String
+  parentCategory  Int?
+  createdAt       DateTime    @default(now())
+  deletedAt       DateTime?
+  news            News[]      @relation("CategoryNews")
+}
+
+model News {
+  id              Int         @id @default(autoincrement())
+  categoryId      Int
+  title           String
+  author          String
+  text            String
+  images          String[]
+  videos          String[]
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime?
+  deletedAt       DateTime?
+  category        Category    @relation("CategoryNews", fields: [categoryId], references: [id])
+}
+
+model Product {
+  id              Int         @id @default(autoincrement())
+  name            String
+  description     String?
+  price           Int
+  images          String[]
+  videos          String[]
+  createdAt       DateTime    @default(now())
+  deletedAt       DateTime?
+}

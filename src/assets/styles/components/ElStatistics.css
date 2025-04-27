@@ -1,0 +1,19 @@
+.el-statistic__head {
+  color: var(--el-color-primary) !important;
+  font-weight: 500 !important;
+  text-wrap: nowrap;
+}
+
+.el-statistic__content {
+  color: var(--el-color-primary) !important;
+}
+
+@media (max-width: 767px) {
+  .el-statistic__head {
+    text-align: center;
+  }
+
+  .el-statistic__content {
+    text-align: center;
+  }
+}
