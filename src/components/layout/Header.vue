@@ -7,7 +7,8 @@ import {
   Football,
   FirstAidKit
 } from '@element-plus/icons-vue'
-import Hamburger from '~/assets/icons/Hamburger.vue'
+import HamburgerIcon from '~/assets/icons/Hamburger.vue'
+import MessageIcon from '~/assets/icons/message.vue'
 
 const { $viewport } = useNuxtApp()
 const route = useRoute()
@@ -53,7 +54,7 @@ function handleSearch() {
         class="cursor-pointer"
         @click="isMobileDrawerMenuOpen = true"
       >
-        <Hamburger />
+        <HamburgerIcon />
       </ElIcon>
     </ElCol>
     <ElCol
@@ -195,6 +196,20 @@ function handleSearch() {
               <component :is="category.icon" />
             </ElIcon>
             {{ category.name }}
+          </ElRow>
+        </NuxtLink>
+        <NuxtLink
+          to="kontakt"
+          class="el-button drawer-button"
+          :class="{
+            'el-button--primary': route.name === 'kontakt'
+          }"
+        >
+          <ElRow class="drawer-button-text-wrapper" align="middle">
+            <ElIcon :size="18">
+              <MessageIcon />
+            </ElIcon>
+            KONTAKTIRAJTE NAS
           </ElRow>
         </NuxtLink>
       </div>

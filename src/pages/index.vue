@@ -21,6 +21,6 @@ useHead({
 })
 </script>
 
-<template>asasasas</template>
+<template><DashboardPage /></template>
 
 <style lang="css" scoped></style>
