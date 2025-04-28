@@ -9,11 +9,9 @@ const { $viewport } = useNuxtApp()
     <ElHeader>
       <Header />
     </ElHeader>
-    <div>
-      <ElMain>
-        <slot />
-      </ElMain>
-    </div>
+    <ElMain>
+      <slot />
+    </ElMain>
   </ElContainer>
 </template>
 
