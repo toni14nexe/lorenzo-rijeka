@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import Header from '~/components/layout/Header.vue'
-
-const { $viewport } = useNuxtApp()
 </script>
 
 <template>
@@ -9,7 +7,7 @@ const { $viewport } = useNuxtApp()
     <ElHeader>
       <Header />
     </ElHeader>
-    <ElMain>
+    <ElMain class="main">
       <slot />
     </ElMain>
   </ElContainer>
@@ -19,5 +17,9 @@ const { $viewport } = useNuxtApp()
 .container {
   max-width: 1600px;
   margin: auto;
+  overflow-x: hidden;
+}
+.main {
+  overflow-x: hidden;
 }
 </style>

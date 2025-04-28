@@ -8,7 +8,7 @@ function openAd() {
 
 <template>
   <div
-    v-if="ad"
+    v-if="ad && ad.imageUrl"
     class="ad"
     :class="{ 'cursor-pointer': ad.link }"
     :style="`background-image: url(${ad.imageUrl})`"

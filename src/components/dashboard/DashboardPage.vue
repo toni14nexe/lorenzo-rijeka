@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import NewsWidget from '~/components/shared/NewsWidget.vue'
+import AdsSlider from '~/components/shared/AdsFooter.vue'
 const { $viewport } = useNuxtApp()
 
 const newestLargeNews = ref([
@@ -86,9 +87,9 @@ const newestSmallNews = ref([
     </ElRow>
 
     <ElDivider />
-
     <DashboardCategorizedNews />
-
+    <ElDivider />
+    <AdsSlider />
     <ElDivider />
   </div>
 </template>
