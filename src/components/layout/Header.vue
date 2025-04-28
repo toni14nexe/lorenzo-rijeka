@@ -66,7 +66,7 @@ function handleSearch() {
         :delay="400"
       >
         <NuxtLink to="/" class="mobile-title">
-          <h3 class="color-primary">Našice Portal</h3></NuxtLink
+          <h3 class="color-primary">Gastrabajter.de</h3></NuxtLink
         >
       </ElCol>
       <ElCol
@@ -113,7 +113,7 @@ function handleSearch() {
     <ElRow v-else class="header-container" v-motion-slide-top :duration="400">
       <ElCol :span="5" align="center" v-motion-slide-top :duration="400">
         <NuxtLink to="/" class="title">
-          <h3 class="color-primary">Našice Portal</h3>
+          <h3 class="color-primary">Gastrabajter.de</h3>
         </NuxtLink>
       </ElCol>
       <ElCol
@@ -172,7 +172,7 @@ function handleSearch() {
   >
     <template #header>
       <div style="width: 100%">
-        <h3 class="color-primary">Našice Portal</h3>
+        <h3 class="color-primary">Gastrabajter.de</h3>
       </div>
     </template>
     <template #default>

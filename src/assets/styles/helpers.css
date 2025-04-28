@@ -58,6 +58,10 @@
   margin-bottom: 24px;
 }
 
+.mr-4 {
+  margin-right: 4px;
+}
+
 .mr-8 {
   margin-right: 8px;
 }
@@ -72,6 +76,10 @@
 
 .mr-77 {
   margin-right: 77px;
+}
+
+.ml-4 {
+  margin-left: 4px;
 }
 
 .ml-8 {

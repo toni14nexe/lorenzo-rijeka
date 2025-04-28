@@ -1,7 +1,8 @@
 {
-  "name": "agro-app",
+  "name": "gastrabajter.de",
   "private": true,
   "type": "module",
+  "author": "Toni Kolarić - Innovatech",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",

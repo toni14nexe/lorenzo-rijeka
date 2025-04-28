@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Header from '~/components/layout/Header.vue'
+import Footer from '~/components/layout/Footer.vue'
 </script>
 
 <template>
@@ -10,13 +11,15 @@ import Header from '~/components/layout/Header.vue'
     <ElMain class="main">
       <slot />
     </ElMain>
+    <footer>
+      <Footer />
+    </footer>
   </ElContainer>
 </template>
 
 <style scoped>
 .container {
   max-width: 1600px;
-  margin: auto;
   overflow-x: hidden;
 }
 .main {
