@@ -34,6 +34,7 @@ defineProps(['news'])
   border-radius: 4px;
   overflow: hidden;
   cursor: pointer;
+  box-shadow: var(--el-box-shadow-light);
 }
 .news-opacity-container {
   opacity: 0.3333;

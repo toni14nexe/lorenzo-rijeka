@@ -4,23 +4,20 @@ import Footer from '~/components/layout/Footer.vue'
 </script>
 
 <template>
-  <ElContainer class="container">
-    <ElHeader>
-      <Header />
-    </ElHeader>
-    <ElMain class="main">
-      <slot />
-    </ElMain>
-    <footer>
-      <Footer />
-    </footer>
-  </ElContainer>
+  <ElHeader class="header">
+    <Header />
+  </ElHeader>
+  <ElMain class="main">
+    <slot />
+  </ElMain>
+  <footer>
+    <Footer />
+  </footer>
 </template>
 
 <style scoped>
-.container {
-  max-width: 1600px;
-  overflow-x: hidden;
+.header {
+  --el-header-padding: 0;
 }
 .main {
   overflow-x: hidden;

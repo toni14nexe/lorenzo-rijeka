@@ -8,6 +8,8 @@ import {
   FirstAidKit
 } from '@element-plus/icons-vue'
 import HamburgerIcon from '~/assets/icons/hamburger.vue'
+import FacebookIcon from '~/assets/icons/facebook.vue'
+import InstagramIcon from '~/assets/icons/instagram.vue'
 import MessageIcon from '~/assets/icons/message.vue'
 
 const { $viewport } = useNuxtApp()
@@ -171,9 +173,9 @@ function handleSearch() {
     size="100%"
   >
     <template #header>
-      <div style="width: 100%">
+      <ElRow style="width: 100%">
         <h3 class="color-primary">Gastrabajter.de</h3>
-      </div>
+      </ElRow>
     </template>
     <template #default>
       <div class="drawer-container">
@@ -211,6 +213,37 @@ function handleSearch() {
         </NuxtLink>
       </div>
     </template>
+    <template #footer>
+      <ElRow
+        justify="center"
+        align="middle"
+        class="w-100 color-zinc text-align-center"
+      >
+        <NuxtLink to="/kontakt" class="icon-link mr-4" target="_blank">
+          <ElIcon :size="32">
+            <MessageIcon />
+          </ElIcon>
+        </NuxtLink>
+        <NuxtLink
+          to="https://facebook.com/"
+          class="icon-link mr-4 ml-4"
+          target="_blank"
+        >
+          <ElIcon :size="32">
+            <FacebookIcon />
+          </ElIcon>
+        </NuxtLink>
+        <NuxtLink
+          to="https://instagram.com/"
+          class="icon-link ml-4"
+          target="_blank"
+        >
+          <ElIcon :size="32">
+            <InstagramIcon />
+          </ElIcon>
+        </NuxtLink>
+      </ElRow>
+    </template>
   </ElDrawer>
 </template>
 
@@ -219,6 +252,7 @@ function handleSearch() {
   width: 100%;
   background-color: white;
   border-bottom: 2px solid var(--el-border-color);
+  padding: 0 20px;
 }
 .mobile-title {
   text-decoration: none;
@@ -278,5 +312,12 @@ function handleSearch() {
 .drawer-button-text-wrapper {
   width: 100%;
   gap: 12px;
+}
+.icon-link {
+  color: var(--el-text-color-secondary);
+  transition: 0.3s ease-in-out;
+}
+.icon-link:hover {
+  color: var(--el-color-primary);
 }
 </style>

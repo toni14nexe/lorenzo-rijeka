@@ -29,5 +29,6 @@ function openAd() {
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
+  box-shadow: var(--el-box-shadow-light);
 }
 </style>
