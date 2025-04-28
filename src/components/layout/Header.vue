@@ -7,7 +7,7 @@ import {
   Football,
   FirstAidKit
 } from '@element-plus/icons-vue'
-import HamburgerIcon from '~/assets/icons/Hamburger.vue'
+import HamburgerIcon from '~/assets/icons/hamburger.vue'
 import MessageIcon from '~/assets/icons/message.vue'
 
 const { $viewport } = useNuxtApp()
@@ -22,7 +22,7 @@ const categories = shallowRef([
   { id: 4, name: 'TRGOVINA', icon: Shop }
 ])
 
-function getCategoryNameText(name) {
+function getCategoryNameText(name: string) {
   if (name === 'CRNA KRONIKA' && $viewport.isLessOrEquals('desktop'))
     return 'KRONIKA'
   return name.toUpperCase()

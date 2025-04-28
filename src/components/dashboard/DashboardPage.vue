@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import MessageIcon from '~/assets/icons/message.vue'
 import NewsWidget from '~/components/shared/NewsWidget.vue'
+const { $viewport } = useNuxtApp()
 
 const newestLargeNews = ref([
   {
@@ -63,13 +63,14 @@ const newestSmallNews = ref([
 
 <template>
   <div class="page-container">
-    <ElRow :gutter="12">
+    <ElRow :gutter="12" class="mb-24">
       <ElCol
         v-for="news in newestLargeNews"
         :key="news.id"
         :xs="24"
         :sm="8"
         class="news-container"
+        :class="{ 'mt-12': $viewport.isLessOrEquals('tablet') }"
       >
         <NewsWidget :news="news" />
       </ElCol>
@@ -83,43 +84,17 @@ const newestSmallNews = ref([
         <NewsWidget :news="news" />
       </ElCol>
     </ElRow>
+
+    <ElDivider />
+
+    <DashboardCategorizedNews />
+
+    <ElDivider />
   </div>
 </template>
 
 <style lang="css" scoped>
 .news-container {
   height: 30dvh;
-}
-.news {
-  position: relative;
-  border: 1px solid var(--el-border-color);
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
-  height: 100%;
-  border-radius: 4px;
-  overflow: hidden;
-  cursor: pointer;
-}
-.news-opacity-container {
-  opacity: 0.3333;
-  background-color: black;
-  height: 100%;
-  transition: 0.3s ease-in-out;
-}
-.news:hover .news-opacity-container {
-  opacity: 0.75;
-}
-.news-text-container {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  display: flex;
-  justify-content: center;
-  align-items: end;
-  color: white;
-  text-align: center;
 }
 </style>

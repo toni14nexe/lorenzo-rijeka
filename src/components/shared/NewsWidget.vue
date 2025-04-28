@@ -61,4 +61,12 @@ defineProps(['news'])
 .datetime {
   font-weight: 400;
 }
+@media screen and (max-width: 1025px) {
+  h3 {
+    font-size: medium;
+  }
+  .datetime {
+    font-size: small;
+  }
+}
 </style>
