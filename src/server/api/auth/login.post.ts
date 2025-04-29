@@ -31,11 +31,6 @@ export default defineEventHandler(async event => {
       message: 'Account is not verified yet'
     })
 
-  // Getting the total count of lands
-  const totalUserLands = await prisma.lands.count({
-    where: { userId: user.id }
-  })
-
   // Create a JWT token
   const token = jwt.sign(
     {
@@ -56,19 +51,13 @@ export default defineEventHandler(async event => {
       where: { id: user.id },
       data: {
         firstLogin: new Date(),
-        lastLogin: new Date(),
-        licenceType: 'trial',
-        licenceExpiration: new Date(
-          new Date().setDate(new Date().getDate() + 20)
-        )
+        lastLogin: new Date()
       }
     })
   }
 
   return {
     token,
-    role: user.role,
-    activities: user.activities,
-    userLandsExist: totalUserLands ? true : false
+    role: user.role
   }
 })

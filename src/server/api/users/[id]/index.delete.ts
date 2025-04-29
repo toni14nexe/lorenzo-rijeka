@@ -11,7 +11,7 @@ export default defineEventHandler(async event => {
   }
 
   await prisma.user.update({
-    where: { id: Number(params.id) },
+    where: { id: params.id },
     data: { deletedAt: new Date() }
   })
 

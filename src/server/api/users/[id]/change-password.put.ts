@@ -6,7 +6,7 @@ export default defineEventHandler(async event => {
   const user = event.context.user
 
   const { params } = event.context
-  const userId = Number(params?.id)
+  const userId = params?.id
 
   if (!userId) {
     throw createError({
