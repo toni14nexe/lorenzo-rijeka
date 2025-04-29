@@ -32,9 +32,9 @@ export default defineEventHandler(async event => {
   const mailOptions = {
     from: body.email,
     to: 'toni14nexe@gmail.com',
-    subject: `Gastrabajter.de kontakt - ${body.email}`,
+    subject: `Gastabajter.de kontakt - ${body.email}`,
     html: `
-           <a href="${url}" style="text-decoration: none"><h1 style="background-color: #409EFF; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">Gastrabajter.de</h1></a>
+           <a href="${url}" style="text-decoration: none"><h1 style="background-color: #409EFF; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">Gastabajter.de</h1></a>
            <h3>Kontakt</h3>
            <p>Korisnik: ${body.fullname || '-'}</p>
            <p>Email: ${body.email}</p>

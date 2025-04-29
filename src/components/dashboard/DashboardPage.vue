@@ -10,21 +10,24 @@ const newestLargeNews = ref([
       'Šahovski klub „Radnik” Velimirovac briljirao na županijskom finalu Plazma SIM-a u Osijeku',
     imageUrl:
       'https://miro.medium.com/v2/resize:fit:1000/1*KVYKz-XyhECWOcd68ZVkHQ.jpeg',
-    createdAt: '2025-04-27 16:16:24.880'
+    createdAt: '2025-04-27 16:16:24.880',
+    category: { name: 'Kategorija 1' }
   },
   {
     id: 2,
     title: 'SPD predao kandidacijsku listu za Grad Našice',
     imageUrl:
       'https://vueschool.io/storage/media/677bbaa8ba92bed432f2bc7b6490c03a/Nuxt-3-Fundamentals_transparent.png',
-    createdAt: '2025-04-27 16:16:24.880'
+    createdAt: '2025-04-27 16:16:24.880',
+    category: { name: 'Kategorija 1' }
   },
   {
     id: 3,
     title: 'RK Đurđenovac pobjednik',
     imageUrl:
       'https://a.storyblok.com/f/172506/1292x552/b28e696cd5/nuxt-vs-next-cover-image.webp',
-    createdAt: '2025-04-27 16:16:24.880'
+    createdAt: '2025-04-27 16:16:24.880',
+    category: { name: 'Kategorija 1' }
   }
 ])
 
@@ -35,21 +38,24 @@ const newestSmallNews = ref([
       'Šahovski klub „Radnik” Velimirovac briljirao na županijskom finalu Plazma SIM-a u Osijeku',
     imageUrl:
       'https://miro.medium.com/v2/resize:fit:1000/1*KVYKz-XyhECWOcd68ZVkHQ.jpeg',
-    createdAt: '2025-04-27 16:16:24.880'
+    createdAt: '2025-04-27 16:16:24.880',
+    category: { name: 'Kategorija 1' }
   },
   {
     id: 2,
     title: 'SPD predao kandidacijsku listu za Grad Našice',
     imageUrl:
       'https://vueschool.io/storage/media/677bbaa8ba92bed432f2bc7b6490c03a/Nuxt-3-Fundamentals_transparent.png',
-    createdAt: '2025-04-27 16:16:24.880'
+    createdAt: '2025-04-27 16:16:24.880',
+    category: { name: 'Kategorija 1' }
   },
   {
     id: 3,
     title: 'RK Đurđenovac pobjednik',
     imageUrl:
       'https://a.storyblok.com/f/172506/1292x552/b28e696cd5/nuxt-vs-next-cover-image.webp',
-    createdAt: '2025-04-27 16:16:24.880'
+    createdAt: '2025-04-27 16:16:24.880',
+    category: { name: 'Kategorija 1' }
   },
   {
     id: 4,
@@ -57,7 +63,8 @@ const newestSmallNews = ref([
       'RK Đurđenovac pobjednik na memorijalnom turniru doktor Miodrag Požega u Hrtkovcima u općini Ruma u Srbiji nedaleko Novog Sada',
     imageUrl:
       'https://vueschool.io/storage/media/677bbaa8ba92bed432f2bc7b6490c03a/Nuxt-3-Fundamentals_transparent.png',
-    createdAt: '2025-04-27 16:16:24.880'
+    createdAt: '2025-04-27 16:16:24.880',
+    category: { name: 'Kategorija 1' }
   }
 ])
 </script>

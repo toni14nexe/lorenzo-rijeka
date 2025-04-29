@@ -102,7 +102,7 @@ async function sendMessage(formEl: FormInstance | undefined) {
       <p>
         Kontaktirajte nas putem obrasca ispod ili na našu email adresu:
         <a href="mailto:toni.kolaric@innova-tech.live">
-          kontakt@gastrabajter.de
+          kontakt@gastabajter.de
         </a>
       </p>
     </ElRow>

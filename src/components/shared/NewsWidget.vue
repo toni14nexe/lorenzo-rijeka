@@ -10,7 +10,7 @@ defineProps(['news'])
     class="news cursor-pointer"
     :style="`background-image: url(${news.imageUrl})`"
   >
-    <NuxtLink :to="`/portal/${news.id}`">
+    <NuxtLink :to="`/portal/${news.category.name}/${news.id}`">
       <div class="news-opacity-container" />
       <div class="news-text-container">
         <h3>{{ truncateText(news.title, 105) }}</h3>

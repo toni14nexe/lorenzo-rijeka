@@ -64,7 +64,7 @@ const subcategories = ref([
             :to="
               category.name === 'Naslovnica'
                 ? '/'
-                : `/kategorije/${category.name.toLowerCase()}`
+                : `/${category.name.toLowerCase()}`
             "
             class="link"
           >
@@ -76,7 +76,7 @@ const subcategories = ref([
 
     <ElCard class="mt-24 mb-24">
       <ElRow class="footer" justify="center" align="middle">
-        <span class="color-primary">Podizbornik</span>
+        <span class="color-primary">Portal</span>
       </ElRow>
       <ElRow justify="start" align="middle" class="row-gap-4 mt-8">
         <ElCol
@@ -94,7 +94,7 @@ const subcategories = ref([
           align="center"
         >
           <NuxtLink
-            :to="`/kategorije/${category.name.toLowerCase()}`"
+            :to="`/portal/kategorije/${category.name.toLowerCase()}`"
             class="link"
           >
             {{ category.name }}

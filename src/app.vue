@@ -4,7 +4,7 @@ import hr from 'element-plus/es/locale/lang/hr'
 
 useHead({
   titleTemplate: title =>
-    title ? `${title} - Gastrabajter.de` : 'Gastrabajter.de',
+    title ? `${title} - Gastabajter.de` : 'Gastabajter.de',
   meta: [
     {
       name: 'description',
@@ -18,7 +18,7 @@ useHead({
     },
     { name: 'author', content: 'InnovaTech obrt za informatičke usluge' },
     { property: 'og:type', content: 'website' },
-    { property: 'og:title', content: 'Gastrabajter.de' },
+    { property: 'og:title', content: 'Gastabajter.de' },
     {
       property: 'og:description',
       content:
@@ -47,7 +47,7 @@ useHead({
 useSeoMeta({
   description:
     'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.',
-  ogTitle: 'Dobrodošli u Gastrabajter.de',
+  ogTitle: 'Dobrodošli u Gastabajter.de',
   ogDescription:
     'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.',
   ogImage: 'https://i.ibb.co/GZLqPjQ/apple-touch-icon.png',
@@ -87,7 +87,7 @@ useSeoMeta({
         sizes="180x180"
         href="https://i.ibb.co/GZLqPjQ/apple-touch-icon.png"
       />
-      <meta name="apple-mobile-web-app-title" content="Gastrabajter.de" />
+      <meta name="apple-mobile-web-app-title" content="Gastabajter.de" />
     </head>
   </ClientOnly>
 

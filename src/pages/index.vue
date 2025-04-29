@@ -5,13 +5,13 @@ useHead({
     {
       name: 'description',
       content:
-        'Početna stranica Gastrabajter.de portala. Ovdje možete pronaći sve o životu izvan Hrvatske, upute za život izvan Hrvatske, poslove izvan Hrvatske i našu web trgovinu koja omogućava internacionalne narudžbe.'
+        'Početna stranica Gastabajter.de portala. Ovdje možete pronaći sve o životu izvan Hrvatske, upute za život izvan Hrvatske, poslove izvan Hrvatske i našu web trgovinu koja omogućava internacionalne narudžbe.'
     },
-    { property: 'og:title', content: 'Početna' },
+    { property: 'og:title', content: 'Naslovnica' },
     {
       property: 'og:description',
       content:
-        'Početna stranica Gastrabajter.de portala. Ovdje možete pronaći sve o životu izvan Hrvatske, upute za život izvan Hrvatske, poslove izvan Hrvatske i našu web trgovinu koja omogućava internacionalne narudžbe.'
+        'Početna stranica Gastabajter.de portala. Ovdje možete pronaći sve o životu izvan Hrvatske, upute za život izvan Hrvatske, poslove izvan Hrvatske i našu web trgovinu koja omogućava internacionalne narudžbe.'
     }
   ]
 })

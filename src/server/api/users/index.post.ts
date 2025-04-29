@@ -49,9 +49,9 @@ export default defineEventHandler(async event => {
       to: body.email,
       subject: 'Potvrdite svoju email adresu',
       html: `
-             <h1 style="background-color: #409EFF; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">Gastrabajter.de</h1>
+             <h1 style="background-color: #409EFF; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">Gastabajter.de</h1>
              <p>Bok ${body.firstname} ${body.lastname},</p>
-             <p>Hvala na registraciji u Gastrabajter.de. Molimo vas potvrdite email otvaranjem linka:</p>
+             <p>Hvala na registraciji u Gastabajter.de. Molimo vas potvrdite email otvaranjem linka:</p>
              <a href="${verificationUrl}">Potvrdite email</a>`
     }
     await transporter.sendMail(mailOptions)
