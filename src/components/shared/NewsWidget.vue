@@ -9,18 +9,19 @@ defineProps(['news'])
     v-if="news"
     class="news cursor-pointer"
     :style="`background-image: url(${news.imageUrl})`"
-    @click="navigateTo(`/news/${news.id}`)"
   >
-    <div class="news-opacity-container" />
-    <div class="news-text-container">
-      <h3>{{ truncateText(news.title, 105) }}</h3>
-      <ElRow class="datetime mb-16" align="middle">
-        <ElIcon :size="18" class="mr-8">
-          <Clock />
-        </ElIcon>
-        {{ formatISOToDatetime(news.createdAt) }}
-      </ElRow>
-    </div>
+    <NuxtLink :to="`/portal/${news.id}`">
+      <div class="news-opacity-container" />
+      <div class="news-text-container">
+        <h3>{{ truncateText(news.title, 105) }}</h3>
+        <ElRow class="datetime mb-16" align="middle">
+          <ElIcon :size="18" class="mr-8">
+            <Clock />
+          </ElIcon>
+          {{ formatISOToDatetime(news.createdAt) }}
+        </ElRow>
+      </div>
+    </NuxtLink>
   </div>
   <ElEmpty v-else class="news" description="Trenutno nedostupno!" />
 </template>

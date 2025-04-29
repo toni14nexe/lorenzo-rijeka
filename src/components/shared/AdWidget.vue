@@ -1,26 +1,23 @@
 <script setup lang="ts">
-const props = defineProps(['ad'])
-
-function openAd() {
-  if (props.ad.link) window.open(props.ad.link, '_blank')
-}
+defineProps(['ad'])
 </script>
 
 <template>
   <div v-if="ad && ad.imageUrl" class="active-ad-wrapper">
-    <div
-      class="ad ad-hover-opacity"
-      :class="{ 'cursor-pointer': ad.link }"
-      :style="`background-image: url(${ad.imageUrl})`"
-      @click="openAd"
-    />
+    <NuxtLink :to="ad.link" target="_blank">
+      <div
+        class="ad ad-hover-opacity"
+        :class="{ 'cursor-pointer': ad.link }"
+        :style="`background-image: url(${ad.imageUrl})`"
+      />
+    </NuxtLink>
   </div>
-  <ElEmpty
-    v-else
-    class="ad empty-ad cursor-pointer"
-    description="Ovdje može biti vaša reklama!"
-    @click="navigateTo('/reklame')"
-  />
+  <NuxtLink v-else to="/reklamiranje" class="no-decoration">
+    <ElEmpty
+      class="ad empty-ad cursor-pointer"
+      description="Ovdje može biti vaša reklama!"
+    />
+  </NuxtLink>
 </template>
 
 <style lang="css" scoped>
@@ -48,5 +45,8 @@ function openAd() {
 }
 .empty-ad:hover {
   background-color: rgba(0, 0, 0, 0.1);
+}
+.no-decoration {
+  text-decoration: none;
 }
 </style>

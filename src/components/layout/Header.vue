@@ -3,7 +3,8 @@ import {
   Search,
   HomeFilled,
   Shop,
-  OfficeBuilding
+  OfficeBuilding,
+  CloseBold
 } from '@element-plus/icons-vue'
 import HamburgerIcon from '~/assets/icons/hamburger.vue'
 import FacebookIcon from '~/assets/icons/facebook.vue'
@@ -23,13 +24,18 @@ const categories = shallowRef([
   { id: 4, name: 'Kontakt', icon: MessageIcon, iconSize: 18 }
 ])
 
+watch(
+  () => route.name,
+  () => (isMobileDrawerMenuOpen.value = false)
+)
+
 function getCategoryNameText(name: string) {
   if (name === 'Naslovnica' && $viewport.match('tablet')) return 'POČETNA'
   return name.toUpperCase()
 }
 
 function handleSearch() {
-  console.log(searchValue.value)
+  if (searchValue.value) navigateTo(`/pretraživanje?value=${searchValue.value}`)
 }
 </script>
 
@@ -91,20 +97,24 @@ function handleSearch() {
                   @keyup.enter="handleSearch"
                 >
                   <template #suffix>
-                    <ElIcon
-                      :size="18"
-                      class="search-icon"
-                      @click="handleSearch"
+                    <NuxtLink
+                      :to="
+                        searchValue ? `/pretraživanje?value=${searchValue}` : ''
+                      "
                     >
-                      <Search />
-                    </ElIcon>
+                      <ElIcon :size="20" class="search-icon mt-8">
+                        <Search />
+                      </ElIcon>
+                    </NuxtLink>
                   </template>
                 </ElInput>
               </ElRow>
               <ElRow class="mt-12" justify="end">
-                <ElButton @click="handleSearch" type="primary">
-                  Traži
-                </ElButton>
+                <NuxtLink
+                  :to="searchValue ? `/pretraživanje?value=${searchValue}` : ''"
+                >
+                  <ElButton type="primary"> Traži </ElButton>
+                </NuxtLink>
               </ElRow>
             </template>
           </ElPopover>
@@ -158,9 +168,13 @@ function handleSearch() {
               />
             </ElCol>
             <ElCol :span="4" align="end">
-              <ElIcon :size="18" class="search-icon" @click="handleSearch">
-                <Search />
-              </ElIcon>
+              <NuxtLink
+                :to="searchValue ? `/pretraživanje?value=${searchValue}` : ''"
+              >
+                <ElIcon :size="22" class="search-icon mt-8">
+                  <Search />
+                </ElIcon>
+              </NuxtLink>
             </ElCol>
           </ElRow>
         </ElCol>
@@ -169,14 +183,9 @@ function handleSearch() {
   </div>
 
   <!-- MOBILE DRAWER MENU -->
-  <ElDrawer
-    v-model="isMobileDrawerMenuOpen"
-    show-close
-    direction="ltr"
-    size="100%"
-  >
+  <ElDrawer v-model="isMobileDrawerMenuOpen" direction="ltr" size="100%">
     <template #header>
-      <ElRow style="width: 100%">
+      <ElRow>
         <h3 class="color-primary">Gastrabajter.de</h3>
       </ElRow>
     </template>
@@ -210,7 +219,26 @@ function handleSearch() {
         align="middle"
         class="w-100 color-zinc text-align-center"
       >
-        <NuxtLink to="/kontakt" class="icon-link mr-4" target="_blank">
+        <ElButton
+          class="w-100 drawer-button"
+          type="danger"
+          plain
+          @click="isMobileDrawerMenuOpen = false"
+        >
+          <ElRow align="middle">
+            <ElIcon :size="18" class="mr-8">
+              <CloseBold />
+            </ElIcon>
+            Zatvori
+          </ElRow>
+        </ElButton>
+      </ElRow>
+      <ElRow
+        justify="center"
+        align="middle"
+        class="w-100 color-zinc text-align-center mt-16"
+      >
+        <NuxtLink to="/kontakt" class="icon-link mr-4">
           <ElIcon :size="32">
             <MessageIcon />
           </ElIcon>
@@ -301,6 +329,7 @@ function handleSearch() {
   outline: none;
 }
 .search-icon {
+  color: var(--el-text-color-secondary);
   cursor: pointer;
 }
 .search-icon:hover {
