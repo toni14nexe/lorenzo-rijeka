@@ -4,9 +4,7 @@ import Footer from '~/components/layout/Footer.vue'
 </script>
 
 <template>
-  <ElHeader class="header">
-    <Header />
-  </ElHeader>
+  <Header />
   <ElMain class="main">
     <slot />
   </ElMain>
@@ -16,9 +14,6 @@ import Footer from '~/components/layout/Footer.vue'
 </template>
 
 <style scoped>
-.header {
-  --el-header-padding: 0;
-}
 .main {
   overflow-x: hidden;
 }

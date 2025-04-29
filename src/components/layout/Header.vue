@@ -35,135 +35,138 @@ function handleSearch() {
 
 <template>
   <!-- MOBILE HEADER -->
-  <ElAffix>
-    <ElRow
-      v-if="$viewport.isLessThan('tablet')"
-      class="header-container"
-      v-motion-slide-top
-      :duration="400"
-    >
-      <ElCol
-        :span="4"
-        style="margin: auto"
-        v-motion-slide-top
-        :duration="400"
-        :delay="200"
-      >
-        <ElIcon
-          :size="28"
-          color="var(--el-color-primary)"
-          class="cursor-pointer"
-          @click="isMobileDrawerMenuOpen = true"
-        >
-          <HamburgerIcon />
-        </ElIcon>
-      </ElCol>
-      <ElCol
-        :span="16"
-        align="center"
-        v-motion-slide-top
-        :duration="400"
-        :delay="400"
-      >
-        <NuxtLink to="/" class="mobile-title">
-          <h3 class="color-primary">Gastrabajter.de</h3></NuxtLink
-        >
-      </ElCol>
-      <ElCol
-        :span="4"
-        style="margin: auto"
-        align="end"
-        v-motion-slide-top
-        :duration="400"
-        :delay="600"
-      >
-        <ElPopover placement="bottom-start" trigger="click" :width="300">
-          <template #reference>
-            <ElIcon
-              :size="28"
-              color="var(--el-color-primary)"
-              class="cursor-pointer"
-            >
-              <Search />
-            </ElIcon>
-          </template>
-          <template #default>
-            <ElRow>
-              <ElInput
-                v-model="searchValue"
-                placeholder="Traži..."
-                @keyup.enter="handleSearch"
-              >
-                <template #suffix>
-                  <ElIcon :size="18" class="search-icon" @click="handleSearch">
-                    <Search />
-                  </ElIcon>
-                </template>
-              </ElInput>
-            </ElRow>
-            <ElRow class="mt-12" justify="end">
-              <ElButton @click="handleSearch" type="primary"> Traži </ElButton>
-            </ElRow>
-          </template>
-        </ElPopover>
-      </ElCol>
-    </ElRow>
-
-    <!-- DESKTOP HEADER -->
-    <ElRow v-else class="header-container" v-motion-slide-top :duration="400">
-      <ElCol :span="5" align="center" v-motion-slide-top :duration="400">
-        <NuxtLink to="/" class="title">
-          <h3 class="color-primary">Gastrabajter.de</h3>
-        </NuxtLink>
-      </ElCol>
-      <ElCol
-        v-for="(category, index) in categories"
-        :key="category.id"
-        :span="3"
-        v-motion-slide-top
-        :duration="400"
-        :delay="400 + index * 200"
-      >
-        <NuxtLink
-          :to="
-            category.name === 'Naslovnica' ? '/' : category.name.toLowerCase()
-          "
-          class="el-button header-button"
-          :class="{
-            'el-button--primary':
-              category.name.toLowerCase() === route.name ||
-              (route.name === 'index' && category.name === 'Naslovnica')
-          }"
+  <div class="sticky">
+    <ElHeader v-motion-slide-top :duration="400">
+      <ElRow v-if="$viewport.isLessThan('tablet')" class="header-container">
+        <ElCol
+          :span="4"
+          style="margin: auto"
+          v-motion-slide-top
+          :duration="400"
+          :delay="200"
         >
           <ElIcon
-            v-if="$viewport.isGreaterOrEquals('desktop')"
-            :size="24"
-            class="home-icon"
+            :size="28"
+            color="var(--el-color-primary)"
+            class="cursor-pointer"
+            @click="isMobileDrawerMenuOpen = true"
           >
-            <component :is="category.icon" />
+            <HamburgerIcon />
           </ElIcon>
-          {{ getCategoryNameText(category.name) }}
-        </NuxtLink>
-      </ElCol>
-      <ElCol :span="4" v-motion-slide-top :duration="200" :delay="1600">
-        <ElRow class="desktop-search-wrapper" align="middle">
-          <ElCol :span="20" align="middle" justify="center">
-            <input
-              v-model="searchValue"
-              placeholder="Traži..."
-              class="desktop-search"
-              @keyup.enter="handleSearch"
-            />
-          </ElCol>
-          <ElCol :span="4" align="end">
-            <ElIcon :size="18" class="search-icon" @click="handleSearch">
-              <Search />
+        </ElCol>
+        <ElCol
+          :span="16"
+          align="center"
+          v-motion-slide-top
+          :duration="400"
+          :delay="400"
+        >
+          <NuxtLink to="/" class="mobile-title">
+            <h3 class="color-primary">Gastrabajter.de</h3></NuxtLink
+          >
+        </ElCol>
+        <ElCol
+          :span="4"
+          style="margin: auto"
+          align="end"
+          v-motion-slide-top
+          :duration="400"
+          :delay="600"
+        >
+          <ElPopover placement="bottom-start" trigger="click" :width="300">
+            <template #reference>
+              <ElIcon
+                :size="28"
+                color="var(--el-color-primary)"
+                class="cursor-pointer"
+              >
+                <Search />
+              </ElIcon>
+            </template>
+            <template #default>
+              <ElRow>
+                <ElInput
+                  v-model="searchValue"
+                  placeholder="Traži..."
+                  @keyup.enter="handleSearch"
+                >
+                  <template #suffix>
+                    <ElIcon
+                      :size="18"
+                      class="search-icon"
+                      @click="handleSearch"
+                    >
+                      <Search />
+                    </ElIcon>
+                  </template>
+                </ElInput>
+              </ElRow>
+              <ElRow class="mt-12" justify="end">
+                <ElButton @click="handleSearch" type="primary">
+                  Traži
+                </ElButton>
+              </ElRow>
+            </template>
+          </ElPopover>
+        </ElCol>
+      </ElRow>
+
+      <!-- DESKTOP HEADER -->
+      <ElRow v-else class="header-container">
+        <ElCol :span="5" align="center" v-motion-slide-top :duration="400">
+          <NuxtLink to="/" class="title">
+            <h3 class="color-primary">Gastrabajter.de</h3>
+          </NuxtLink>
+        </ElCol>
+        <ElCol
+          v-for="(category, index) in categories"
+          :key="category.id"
+          :span="3"
+          v-motion-slide-top
+          :duration="400"
+          :delay="400 + index * 200"
+        >
+          <NuxtLink
+            :to="
+              category.name === 'Naslovnica' ? '/' : category.name.toLowerCase()
+            "
+            class="el-button header-button"
+            :class="{
+              'el-button--primary':
+                category.name.toLowerCase() === route.name ||
+                (route.name === 'index' && category.name === 'Naslovnica')
+            }"
+          >
+            <ElIcon
+              v-if="$viewport.isGreaterOrEquals('desktop')"
+              :size="24"
+              class="home-icon"
+            >
+              <component :is="category.icon" />
             </ElIcon>
-          </ElCol>
-        </ElRow>
-      </ElCol>
-    </ElRow>
-  </ElAffix>
+            {{ getCategoryNameText(category.name) }}
+          </NuxtLink>
+        </ElCol>
+        <ElCol :span="4" v-motion-slide-top :duration="200" :delay="1600">
+          <ElRow class="desktop-search-wrapper" align="middle">
+            <ElCol :span="20" align="middle" justify="center">
+              <input
+                v-model="searchValue"
+                placeholder="Traži..."
+                class="desktop-search"
+                @keyup.enter="handleSearch"
+              />
+            </ElCol>
+            <ElCol :span="4" align="end">
+              <ElIcon :size="18" class="search-icon" @click="handleSearch">
+                <Search />
+              </ElIcon>
+            </ElCol>
+          </ElRow>
+        </ElCol>
+      </ElRow>
+    </ElHeader>
+  </div>
 
   <!-- MOBILE DRAWER MENU -->
   <ElDrawer
@@ -236,11 +239,28 @@ function handleSearch() {
 </template>
 
 <style scoped>
+.sticky {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+.el-header {
+  --el-header-padding: 0;
+}
 .header-container {
+  position: relative;
   width: 100%;
   background-color: white;
-  border-bottom: 2px solid var(--el-border-color);
   padding: 0 20px;
+}
+.header-container::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 20px;
+  right: 20px;
+  height: 2px;
+  background-color: var(--el-border-color);
 }
 .mobile-title {
   text-decoration: none;
