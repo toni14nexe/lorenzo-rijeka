@@ -3,6 +3,8 @@ import FacebookIcon from '~/assets/icons/facebook.vue'
 import InstagramIcon from '~/assets/icons/instagram.vue'
 import MessageIcon from '~/assets/icons/message.vue'
 
+defineProps(['dividerMarginTop'])
+
 const { $viewport } = useNuxtApp()
 const mainCategories = ref([
   { id: 1, name: 'Naslovnica' },
@@ -31,7 +33,10 @@ const subcategories = ref([
 
 <template>
   <div class="footer">
-    <ElDivider class="divider" />
+    <ElDivider
+      class="divider"
+      :style="`margin-top: ${dividerMarginTop ? `${dividerMarginTop}px` : '4px'} !important`"
+    />
     <ElCard>
       <ElRow class="footer" justify="center" align="middle">
         <span class="color-primary">Glavni izbornik</span>
@@ -56,7 +61,11 @@ const subcategories = ref([
           align="center"
         >
           <NuxtLink
-            :to="`/kategorije/${category.name.toLowerCase()}`"
+            :to="
+              category.name === 'Naslovnica'
+                ? '/'
+                : `/kategorije/${category.name.toLowerCase()}`
+            "
             class="link"
           >
             {{ category.name }}
@@ -99,7 +108,7 @@ const subcategories = ref([
       align="middle"
       class="w-100 color-zinc text-align-center"
     >
-      <NuxtLink to="/kontakt" class="icon-link mr-4" target="_blank">
+      <NuxtLink to="/kontakt" class="icon-link mr-4">
         <ElIcon :size="44.45">
           <MessageIcon />
         </ElIcon>
@@ -149,7 +158,6 @@ const subcategories = ref([
 
 <style scoped>
 .divider {
-  margin-top: 4px !important;
   margin-bottom: 24px !important;
 }
 .footer {
