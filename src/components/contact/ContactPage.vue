@@ -2,6 +2,8 @@
 import type { FormInstance, FormRules } from 'element-plus'
 
 interface RuleForm {
+  fullname: string
+  email: string
   message: string
 }
 
@@ -9,10 +11,26 @@ const { $axios } = useNuxtApp()
 const ruleFormRef = ref<FormInstance>()
 const loading = ref({ submit: false })
 const form = reactive<RuleForm>({
+  fullname: '',
+  email: '',
   message: ''
 })
 const rules = reactive<FormRules<RuleForm>>({
-  message: [{ min: 10, message: 'Minimalno 10 znakova', trigger: 'change' }]
+  fullname: [{ max: 100, message: 'Maximalno 100 znakova', trigger: 'change' }],
+  email: [
+    { required: true, message: 'Unesite email adresu', trigger: 'blur' },
+    {
+      validator: (_, value, callback) => {
+        if (!validateEmail(value)) callback(new Error('Netočna email adresa'))
+        else callback()
+      },
+      trigger: 'blur'
+    }
+  ],
+  message: [
+    { min: 10, message: 'Minimalno 10 znakova', trigger: 'change' },
+    { max: 10000, message: 'Maximalno 10,000 znakova', trigger: 'change' }
+  ]
 })
 
 async function sendMessage(formEl: FormInstance | undefined) {
@@ -27,6 +45,8 @@ async function sendMessage(formEl: FormInstance | undefined) {
           message: 'Poruka je uspješno poslana.',
           duration: 3000
         })
+        form.fullname = ''
+        form.email = ''
         form.message = ''
       } catch (error) {
         ElNotification({
@@ -57,19 +77,19 @@ async function sendMessage(formEl: FormInstance | undefined) {
     </ElRow>
 
     <ElRow align="middle">
-      <p><b>Imate pitanje? Naišli ste na pogrešku?</b></p>
+      <p><b>Imate pitanje?</b></p>
     </ElRow>
     <ElRow align="middle">
       <p>
-        Ukoliko imate bilo kakvih pitanja, prijedloga ili ste naišli na pogrešku
-        u aplikaciji, slobodno nas kontaktirajte. Tu smo da vam pomognemo i
-        pružimo podršku kako bismo unaprijedili vaše iskustvo.
+        Ukoliko imate bilo kakvih pitanja ili prijedloga slobodno nas
+        kontaktirajte. Tu smo da vam pomognemo i pružimo podršku kako bismo
+        unaprijedili naše zajedničko iskustvo.
       </p>
     </ElRow>
     <ElRow align="middle">
       <p>
-        Također, ako imate ideju za poboljšanje ili želite dodati novu
-        funkcionalnost, bit ćemo zahvalni na vašim prijedlozima!
+        Također, ako imate određenu ideju ili želite dodati nešto novo, bit ćemo
+        zahvalni na vašim prijedlozima!
       </p>
     </ElRow>
     <ElRow align="middle">
@@ -82,7 +102,7 @@ async function sendMessage(formEl: FormInstance | undefined) {
       <p>
         Kontaktirajte nas putem obrasca ispod ili na našu email adresu:
         <a href="mailto:toni.kolaric@innova-tech.live">
-          toni.kolaric@innova-tech.live
+          kontakt@gastrabajter.de
         </a>
       </p>
     </ElRow>
@@ -110,6 +130,22 @@ async function sendMessage(formEl: FormInstance | undefined) {
         status-icon
         style="width: 100%"
       >
+        <ElFormItem label="Ime i prezime" prop="fullname">
+          <ElInput
+            v-model="form.fullname"
+            type="text"
+            placeholder="Pero Perić"
+            class="max-w-250"
+          />
+        </ElFormItem>
+        <ElFormItem label="Vaš email" prop="email">
+          <ElInput
+            v-model="form.email"
+            type="text"
+            placeholder="pero.peric@mail.com"
+            class="max-w-250"
+          />
+        </ElFormItem>
         <ElFormItem prop="message">
           <ElInput
             v-model="form.message"

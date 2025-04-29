@@ -2,9 +2,17 @@
 useHead({
   title: 'Kontakt',
   meta: [
-    { name: 'description', content: 'Za bilo kakva pitanja, prijedloge ili prijavu pogrešaka u aplikaciji. Korisniča podrška.' },
+    {
+      name: 'description',
+      content:
+        'Za bilo kakva pitanja, kontakt, prijedloge ili prijavu pogrešaka u aplikaciji.'
+    },
     { property: 'og:title', content: 'Kontakt' },
-    { property: 'og:description', content: 'Za bilo kakva pitanja, prijedloge ili prijavu pogrešaka u aplikaciji. Korisniča podrška.' },
+    {
+      property: 'og:description',
+      content:
+        'Za bilo kakva pitanja, kontakt, prijedloge ili prijavu pogrešaka u aplikaciji.'
+    }
   ]
 })
 </script>

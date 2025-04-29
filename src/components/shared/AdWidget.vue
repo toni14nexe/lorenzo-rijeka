@@ -25,7 +25,7 @@ function openAd() {
 
 <style lang="css" scoped>
 .active-ad-wrapper {
-  border-radius: 4px;
+  border-radius: 6px;
   background-color: black;
 }
 .ad {

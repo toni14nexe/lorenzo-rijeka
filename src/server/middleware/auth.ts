@@ -8,7 +8,6 @@ export default eventHandler(async (event: H3Event) => {
 
   // Define protected routes and their methods
   const protectedRoutes = [
-    { path: '/api/contact', method: 'ALL', requiresAuth: true },
     { path: '/api/users*', method: 'POST', requiresAuth: true },
     { path: '/api/users*', method: 'PUT', requiresAuth: true },
     { path: '/api/users*', method: 'DELETE', requiresAuth: true },

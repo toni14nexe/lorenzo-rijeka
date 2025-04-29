@@ -3,17 +3,6 @@ import nodemailer from 'nodemailer'
 
 export default defineEventHandler(async event => {
   const body = await readBody(event)
-  const userContext = event.context.user
-
-  const user = await prisma.user.findUnique({
-    where: { id: userContext.userId }
-  })
-
-  if (!user)
-    throw createError({
-      statusCode: 403,
-      message: 'Forbidden'
-    })
 
   const url = process.env.APP_BASE_URL
   // Use for gmail auth
@@ -41,14 +30,14 @@ export default defineEventHandler(async event => {
   }) */
 
   const mailOptions = {
-    from: user.email,
-    to: 'toni.kolaric@innova-tech.live',
-    subject: `AgroApp kontakt - ${user?.email}`,
+    from: body.email,
+    to: 'toni14nexe@gmail.com',
+    subject: `Gastrabajter.de kontakt - ${body.email}`,
     html: `
            <a href="${url}" style="text-decoration: none"><h1 style="background-color: #409EFF; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">Gastrabajter.de</h1></a>
            <h3>Kontakt</h3>
-           <p>Korisnik: ${user?.firstname} ${user?.lastname}</p>
-           <p>Email: ${user?.email}</p>
+           <p>Korisnik: ${body.fullname || '-'}</p>
+           <p>Email: ${body.email}</p>
            <br/>
            <p>Poruka:</p>
            <p>${body.message}</p>`

@@ -61,7 +61,7 @@ const largeAd = ref({
 }
 .side-ad {
   min-width: 250px;
-  width: calc(25vw - 24px);
+  width: calc(25vw);
   height: 250px;
   scroll-snap-align: start;
 }
