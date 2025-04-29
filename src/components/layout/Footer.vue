@@ -32,7 +32,7 @@ const subcategories = ref([
 </script>
 
 <template>
-  <div class="footer">
+  <div class="footer-top">
     <ElDivider
       class="divider"
       :style="`margin-top: ${dividerMarginTop ? `${dividerMarginTop}px` : '4px'} !important`"
@@ -160,8 +160,11 @@ const subcategories = ref([
 .divider {
   margin-bottom: 24px !important;
 }
-.footer {
-  margin: 0 20px;
+.footer-top {
+  max-width: calc(1600px - 40px);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 20px;
 }
 .link {
   text-decoration: none;
