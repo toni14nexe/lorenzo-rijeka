@@ -8,7 +8,7 @@ datasource db {
 }
 
 model User {
-  id                    Int                    @id @default(autoincrement())
+  id                    String                 @id @default(cuid())
   email                 String                 @unique
   firstname             String?
   lastname              String?
@@ -19,6 +19,7 @@ model User {
   createdAt             DateTime               @default(now())
   password              String
   role                  String?                @default("user")
+  updatedAt             DateTime?
   deletedAt             DateTime?
   forgetPassHash        String?
   verified              Boolean?               @default(false)
@@ -27,36 +28,72 @@ model User {
   lastLogin             DateTime?
 }
 
-model Category {
-  id              Int         @id @default(autoincrement())
-  name            String
-  parentCategory  Int?
-  createdAt       DateTime    @default(now())
-  deletedAt       DateTime?
-  news            News[]      @relation("CategoryNews")
+model PortalCategory {
+  id         String             @id @default(cuid())
+  name       String             @unique
+  parentId   String?
+  parent     PortalCategory?    @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children   PortalCategory[]   @relation("CategoryHierarchy")
+  createdAt  DateTime           @default(now())
+  updatedAt       DateTime?
+  deletedAt  DateTime?
+  news       News[]             @relation("CategoryNews")
 }
 
 model News {
-  id              Int         @id @default(autoincrement())
-  categoryId      Int
+  id              String          @id @default(cuid())
+  categoryId      String
   title           String
   author          String
   text            String
   images          String[]
   videos          String[]
-  createdAt       DateTime    @default(now())
+  createdAt       DateTime        @default(now())
   updatedAt       DateTime?
   deletedAt       DateTime?
-  category        Category    @relation("CategoryNews", fields: [categoryId], references: [id])
+  category        PortalCategory  @relation("CategoryNews", fields: [categoryId], references: [id])
+}
+
+model JobsCategory {
+  id          String            @id @default(cuid())
+  name        String            @unique
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime?
+  deletedAt   DateTime?
+  jobs        Job[]             @relation("JobsCategoryJob")
+}
+
+model Job {
+  id            String            @id @default(cuid())
+  name          String
+  description   String
+  salary        Int?
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime?
+  deletedAt   DateTime?
+  jobCategoryId String
+  jobCategory   JobsCategory      @relation("JobsCategoryJob", fields: [jobCategoryId], references: [id])
+}
+
+model ProductCategory {
+  id          String            @id @default(cuid())
+  name        String            @unique
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime?
+  deletedAt   DateTime?
+  products    Product[]         @relation("ProductCategoryProduct")
 }
 
 model Product {
-  id              Int         @id @default(autoincrement())
-  name            String
-  description     String?
-  price           Int
-  images          String[]
-  videos          String[]
-  createdAt       DateTime    @default(now())
-  deletedAt       DateTime?
+  id                  String            @id @default(cuid())
+  name                String
+  description         String
+  salary              Int?
+  images              String[]
+  videos              String[]
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime?
+  deletedAt           DateTime?
+  productCategoryId   String
+  productCategory     ProductCategory   @relation("ProductCategoryProduct", fields: [productCategoryId], references: [id])
 }
