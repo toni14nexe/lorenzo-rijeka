@@ -6,11 +6,9 @@ import MessageIcon from '~/assets/icons/message.vue'
 const { $viewport } = useNuxtApp()
 const mainCategories = ref([
   { id: 1, name: 'Naslovnica' },
-  { id: 2, name: 'Grad' },
-  { id: 3, name: 'Sport' },
-  { id: 4, name: 'Kronika' },
-  { id: 5, name: 'Trgovina' },
-  { id: 6, name: 'Kontakt' }
+  { id: 2, name: 'Portal' },
+  { id: 3, name: 'Poslovi' },
+  { id: 4, name: 'Webshop' }
 ])
 const subcategories = ref([
   { id: 1, name: 'Naslovnica' },
@@ -33,6 +31,7 @@ const subcategories = ref([
 
 <template>
   <div class="footer">
+    <ElDivider class="divider" />
     <ElCard>
       <ElRow class="footer" justify="center" align="middle">
         <span class="color-primary">Glavni izbornik</span>
@@ -101,7 +100,7 @@ const subcategories = ref([
       class="w-100 color-zinc text-align-center"
     >
       <NuxtLink to="/kontakt" class="icon-link mr-4" target="_blank">
-        <ElIcon :size="40">
+        <ElIcon :size="44.45">
           <MessageIcon />
         </ElIcon>
       </NuxtLink>
@@ -149,6 +148,10 @@ const subcategories = ref([
 </template>
 
 <style scoped>
+.divider {
+  margin-top: 4px !important;
+  margin-bottom: 24px !important;
+}
 .footer {
   margin: 0 20px;
 }
@@ -161,11 +164,11 @@ const subcategories = ref([
   color: var(--el-color-primary);
 }
 .icon-link {
-  color: black;
+  color: var(--el-text-color-secondary);
   transition: 0.3s ease-in-out;
 }
 .icon-link:hover {
-  color: var(--el-text-color-secondary);
+  color: var(--el-color-primary);
 }
 .bottom-line {
   background-color: var(--el-text-color-secondary);

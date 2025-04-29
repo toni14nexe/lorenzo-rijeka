@@ -6,7 +6,8 @@ defineProps(['news'])
 
 <template>
   <div
-    class="news"
+    v-if="news"
+    class="news cursor-pointer"
     :style="`background-image: url(${news.imageUrl})`"
     @click="navigateTo(`/news/${news.id}`)"
   >
@@ -21,6 +22,7 @@ defineProps(['news'])
       </ElRow>
     </div>
   </div>
+  <ElEmpty v-else class="news" description="Trenutno nedostupno!" />
 </template>
 
 <style lang="css" scoped>
@@ -33,7 +35,6 @@ defineProps(['news'])
   height: 100%;
   border-radius: 4px;
   overflow: hidden;
-  cursor: pointer;
   box-shadow: var(--el-box-shadow-light);
 }
 .news-opacity-container {

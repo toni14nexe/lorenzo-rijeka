@@ -35,7 +35,7 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      title: 'Agro App',
+      title: 'Gastrabajter.de',
       script: [
         {
           src: 'https://js.stripe.com/v3/buy-button.js',
@@ -78,7 +78,7 @@ export default defineNuxtConfig({
       ],
       meta: [
         {
-          name: 'Agro App',
+          name: 'Gastrabajter.de',
           content:
             'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.'
         },
@@ -88,7 +88,7 @@ export default defineNuxtConfig({
             'agro, poljoprivreda, inspekcija, papiri, PDF, izvoz podataka, izvoz, export, sjetva, gnojivo, zaštita, leguminoza, eco, eko, proizvodnja, stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo'
         },
         { name: 'author', content: 'InnovaTech obrt za informatičke usluge' },
-        { property: 'og:title', content: 'Agro App' },
+        { property: 'og:title', content: 'Gastrabajter.de' },
         {
           property: 'og:description',
           content:
@@ -99,7 +99,7 @@ export default defineNuxtConfig({
           content: 'https://i.ibb.co/GZLqPjQ/apple-touch-icon.png'
         },
         { property: 'twitter:card', content: 'summary_large_image' },
-        { property: 'twitter:title', content: 'Agro App' },
+        { property: 'twitter:title', content: 'Gastrabajter.de' },
         {
           property: 'twitter:description',
           content:

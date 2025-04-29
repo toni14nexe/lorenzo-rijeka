@@ -3,30 +3,28 @@ import {
   Search,
   HomeFilled,
   Shop,
-  OfficeBuilding,
-  Football,
-  FirstAidKit
+  OfficeBuilding
 } from '@element-plus/icons-vue'
 import HamburgerIcon from '~/assets/icons/hamburger.vue'
 import FacebookIcon from '~/assets/icons/facebook.vue'
 import InstagramIcon from '~/assets/icons/instagram.vue'
 import MessageIcon from '~/assets/icons/message.vue'
+import MegafoneIcon from '~/assets/icons/megafone.vue'
 
 const { $viewport } = useNuxtApp()
 const route = useRoute()
 const searchValue = ref('')
 const isMobileDrawerMenuOpen = ref(false)
 const categories = shallowRef([
-  { id: 0, name: 'NASLOVNICA', icon: HomeFilled },
-  { id: 1, name: 'GRAD', icon: OfficeBuilding },
-  { id: 2, name: 'SPORT', icon: Football },
-  { id: 3, name: 'CRNA KRONIKA', icon: FirstAidKit },
-  { id: 4, name: 'TRGOVINA', icon: Shop }
+  { id: 0, name: 'Naslovnica', icon: HomeFilled, iconSize: 24 },
+  { id: 1, name: 'Portal', icon: MegafoneIcon, iconSize: 14 },
+  { id: 2, name: 'Poslovi', icon: OfficeBuilding, iconSize: 24 },
+  { id: 3, name: 'Webshop', icon: Shop, iconSize: 24 },
+  { id: 4, name: 'Kontakt', icon: MessageIcon, iconSize: 18 }
 ])
 
 function getCategoryNameText(name: string) {
-  if (name === 'CRNA KRONIKA' && $viewport.isLessOrEquals('desktop'))
-    return 'KRONIKA'
+  if (name === 'Naslovnica' && $viewport.match('tablet')) return 'POČETNA'
   return name.toUpperCase()
 }
 
@@ -127,12 +125,14 @@ function handleSearch() {
         :delay="400 + index * 200"
       >
         <NuxtLink
-          :to="category.name.toLowerCase()"
+          :to="
+            category.name === 'Naslovnica' ? '/' : category.name.toLowerCase()
+          "
           class="el-button header-button"
           :class="{
             'el-button--primary':
               category.name.toLowerCase() === route.name ||
-              (route.name === 'index' && category.name === 'NASLOVNICA')
+              (route.name === 'index' && category.name === 'Naslovnica')
           }"
         >
           <ElIcon
@@ -180,35 +180,23 @@ function handleSearch() {
     <template #default>
       <div class="drawer-container">
         <NuxtLink
-          v-for="(category, index) in categories"
+          v-for="category in categories"
           :key="category.id"
-          :to="category.name.toLowerCase()"
+          :to="
+            category.name === 'Naslovnica' ? '/' : category.name.toLowerCase()
+          "
           class="el-button drawer-button"
           :class="{
             'el-button--primary':
               category.name.toLowerCase() === route.name ||
-              (route.name === 'index' && category.name === 'NASLOVNICA')
+              (route.name === 'index' && category.name === 'Naslovnica')
           }"
         >
           <ElRow class="drawer-button-text-wrapper" align="middle">
-            <ElIcon :size="24" class="home-icon">
+            <ElIcon class="home-icon">
               <component :is="category.icon" />
             </ElIcon>
-            {{ category.name }}
-          </ElRow>
-        </NuxtLink>
-        <NuxtLink
-          to="kontakt"
-          class="el-button drawer-button"
-          :class="{
-            'el-button--primary': route.name === 'kontakt'
-          }"
-        >
-          <ElRow class="drawer-button-text-wrapper" align="middle">
-            <ElIcon :size="18">
-              <MessageIcon />
-            </ElIcon>
-            KONTAKTIRAJTE NAS
+            {{ category.name.toUpperCase() }}
           </ElRow>
         </NuxtLink>
       </div>
@@ -272,7 +260,8 @@ function handleSearch() {
   border-bottom: none;
 }
 .home-icon {
-  margin-bottom: 7px;
+  width: 18px;
+  margin-right: 4px;
 }
 .desktop-search-wrapper {
   border-left: 1px solid var(--el-border-color);

@@ -1,8 +1,4 @@
 <script lang="ts" setup>
-definePageMeta({
-  layout: 'dashboard'
-})
-
 useHead({
   title: 'Naslovnica',
   meta: [

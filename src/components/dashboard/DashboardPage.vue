@@ -90,7 +90,6 @@ const newestSmallNews = ref([
     <DashboardCategorizedNews />
     <ElDivider />
     <AdsSlider />
-    <ElDivider />
   </div>
 </template>
 

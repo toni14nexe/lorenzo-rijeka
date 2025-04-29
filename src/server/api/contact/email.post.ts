@@ -45,7 +45,7 @@ export default defineEventHandler(async event => {
     to: 'toni.kolaric@innova-tech.live',
     subject: `AgroApp kontakt - ${user?.email}`,
     html: `
-           <a href="${url}" style="text-decoration: none"><h1 style="background-color: #409EFF; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">Agro App</h1></a>
+           <a href="${url}" style="text-decoration: none"><h1 style="background-color: #409EFF; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">Gastrabajter.de</h1></a>
            <h3>Kontakt</h3>
            <p>Korisnik: ${user?.firstname} ${user?.lastname}</p>
            <p>Email: ${user?.email}</p>

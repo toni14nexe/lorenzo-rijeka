@@ -42,7 +42,7 @@ const largeAd = ref({
       :ad="ad"
     />
   </div>
-  <ElRow class="mt-24 mb-24">
+  <ElRow class="mt-24">
     <AdWidget class="large-ad" :ad="largeAd" />
   </ElRow>
 </template>
@@ -50,6 +50,7 @@ const largeAd = ref({
 <style lang="css" scoped>
 .scrollbar {
   width: 100%;
+  height: 262px;
   display: flex;
   gap: 12px;
   overflow-x: auto;

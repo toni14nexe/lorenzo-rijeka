@@ -3,7 +3,8 @@ import 'element-plus/theme-chalk/display.css'
 import hr from 'element-plus/es/locale/lang/hr'
 
 useHead({
-  titleTemplate: title => (title ? `${title} - Agro App` : 'Agro App'),
+  titleTemplate: title =>
+    title ? `${title} - Gastrabajter.de` : 'Gastrabajter.de',
   meta: [
     {
       name: 'description',
@@ -17,7 +18,7 @@ useHead({
     },
     { name: 'author', content: 'InnovaTech obrt za informatičke usluge' },
     { property: 'og:type', content: 'website' },
-    { property: 'og:title', content: 'Agro App' },
+    { property: 'og:title', content: 'Gastrabajter.de' },
     {
       property: 'og:description',
       content:
@@ -46,7 +47,7 @@ useHead({
 useSeoMeta({
   description:
     'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.',
-  ogTitle: 'Dobrodošli u Agro App',
+  ogTitle: 'Dobrodošli u Gastrabajter.de',
   ogDescription:
     'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.',
   ogImage: 'https://i.ibb.co/GZLqPjQ/apple-touch-icon.png',
@@ -86,7 +87,7 @@ useSeoMeta({
         sizes="180x180"
         href="https://i.ibb.co/GZLqPjQ/apple-touch-icon.png"
       />
-      <meta name="apple-mobile-web-app-title" content="Agro App" />
+      <meta name="apple-mobile-web-app-title" content="Gastrabajter.de" />
     </head>
   </ClientOnly>
 

@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import NewsWidget from '~/components/shared/NewsWidget.vue'
 import AdWidget from '~/components/shared/AdWidget.vue'
+import MegafoneIcon from '~/assets/icons/megafone.vue'
+import { Shop, OfficeBuilding } from '@element-plus/icons-vue'
 
 const { $viewport } = useNuxtApp()
 const news = ref([
@@ -54,9 +56,30 @@ const sideAds = ref([
       <ElRow :gutter="12">
         <ElRow :gutter="12" justify="center" class="w-100">
           <ElTabs>
-            <ElTabPane label="Vijesti" />
-            <ElTabPane label="Grad" />
-            <ElTabPane label="Sport" />
+            <ElTabPane>
+              <template #label>
+                <ElIcon :size="18" class="mr-4">
+                  <MegafoneIcon />
+                </ElIcon>
+                Portal
+              </template>
+            </ElTabPane>
+            <ElTabPane>
+              <template #label>
+                <ElIcon :size="22" class="mr-4">
+                  <OfficeBuilding />
+                </ElIcon>
+                Poslovi
+              </template>
+            </ElTabPane>
+            <ElTabPane>
+              <template #label>
+                <ElIcon :size="22" class="mr-4">
+                  <Shop />
+                </ElIcon>
+                Webshop
+              </template>
+            </ElTabPane>
           </ElTabs>
         </ElRow>
         <ElRow
