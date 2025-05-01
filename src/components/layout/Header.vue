@@ -4,35 +4,38 @@ import {
   HomeFilled,
   Shop,
   OfficeBuilding,
-  CloseBold
+  CloseBold,
+  ArrowDown,
+  ArrowRight
 } from '@element-plus/icons-vue'
 import HamburgerIcon from '~/assets/icons/hamburger.vue'
 import FacebookIcon from '~/assets/icons/facebook.vue'
 import InstagramIcon from '~/assets/icons/instagram.vue'
 import MessageIcon from '~/assets/icons/message.vue'
 import MegafoneIcon from '~/assets/icons/megafone.vue'
+import HeaderPortalDrawerItem from '~/components/layout/HeaderPortalDrawerItem.vue'
 
 const { $viewport } = useNuxtApp()
+const categoriesStore = useCategoriesStore()
+const { portalCategories, portalCategoriesLoading } =
+  storeToRefs(categoriesStore)
 const route = useRoute()
 const searchValue = ref('')
 const isMobileDrawerMenuOpen = ref(false)
+const isPortalDrawerMenuOpen = ref(false)
+const isMobilePortalOpen = ref(false)
 const categories = shallowRef([
-  { id: 0, name: 'Naslovnica', icon: HomeFilled, iconSize: 24 },
-  { id: 1, name: 'Portal', icon: MegafoneIcon, iconSize: 14 },
-  { id: 2, name: 'Poslovi', icon: OfficeBuilding, iconSize: 24 },
-  { id: 3, name: 'Webshop', icon: Shop, iconSize: 24 },
-  { id: 4, name: 'Kontakt', icon: MessageIcon, iconSize: 18 }
+  { name: 'Poslovi', icon: OfficeBuilding, iconSize: 24 },
+  { name: 'Webshop', icon: Shop, iconSize: 24 },
+  { name: 'Kontakt', icon: MessageIcon, iconSize: 18 }
 ])
 
 watch(
-  () => route.name,
+  () => route.path,
   () => (isMobileDrawerMenuOpen.value = false)
 )
 
-function getCategoryNameText(name: string) {
-  if (name === 'Naslovnica' && $viewport.match('tablet')) return 'POČETNA'
-  return name.toUpperCase()
-}
+onMounted(() => categoriesStore.getPortalCategories())
 
 function handleSearch() {
   if (searchValue.value) navigateTo(`/pretraživanje?value=${searchValue.value}`)
@@ -128,17 +131,83 @@ function handleSearch() {
             <h3 class="color-primary">Gastabajter.de</h3>
           </NuxtLink>
         </ElCol>
+        <ElCol :span="3" v-motion-slide-top :duration="400" :delay="200">
+          <NuxtLink
+            to="/"
+            class="el-button header-button"
+            :class="{
+              'el-button--primary': 'index' === route.name
+            }"
+          >
+            <ElIcon
+              v-if="$viewport.isGreaterOrEquals('desktop')"
+              :size="24"
+              class="home-icon"
+            >
+              <HomeFilled />
+            </ElIcon>
+            {{ $viewport.match('tablet') ? 'POČETNA' : 'NASLOVNICA' }}
+          </NuxtLink>
+        </ElCol>
+        <ElCol :span="3" v-motion-slide-top :duration="400" :delay="400">
+          <div class="portal-btn-wrapper" justify="center" align="middle">
+            <ElCol :span="18" align="middle">
+              <NuxtLink
+                to="/portal"
+                class="el-button header-button portal-button"
+                :class="{
+                  'el-button--primary': 'portal' === route.name
+                }"
+              >
+                <ElIcon
+                  v-if="$viewport.isGreaterOrEquals('desktop')"
+                  :size="24"
+                  class="home-icon"
+                >
+                  <MegafoneIcon />
+                </ElIcon>
+                PORTAL
+              </NuxtLink>
+            </ElCol>
+            <ElCol :span="6" align="middle">
+              <ElTooltip
+                effect="dark"
+                content="Otvorite izbornik Portala"
+                placement="top"
+                :show-after="1000"
+              >
+                <ElButton
+                  class="portal-more-button"
+                  @click="isPortalDrawerMenuOpen = true"
+                >
+                  <ElIcon
+                    :size="$viewport.isLessOrEquals('tablet') ? 18 : 24"
+                    :class="{
+                      'rotate-minus-90': isPortalDrawerMenuOpen,
+                      'rotate-0': !isPortalDrawerMenuOpen
+                    }"
+                    class="transition-transform"
+                  >
+                    <ArrowDown />
+                  </ElIcon>
+                </ElButton>
+              </ElTooltip>
+            </ElCol>
+          </div>
+        </ElCol>
         <ElCol
           v-for="(category, index) in categories"
-          :key="category.id"
+          :key="category.name"
           :span="3"
           v-motion-slide-top
           :duration="400"
-          :delay="400 + index * 200"
+          :delay="600 + index * 200"
         >
           <NuxtLink
             :to="
-              category.name === 'Naslovnica' ? '/' : category.name.toLowerCase()
+              category.name === 'Naslovnica'
+                ? '/'
+                : `/${category.name.toLowerCase()}`
             "
             class="el-button header-button"
             :class="{
@@ -154,10 +223,10 @@ function handleSearch() {
             >
               <component :is="category.icon" />
             </ElIcon>
-            {{ getCategoryNameText(category.name) }}
+            {{ category.name.toUpperCase() }}
           </NuxtLink>
         </ElCol>
-        <ElCol :span="4" v-motion-slide-top :duration="200" :delay="1600">
+        <ElCol :span="4" v-motion-slide-top :duration="400" :delay="1200">
           <ElRow class="desktop-search-wrapper" align="middle">
             <ElCol :span="20" align="middle" justify="center">
               <input
@@ -192,10 +261,77 @@ function handleSearch() {
     <template #default>
       <div class="drawer-container">
         <NuxtLink
+          to="/"
+          class="el-button drawer-button"
+          :class="{
+            'el-button--primary': 'index' === route.name
+          }"
+        >
+          <ElRow class="drawer-button-text-wrapper" align="middle">
+            <ElIcon class="home-icon" :size="48">
+              <HomeFilled />
+            </ElIcon>
+            NASLOVNICA
+          </ElRow>
+        </NuxtLink>
+        <ElRow align="middle">
+          <ElCol :span="21">
+            <NuxtLink
+              to="/portal"
+              class="el-button mobile-portal-drawer-button w-100"
+              :class="{
+                'el-button--primary': 'portal' === route.name
+              }"
+            >
+              <ElRow class="drawer-button-text-wrapper" align="middle">
+                <ElIcon class="home-icon" :size="48">
+                  <MegafoneIcon />
+                </ElIcon>
+                PORTAL
+              </ElRow>
+            </NuxtLink>
+          </ElCol>
+          <ElCol :span="3">
+            <ElButton
+              class="mobile-portal-more-button"
+              @click="isMobilePortalOpen = !isMobilePortalOpen"
+            >
+              <ElIcon
+                :size="20"
+                :class="{
+                  'rotate-90': isMobilePortalOpen,
+                  'rotate-0': !isMobilePortalOpen
+                }"
+                class="transition-transform"
+              >
+                <ArrowRight />
+              </ElIcon>
+            </ElButton>
+          </ElCol>
+        </ElRow>
+        <template v-if="isMobilePortalOpen">
+          <div
+            v-if="portalCategoriesLoading"
+            v-loading="true"
+            element-loading-text="Učitavanje kategorija..."
+            style="height: 100px; margin-bottom: 40px"
+          />
+          <HeaderPortalDrawerItem
+            v-else-if="isMobilePortalOpen"
+            v-for="category in portalCategories"
+            :key="category.name"
+            :category="category"
+            :tree-deep="1"
+            @close-menu="isPortalDrawerMenuOpen = false"
+          />
+        </template>
+        <NuxtLink
           v-for="category in categories"
-          :key="category.id"
+          :key="category.name"
           :to="
-            category.name === 'Naslovnica' ? '/' : category.name.toLowerCase()
+            category.name === 'Naslovnica'
+              ? '/'
+              : `/${category.name.toLowerCase()}`
           "
           class="el-button drawer-button"
           :class="{
@@ -205,7 +341,7 @@ function handleSearch() {
           }"
         >
           <ElRow class="drawer-button-text-wrapper" align="middle">
-            <ElIcon class="home-icon">
+            <ElIcon class="home-icon" :size="48">
               <component :is="category.icon" />
             </ElIcon>
             {{ category.name.toUpperCase() }}
@@ -238,7 +374,72 @@ function handleSearch() {
         align="middle"
         class="w-100 color-zinc text-align-center mt-16"
       >
-        <NuxtLink to="/kontakt" class="icon-link mr-4">
+        <NuxtLink
+          to="/kontakt"
+          class="icon-link mr-4"
+          @click="isPortalDrawerMenuOpen = false"
+        >
+          <ElIcon :size="32">
+            <MessageIcon />
+          </ElIcon>
+        </NuxtLink>
+        <NuxtLink
+          to="https://facebook.com/"
+          class="icon-link mr-4 ml-4"
+          target="_blank"
+        >
+          <ElIcon :size="32">
+            <FacebookIcon />
+          </ElIcon>
+        </NuxtLink>
+        <NuxtLink
+          to="https://instagram.com/"
+          class="icon-link ml-4"
+          target="_blank"
+        >
+          <ElIcon :size="32">
+            <InstagramIcon />
+          </ElIcon>
+        </NuxtLink>
+      </ElRow>
+    </template>
+  </ElDrawer>
+
+  <!-- PORTAL MENU DRAWER -->
+  <ElDrawer v-model="isPortalDrawerMenuOpen" direction="ltr" size="500px">
+    <template #header>
+      <ElRow>
+        <h3 class="color-primary">Portal izbornik</h3>
+      </ElRow>
+    </template>
+    <template #default>
+      <div
+        v-if="portalCategoriesLoading"
+        v-loading="true"
+        element-loading-text="Učitavanje kategorija..."
+        style="height: 100%"
+      />
+      <div v-else class="drawer-container">
+        <HeaderPortalDrawerItem
+          v-for="category in portalCategories"
+          :key="category.name"
+          :category="category"
+          :tree-deep="0"
+          @close-menu="isPortalDrawerMenuOpen = false"
+        />
+      </div>
+    </template>
+    <template #footer>
+      <ElRow
+        justify="center"
+        align="middle"
+        class="w-100 color-zinc text-align-center mt-16"
+      >
+        <NuxtLink
+          to="/kontakt"
+          class="icon-link mr-4"
+          @click="isPortalDrawerMenuOpen = false"
+        >
           <ElIcon :size="32">
             <MessageIcon />
           </ElIcon>
@@ -307,6 +508,25 @@ function handleSearch() {
   gap: 4px;
   border-bottom: none;
 }
+.portal-btn-wrapper {
+  display: flex;
+  height: 100%;
+}
+.portal-button {
+  height: 60px;
+  border-top: none;
+}
+.portal-more-button {
+  width: 100%;
+  height: 60px;
+  border: none;
+}
+.mobile-portal-more-button {
+  width: 100%;
+  height: 45px;
+  border-radius: 0 8px 8px 0;
+  border-left: none;
+}
 .home-icon {
   width: 18px;
   margin-right: 4px;
@@ -347,6 +567,13 @@ function handleSearch() {
   margin: 0;
   border-radius: 8px;
 }
+.mobile-portal-drawer-button {
+  height: 45px;
+  font-weight: 700;
+  text-decoration: none;
+  margin: 0;
+  border-radius: 8px 0 0 8px;
+}
 .drawer-button-text-wrapper {
   width: 100%;
   gap: 12px;
@@ -357,5 +584,17 @@ function handleSearch() {
 }
 .icon-link:hover {
   color: var(--el-color-primary);
+}
+.rotate-minus-90 {
+  transform: rotate(-90deg);
+}
+.rotate-90 {
+  transform: rotate(90deg);
+}
+.rotate-0 {
+  transform: rotate(0deg);
+}
+.transition-transform {
+  transition: transform 0.3s ease;
 }
 </style>
