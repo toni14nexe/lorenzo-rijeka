@@ -992,6 +992,171 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Job",
+			"item": [
+				{
+					"name": "[id]",
+					"item": [
+						{
+							"name": "GET job",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{dev_api_url}}/api/job/cma73fjg100004nqhj8ydczj4",
+									"host": [
+										"{{dev_api_url}}"
+									],
+									"path": [
+										"api",
+										"job",
+										"cma73fjg100004nqhj8ydczj4"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE job",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer {{bearer_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{dev_api_url}}/api/job/cma73fjg100004nqhj8ydczj4",
+									"host": [
+										"{{dev_api_url}}"
+									],
+									"path": [
+										"api",
+										"job",
+										"cma73fjg100004nqhj8ydczj4"
+									]
+								},
+								"description": "Generated from cURL: curl -X DELETE http://localhost:3000/api/users/1"
+							},
+							"response": []
+						},
+						{
+							"name": "PUT job",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "authorization",
+										"value": "Bearer {{bearer_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Posao na baušteli 0\",\n    \"description\": \"<p><b>This custom text is bold</b></p><p><i>This text is italic</i></p><p>This is<sub> subscript</sub> and <sup>superscript</sup></p>\",\n    \"salary\": 2700,\n    \"jobCategoryId\": \"cma72ywe90001swsz8g8idwnz\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{dev_api_url}}/api/job/cma73fjg100004nqhj8ydczj4",
+									"host": [
+										"{{dev_api_url}}"
+									],
+									"path": [
+										"api",
+										"job",
+										"cma73fjg100004nqhj8ydczj4"
+									]
+								},
+								"description": "Generated from cURL: curl -X PUT http://localhost:3000/api/users/1 \\\n-H \"Content-Type: application/json\" \\\n-d '{\n  \"email\": \"updated@example.com\",\n  \"firstname\": \"Updated\",\n  \"lastname\": \"User\",\n  \"mobile\": \"9876543210\",  // mobile is now a string\n  \"country\": \"Updated Country\",\n  \"MIBPG\": \"654321\",\n  \"businessName\": \"Updated Business\",\n  \"organizationType\": \"Sole Proprietorship\",\n  \"county\": \"Updated County\",\n  \"place\": \"Updated Place\",\n  \"address\": \"456 Updated St\",\n  \"activities\": [\"updatedActivity1\", \"updatedActivity2\"],\n  \"oib\": \"987654321\"\n}'"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST job",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "authorization",
+								"value": "Bearer {{bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Posao na baušteli\",\n    \"description\": \"<p><b>This text is bold</b></p><p><i>This text is italic</i></p><p>This is<sub> subscript</sub> and <sup>superscript</sup></p>\",\n    \"salary\": 2600.55,\n    \"jobCategoryId\": \"cma72yr8m0000swszzlf0da0u\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_api_url}}/api/job",
+							"host": [
+								"{{dev_api_url}}"
+							],
+							"path": [
+								"api",
+								"job"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:3000/api/users \\\n-H \"Content-Type: application/json\" \\\n-d '{\n    \"email\": \"user@example.com\",\n    \"firstname\": \"John\",\n    \"lastname\": \"Doe\",\n    \"mobile\": 1234567890,\n    \"country\": \"Country Name\",\n    \"MIBPG\": \"MIBPG Value\",\n    \"businessName\": \"Business Name\",\n    \"organizationType\": \"Organization Type\",\n    \"county\": \"County Name\",\n    \"place\": \"Place Name\",\n    \"address\": \"123 Main St\",\n    \"activities\": [\"activity1\", \"activity2\"],\n    \"oib\": \"123456789\"\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "GET job",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_api_url}}/api/job?page=1&perPage=10",
+							"host": [
+								"{{dev_api_url}}"
+							],
+							"path": [
+								"api",
+								"job"
+							],
+							"query": [
+								{
+									"key": "categoryId",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [
