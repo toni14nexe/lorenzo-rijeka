@@ -10,19 +10,19 @@ export default defineEventHandler(async event => {
     })
   }
 
-  const job = await prisma.job.findUnique({
+  const product = await prisma.product.findUnique({
     where: {
       id: params.id,
       deletedAt: null
     }
   })
 
-  if (!job) {
+  if (!product) {
     throw createError({
       statusCode: 404,
-      statusMessage: 'Job not found or deleted'
+      statusMessage: 'Product not found or deleted'
     })
   }
 
-  return job
+  return product
 })

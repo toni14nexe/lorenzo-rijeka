@@ -15,7 +15,8 @@ export default defineEventHandler(async (event: H3Event) => {
     (url.includes('/api/portal-news') && event.req.method !== 'GET') ||
     (url.includes('/api/jobs-category') && event.req.method !== 'GET') ||
     (url.includes('/api/job') && event.req.method !== 'GET') ||
-    (url.includes('/api/product-category') && event.req.method !== 'GET')
+    (url.includes('/api/product-category') && event.req.method !== 'GET') ||
+    (url.includes('/api/product') && event.req.method !== 'GET')
   ) {
     const token = event.req.headers['authorization']?.split(' ')[1]
     try {
