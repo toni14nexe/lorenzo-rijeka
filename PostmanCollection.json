@@ -974,7 +974,7 @@
 					"response": []
 				},
 				{
-					"name": "GET jobs category",
+					"name": "GET jobs categories",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1124,7 +1124,7 @@
 					"response": []
 				},
 				{
-					"name": "GET job",
+					"name": "GET jobs",
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1136,6 +1136,171 @@
 							"path": [
 								"api",
 								"job"
+							],
+							"query": [
+								{
+									"key": "categoryId",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product category",
+			"item": [
+				{
+					"name": "[id]",
+					"item": [
+						{
+							"name": "GET product category",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{dev_api_url}}/api/product-category/cma73ym600000eb0lcp0j1use",
+									"host": [
+										"{{dev_api_url}}"
+									],
+									"path": [
+										"api",
+										"product-category",
+										"cma73ym600000eb0lcp0j1use"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE product category",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer {{bearer_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{dev_api_url}}/api/product-category/cma73ym600000eb0lcp0j1use",
+									"host": [
+										"{{dev_api_url}}"
+									],
+									"path": [
+										"api",
+										"product-category",
+										"cma73ym600000eb0lcp0j1use"
+									]
+								},
+								"description": "Generated from cURL: curl -X DELETE http://localhost:3000/api/users/1"
+							},
+							"response": []
+						},
+						{
+							"name": "PUT product category",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "authorization",
+										"value": "Bearer {{bearer_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\": \"Hrana 1\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{dev_api_url}}/api/product-category/cma73ym600000eb0lcp0j1use",
+									"host": [
+										"{{dev_api_url}}"
+									],
+									"path": [
+										"api",
+										"product-category",
+										"cma73ym600000eb0lcp0j1use"
+									]
+								},
+								"description": "Generated from cURL: curl -X PUT http://localhost:3000/api/users/1 \\\n-H \"Content-Type: application/json\" \\\n-d '{\n  \"email\": \"updated@example.com\",\n  \"firstname\": \"Updated\",\n  \"lastname\": \"User\",\n  \"mobile\": \"9876543210\",  // mobile is now a string\n  \"country\": \"Updated Country\",\n  \"MIBPG\": \"654321\",\n  \"businessName\": \"Updated Business\",\n  \"organizationType\": \"Sole Proprietorship\",\n  \"county\": \"Updated County\",\n  \"place\": \"Updated Place\",\n  \"address\": \"456 Updated St\",\n  \"activities\": [\"updatedActivity1\", \"updatedActivity2\"],\n  \"oib\": \"987654321\"\n}'"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST product category",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "authorization",
+								"value": "Bearer {{bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Hrana\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_api_url}}/api/product-category",
+							"host": [
+								"{{dev_api_url}}"
+							],
+							"path": [
+								"api",
+								"product-category"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:3000/api/users \\\n-H \"Content-Type: application/json\" \\\n-d '{\n    \"email\": \"user@example.com\",\n    \"firstname\": \"John\",\n    \"lastname\": \"Doe\",\n    \"mobile\": 1234567890,\n    \"country\": \"Country Name\",\n    \"MIBPG\": \"MIBPG Value\",\n    \"businessName\": \"Business Name\",\n    \"organizationType\": \"Organization Type\",\n    \"county\": \"County Name\",\n    \"place\": \"Place Name\",\n    \"address\": \"123 Main St\",\n    \"activities\": [\"activity1\", \"activity2\"],\n    \"oib\": \"123456789\"\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "GET product categories",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_api_url}}/api/product-category?page=1&perPage=10",
+							"host": [
+								"{{dev_api_url}}"
+							],
+							"path": [
+								"api",
+								"product-category"
 							],
 							"query": [
 								{
