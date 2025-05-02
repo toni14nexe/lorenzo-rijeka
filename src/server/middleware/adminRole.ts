@@ -11,9 +11,8 @@ export default defineEventHandler(async (event: H3Event) => {
 
   // Routes to check with middleware
   if (
-    url.includes('/api/portal-category') &&
-    event.req.method !== 'GET' /*  ||
-    (url === '/land-logs' && event.req.method === 'GET') */
+    (url.includes('/api/portal-category') && event.req.method !== 'GET') ||
+    (url.includes('/api/portal-news') && event.req.method !== 'GET')
   ) {
     const token = event.req.headers['authorization']?.split(' ')[1]
     try {

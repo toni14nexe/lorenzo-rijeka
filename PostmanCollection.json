@@ -677,6 +677,171 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Portal news",
+			"item": [
+				{
+					"name": "[id]",
+					"item": [
+						{
+							"name": "GET portal news",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{dev_api_url}}/api/portal-news/cma722l17000atxvsn3rgudvg",
+									"host": [
+										"{{dev_api_url}}"
+									],
+									"path": [
+										"api",
+										"portal-news",
+										"cma722l17000atxvsn3rgudvg"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "DELETE portal category",
+							"request": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "authorization",
+										"value": "Bearer {{bearer_token}}",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{dev_api_url}}/api/portal-news/cma721qw00000txvss4weoq8a",
+									"host": [
+										"{{dev_api_url}}"
+									],
+									"path": [
+										"api",
+										"portal-news",
+										"cma721qw00000txvss4weoq8a"
+									]
+								},
+								"description": "Generated from cURL: curl -X DELETE http://localhost:3000/api/users/1"
+							},
+							"response": []
+						},
+						{
+							"name": "PUT portal news",
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "authorization",
+										"value": "Bearer {{bearer_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"categoryId\": \"cma31zrks000k6mnyzlla538s\",\n    \"title\": \"Rukometna groznica 0\",\n    \"author\": \"John Doe\",\n    \"text\": \"<p><b>This text is bold</b></p><p><i>This text is italic</i></p><p>This is<sub> subscript</sub> and <sup>superscript</sup></p>\",\n    \"images\": null,\n    \"videos\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{dev_api_url}}/api/portal-news/cma721qw00000txvss4weoq8a",
+									"host": [
+										"{{dev_api_url}}"
+									],
+									"path": [
+										"api",
+										"portal-news",
+										"cma721qw00000txvss4weoq8a"
+									]
+								},
+								"description": "Generated from cURL: curl -X PUT http://localhost:3000/api/users/1 \\\n-H \"Content-Type: application/json\" \\\n-d '{\n  \"email\": \"updated@example.com\",\n  \"firstname\": \"Updated\",\n  \"lastname\": \"User\",\n  \"mobile\": \"9876543210\",  // mobile is now a string\n  \"country\": \"Updated Country\",\n  \"MIBPG\": \"654321\",\n  \"businessName\": \"Updated Business\",\n  \"organizationType\": \"Sole Proprietorship\",\n  \"county\": \"Updated County\",\n  \"place\": \"Updated Place\",\n  \"address\": \"456 Updated St\",\n  \"activities\": [\"updatedActivity1\", \"updatedActivity2\"],\n  \"oib\": \"987654321\"\n}'"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "POST portal news",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "authorization",
+								"value": "Bearer {{bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"categoryId\": \"cma31zrks000k6mnyzlla538s\",\n    \"title\": \"Rukometna groznica\",\n    \"author\": \"John Doe\",\n    \"text\": \"<p><b>This text is bold</b></p><p><i>This text is italic</i></p><p>This is<sub> subscript</sub> and <sup>superscript</sup></p>\",\n    \"images\": null,\n    \"videos\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_api_url}}/api/portal-news",
+							"host": [
+								"{{dev_api_url}}"
+							],
+							"path": [
+								"api",
+								"portal-news"
+							]
+						},
+						"description": "Generated from cURL: curl -X POST http://localhost:3000/api/users \\\n-H \"Content-Type: application/json\" \\\n-d '{\n    \"email\": \"user@example.com\",\n    \"firstname\": \"John\",\n    \"lastname\": \"Doe\",\n    \"mobile\": 1234567890,\n    \"country\": \"Country Name\",\n    \"MIBPG\": \"MIBPG Value\",\n    \"businessName\": \"Business Name\",\n    \"organizationType\": \"Organization Type\",\n    \"county\": \"County Name\",\n    \"place\": \"Place Name\",\n    \"address\": \"123 Main St\",\n    \"activities\": [\"activity1\", \"activity2\"],\n    \"oib\": \"123456789\"\n}'"
+					},
+					"response": []
+				},
+				{
+					"name": "GET portal news",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dev_api_url}}/api/portal-news?page=1&perPage=10",
+							"host": [
+								"{{dev_api_url}}"
+							],
+							"path": [
+								"api",
+								"portal-news"
+							],
+							"query": [
+								{
+									"key": "categoryId",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"variable": [

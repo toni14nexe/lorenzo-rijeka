@@ -16,7 +16,7 @@ export default defineEventHandler(async event => {
   try {
     const portalCategory = await prisma.portalCategory.update({
       where: { id: params.id },
-      data: { name: body.name }
+      data: { name: body.name, updatedAt: new Date() }
     })
 
     return portalCategory
