@@ -18,7 +18,7 @@ const colSpan = computed(() => {
     <ElRow class="footer" justify="center" align="middle">
       <span class="color-primary">{{ title }}</span>
     </ElRow>
-    <ElSkeleton v-if="loading" :loading="loading" animated>
+    <ElSkeleton v-if="loading" animated>
       <template #template>
         <ElRow justify="center" align="middle" class="row-gap-4 mt-8">
           <ElCol v-for="_ in 6" :span="colSpan" align="center">

@@ -17,7 +17,8 @@ export default defineEventHandler(async event => {
       where,
       orderBy: { createdAt: 'desc' },
       skip,
-      take: perPage
+      take: perPage,
+      include: { category: true }
     }),
     prisma.news.count({
       where: { deletedAt: null }

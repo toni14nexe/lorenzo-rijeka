@@ -8,7 +8,7 @@ defineProps(['news'])
   <div
     v-if="news"
     class="news cursor-pointer"
-    :style="`background-image: url(${news.imageUrl})`"
+    :style="`background-image: url(${news.images.length ? news.images[0] : ''})`"
   >
     <NuxtLink :to="`/portal/${news.category.name}/${news.id}`">
       <div class="news-opacity-container" />

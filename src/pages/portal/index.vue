@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import PortalMainPage from '~/components/portal/PortalMainPage.vue'
+
 useHead({
   title: 'Portal',
   meta: [
@@ -15,6 +17,6 @@ useHead({
 })
 </script>
 
-<template>Portal</template>
+<template><PortalMainPage /></template>
 
 <style lang="css" scoped></style>
