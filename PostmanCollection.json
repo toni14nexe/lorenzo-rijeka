@@ -1487,6 +1487,24 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "GET categories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{dev_api_url}}/api/categories",
+					"host": [
+						"{{dev_api_url}}"
+					],
+					"path": [
+						"api",
+						"categories"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"variable": [

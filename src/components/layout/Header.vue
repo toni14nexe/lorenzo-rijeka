@@ -17,8 +17,7 @@ import HeaderPortalDrawerItem from '~/components/layout/HeaderPortalDrawerItem.v
 
 const { $viewport } = useNuxtApp()
 const categoriesStore = useCategoriesStore()
-const { portalCategories, portalCategoriesLoading } =
-  storeToRefs(categoriesStore)
+const { portalCategories, categoriesLoading } = storeToRefs(categoriesStore)
 const route = useRoute()
 const searchValue = ref('')
 const isMobileDrawerMenuOpen = ref(false)
@@ -311,7 +310,7 @@ function handleSearch() {
         </ElRow>
         <template v-if="isMobilePortalOpen">
           <div
-            v-if="portalCategoriesLoading"
+            v-if="categoriesLoading"
             v-loading="true"
             element-loading-text="Učitavanje kategorija..."
             style="height: 100px; margin-bottom: 40px"
@@ -319,7 +318,7 @@ function handleSearch() {
           <HeaderPortalDrawerItem
             v-else-if="isMobilePortalOpen"
             v-for="category in portalCategories"
-            :key="category.name"
+            :key="category.id as string"
             :category="category"
             :tree-deep="1"
             @close-menu="isPortalDrawerMenuOpen = false"
@@ -414,7 +413,7 @@ function handleSearch() {
     </template>
     <template #default>
       <div
-        v-if="portalCategoriesLoading"
+        v-if="categoriesLoading"
         v-loading="true"
         element-loading-text="Učitavanje kategorija..."
         style="height: 100%"
@@ -422,7 +421,7 @@ function handleSearch() {
       <div v-else class="drawer-container">
         <HeaderPortalDrawerItem
           v-for="category in portalCategories"
-          :key="category.name"
+          :key="category.name as string"
           :category="category"
           :tree-deep="0"
           @close-menu="isPortalDrawerMenuOpen = false"

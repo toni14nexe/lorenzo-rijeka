@@ -2,32 +2,24 @@
 import FacebookIcon from '~/assets/icons/facebook.vue'
 import InstagramIcon from '~/assets/icons/instagram.vue'
 import MessageIcon from '~/assets/icons/message.vue'
+import FooterMenuCard from '~/components/layout/FooterMenuCard.vue'
 
 defineProps(['dividerMarginTop'])
 
-const { $viewport } = useNuxtApp()
+const categoriesStore = useCategoriesStore()
+const {
+  categoriesLoading,
+  portalCategories,
+  jobsCategories,
+  webshopCategories
+} = storeToRefs(categoriesStore)
 const mainCategories = ref([
   { id: 1, name: 'Naslovnica' },
   { id: 2, name: 'Portal' },
   { id: 3, name: 'Poslovi' },
-  { id: 4, name: 'Webshop' }
-])
-const subcategories = ref([
-  { id: 1, name: 'Naslovnica' },
-  { id: 2, name: 'Grad' },
-  { id: 3, name: 'Sport' },
-  { id: 4, name: 'Kronika' },
-  { id: 5, name: 'Trgovina' },
-  { id: 6, name: 'Naslovnica' },
-  { id: 7, name: 'Grad' },
-  { id: 8, name: 'Sport' },
-  { id: 9, name: 'Kronika' },
-  { id: 10, name: 'Trgovina' },
-  { id: 11, name: 'Naslovnica' },
-  { id: 12, name: 'Grad' },
-  { id: 13, name: 'Sport' },
-  { id: 14, name: 'Kronika' },
-  { id: 15, name: 'Trgovina' }
+  { id: 4, name: 'Webshop' },
+  { id: 5, name: 'Kontakt' },
+  { id: 6, name: 'Reklamiranje' }
 ])
 </script>
 
@@ -37,71 +29,15 @@ const subcategories = ref([
       class="divider"
       :style="`margin-top: ${dividerMarginTop ? `${dividerMarginTop}px` : '4px'} !important`"
     />
-    <ElCard>
-      <ElRow class="footer" justify="center" align="middle">
-        <span class="color-primary">Glavni izbornik</span>
-      </ElRow>
-      <ElRow
-        :justify="$viewport.isLessOrEquals('tablet') ? 'start' : 'center'"
-        align="middle"
-        class="row-gap-4 mt-8"
-      >
-        <ElCol
-          v-for="category in mainCategories"
-          :key="category.id"
-          :span="
-            $viewport.isLessOrEquals('mobileMedium')
-              ? 24
-              : $viewport.isLessOrEquals('mobileWide')
-                ? 12
-                : $viewport.isLessOrEquals('tablet')
-                  ? 8
-                  : 4
-          "
-          align="center"
-        >
-          <NuxtLink
-            :to="
-              category.name === 'Naslovnica'
-                ? '/'
-                : `/${category.name.toLowerCase()}`
-            "
-            class="link"
-          >
-            {{ category.name }}
-          </NuxtLink>
-        </ElCol>
-      </ElRow>
-    </ElCard>
 
-    <ElCard class="mt-24 mb-24">
-      <ElRow class="footer" justify="center" align="middle">
-        <span class="color-primary">Portal</span>
-      </ElRow>
-      <ElRow justify="start" align="middle" class="row-gap-4 mt-8">
-        <ElCol
-          v-for="category in subcategories"
-          :key="category.id"
-          :span="
-            $viewport.isLessOrEquals('mobileMedium')
-              ? 24
-              : $viewport.isLessOrEquals('mobileWide')
-                ? 12
-                : $viewport.isLessOrEquals('tablet')
-                  ? 8
-                  : 4
-          "
-          align="center"
-        >
-          <NuxtLink
-            :to="`/portal/kategorije/${category.name.toLowerCase()}`"
-            class="link"
-          >
-            {{ category.name }}
-          </NuxtLink>
-        </ElCol>
-      </ElRow>
-    </ElCard>
+    <FooterMenuCard :categories="mainCategories" title="Glavni izbornik" />
+
+    <FooterMenuCard
+      :categories="portalCategories"
+      title="Portal"
+      urlPrefix="/portal/"
+      :loading="categoriesLoading"
+    />
 
     <ElRow
       justify="center"
@@ -185,9 +121,6 @@ const subcategories = ref([
   background-color: var(--el-text-color-secondary);
   height: 30px;
   font-size: small;
-}
-.row-gap-4 {
-  row-gap: 4px;
 }
 .color-zinc {
   color: var(--el-text-color-secondary);

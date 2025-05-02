@@ -1,5 +1,5 @@
 export type News = {
-  id: string
+  id: String
   categoryId: String
   title: String
   author: String
@@ -13,9 +13,9 @@ export type News = {
 }
 
 export type PortalCategory = {
-  id: string
-  name: string
-  parentId: string | null
+  id: String
+  name: String
+  parentId: String | null
   parent: PortalCategory | null
   children: PortalCategory[]
   createdAt: DateTime
