@@ -1,14 +1,13 @@
 <script setup lang="ts">
+import type { News } from '~/types/portal'
 import NewsWidget from '~/components/shared/NewsWidget.vue'
 import Pagination from '~/components/shared/Pagination.vue'
-import FooterMenuCard from '~/components/layout/FooterMenuCard.vue'
-import type { News } from '~/types/portal'
+
+const props = defineProps(['title'])
 
 const { $viewport, $axios } = useNuxtApp()
-const firstTimeFetchingData = ref(true)
-const categoriesStore = useCategoriesStore()
-const { categoriesLoading, portalCategories } = storeToRefs(categoriesStore)
 const isLoading = ref(true)
+const firstTimeFetchingData = ref(true)
 const pagination = ref({
   page: 1,
   perPage: 10,
@@ -24,13 +23,14 @@ async function getNews() {
   isLoading.value = true
   try {
     const response = await $axios.get(
-      `/portal-news?page=${pagination.value.page}&perPage=${pagination.value.perPage}`
+      `/portal-news?page=${pagination.value.page}&perPage=${pagination.value.perPage}&categoryName=${props.title}`
     )
     news.value = response.data.news
+    console.log(news.value)
     pagination.value.total = response.data.total
     if (firstTimeFetchingData.value) {
-      newestLargeNews.value = news.value.slice(0, 3)
-      newestSmallNews.value = news.value.slice(3, 7)
+      newestLargeNews.value = news.value.slice(0, 2)
+      newestSmallNews.value = news.value.slice(2, 5)
     }
   } catch (error) {
     console.error('API Error:', error)
@@ -43,6 +43,9 @@ async function getNews() {
 
 <template>
   <div class="page-container">
+    <ElRow justify="center" align="middle" class="mb-24">
+      <h3 class="color-primary">{{ title }}</h3>
+    </ElRow>
     <template v-if="isLoading">
       <ElSkeleton animated>
         <template #template>
@@ -52,24 +55,18 @@ async function getNews() {
             class="mb-24"
           >
             <ElCol
-              v-for="_ in 3"
+              v-for="_ in 2"
               :xs="24"
-              :sm="8"
+              :sm="12"
               :class="{ 'mt-12': $viewport.isLessOrEquals('tablet') }"
             >
               <ElSkeletonItem variant="image" class="skeleton-image" />
             </ElCol>
-            <ElCol v-for="_ in 4" :xs="24" :sm="6" class="mt-12">
+            <ElCol v-for="_ in 3" :xs="24" :sm="8" class="mt-12">
               <ElSkeletonItem variant="image" class="skeleton-image" />
             </ElCol>
           </ElRow>
           <ElDivider v-if="$viewport.isGreaterOrEquals('tablet')" />
-          <FooterMenuCard
-            :categories="portalCategories"
-            title="Portal"
-            urlPrefix="/portal/"
-            :loading="categoriesLoading"
-          />
           <div
             v-loading="true"
             element-loading-text="Učitavanje..."
@@ -93,7 +90,7 @@ async function getNews() {
           v-for="news in newestLargeNews"
           :key="String(news.id)"
           :xs="24"
-          :sm="8"
+          :sm="12"
           class="news-container"
           :class="{ 'mt-12': $viewport.isLessOrEquals('tablet') }"
         >
@@ -103,7 +100,7 @@ async function getNews() {
           v-for="news in newestSmallNews"
           :key="String(news.id)"
           :xs="24"
-          :sm="6"
+          :sm="8"
           class="news-container mt-12"
         >
           <NewsWidget :news="news" />
@@ -113,13 +110,6 @@ async function getNews() {
       <ElDivider
         id="scroll-element"
         v-if="$viewport.isGreaterOrEquals('tablet')"
-      />
-
-      <FooterMenuCard
-        :categories="portalCategories"
-        title="Portal"
-        urlPrefix="/portal/"
-        :loading="categoriesLoading"
       />
 
       <ElRow

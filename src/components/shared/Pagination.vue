@@ -10,14 +10,15 @@ type Pagination = {
 const pagination = defineModel<Pagination>({ required: true })
 const emit = defineEmits(['pageChange'])
 const props = defineProps(['loading', 'scrollElementId'])
+const firstLoading = ref(true)
 
 watch(
   () => props.loading,
   state => {
-    if (!state) {
+    if (!state && !firstLoading.value) {
       const scrollTarget = document.getElementById(props.scrollElementId)
       scrollToElementTop(scrollTarget, -60)
-    }
+    } else firstLoading.value = false
   }
 )
 

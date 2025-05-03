@@ -7,12 +7,7 @@ import FooterMenuCard from '~/components/layout/FooterMenuCard.vue'
 defineProps(['dividerMarginTop'])
 
 const categoriesStore = useCategoriesStore()
-const {
-  categoriesLoading,
-  portalCategories,
-  jobsCategories,
-  webshopCategories
-} = storeToRefs(categoriesStore)
+const { categoriesLoading, portalCategories } = storeToRefs(categoriesStore)
 const mainCategories = ref([
   { id: 1, name: 'Naslovnica' },
   { id: 2, name: 'Portal' },

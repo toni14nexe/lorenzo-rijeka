@@ -203,11 +203,7 @@ function handleSearch() {
           :delay="600 + index * 200"
         >
           <NuxtLink
-            :to="
-              category.name === 'Naslovnica'
-                ? '/'
-                : `/${category.name.toLowerCase()}`
-            "
+            :to="category.name === 'Naslovnica' ? '/' : `/${category.name}`"
             class="el-button header-button"
             :class="{
               'el-button--primary':
@@ -327,11 +323,7 @@ function handleSearch() {
         <NuxtLink
           v-for="category in categories"
           :key="category.name"
-          :to="
-            category.name === 'Naslovnica'
-              ? '/'
-              : `/${category.name.toLowerCase()}`
-          "
+          :to="category.name === 'Naslovnica' ? '/' : `/${category.name}`"
           class="el-button drawer-button"
           :class="{
             'el-button--primary':

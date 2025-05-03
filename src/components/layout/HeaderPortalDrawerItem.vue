@@ -13,11 +13,10 @@ const isOpen = ref(false)
     <ElRow style="display: flex" v-motion-slide-left :duration="150">
       <ElCol :span="21">
         <NuxtLink
-          :to="`/portal/${category.name.toLowerCase()}`"
+          :to="`/portal/${category.name}`"
           class="el-button button-with-childs"
           :class="{
-            'el-button--primary':
-              `/portal/${category.name.toLowerCase()}` === route.path
+            'el-button--primary': `/portal/${category.name}` === route.path
           }"
           :style="`margin-left: ${30 * treeDeep}px; width: calc(100% - ${30 * treeDeep}px`"
           @click="emit('closeMenu')"
@@ -57,11 +56,10 @@ const isOpen = ref(false)
     v-else
     v-motion-slide-left
     :duration="150"
-    :to="`/portal/${category.name.toLowerCase()}`"
+    :to="`/portal/${category.name}`"
     class="el-button button"
     :class="{
-      'el-button--primary':
-        `/portal/${category.name.toLowerCase()}` === route.path
+      'el-button--primary': `/portal/${category.name}` === route.path
     }"
     :style="`margin-left: ${30 * treeDeep}px`"
     @click="emit('closeMenu')"

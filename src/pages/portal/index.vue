@@ -5,13 +5,13 @@ useHead({
   title: 'Portal',
   meta: [
     {
-      name: 'description',
+      name: 'Portal sa najnovijim vijestima i kategorijama vijesti.',
       content: ''
     },
     { property: 'og:title', content: 'Portal' },
     {
       property: 'og:description',
-      content: ''
+      content: 'Portal sa najnovijim vijestima i kategorijama vijesti.'
     }
   ]
 })
