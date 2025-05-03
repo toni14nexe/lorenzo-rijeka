@@ -26,7 +26,6 @@ async function getNews() {
       `/portal-news?page=${pagination.value.page}&perPage=${pagination.value.perPage}&categoryName=${props.title}`
     )
     news.value = response.data.news
-    console.log(news.value)
     pagination.value.total = response.data.total
     if (firstTimeFetchingData.value) {
       newestLargeNews.value = news.value.slice(0, 2)

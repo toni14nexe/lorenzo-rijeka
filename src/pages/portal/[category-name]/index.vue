@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import PortalCategoryPage from '~/components/portal/PortalCategoryPage.vue'
+
 const route = useRoute()
 const title = `${route.params.categoryname[0].toUpperCase()}${route.params.categoryname.slice(1, route.params.categoryname.length)}`
 useHead({

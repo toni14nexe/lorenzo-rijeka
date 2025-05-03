@@ -1,20 +1,24 @@
 <script lang="ts" setup>
+import PortalNewsPage from '~/components/portal/PortalNewsPage.vue'
+
+const title = ref('Portal')
+
 useHead({
-  title: 'Vijest',
+  title: title.value,
   meta: [
     {
       name: 'description',
-      content: ''
+      content: 'Ovjde možete pročitati naše vijesti.'
     },
-    { property: 'og:title', content: 'Vijest' },
+    { property: 'og:title', content: 'Portal' },
     {
       property: 'og:description',
-      content: ''
+      content: 'Ovjde možete pročitati naše vijesti.'
     }
   ]
 })
 </script>
 
-<template>Vijest</template>
+<template><PortalNewsPage /></template>
 
 <style lang="css" scoped></style>
