@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import type { News } from '~/types/portal'
+import Gallery from '~/components/shared/Gallery.vue'
 
 const { $viewport, $axios } = useNuxtApp()
 const route = useRoute()
@@ -19,6 +20,7 @@ async function getNews() {
     isLoading.value = false
   }
 }
+const aaa = true
 </script>
 
 <template>
@@ -31,6 +33,30 @@ async function getNews() {
               <ElSkeletonItem variant="h3" />
             </h3>
           </ElRow>
+          <ElRow justify="center">
+            <ElSkeletonItem
+              variant="image"
+              style="height: 60dvh; width: 100%; border-radius: 8px"
+            />
+          </ElRow>
+          <ElRow justify="space-between" align="middle" class="mb-24">
+            <ElCol :span="$viewport.isLessOrEquals('mobileWide') ? 24 : 12">
+              <ElSkeletonItem variant="text" style="width: 50%" />
+            </ElCol>
+            <ElCol
+              :span="$viewport.isLessOrEquals('mobileWide') ? 24 : 12"
+              :align="$viewport.isLessOrEquals('mobileWide') ? 'start' : 'end'"
+            >
+              <ElSkeletonItem variant="text" style="width: 100%" />
+            </ElCol>
+          </ElRow>
+          <ElRow v-for="_ in 2" class="mb-24">
+            <ElSkeletonItem
+              v-for="_ in 10"
+              variant="text"
+              style="width: 100%; margin-bottom: 12px"
+            />
+          </ElRow>
         </template>
       </ElSkeleton>
     </template>
@@ -42,6 +68,7 @@ async function getNews() {
       <ElRow justify="center" align="middle">
         <h3 class="color-primary">{{ news?.title }}</h3>
       </ElRow>
+      <Gallery :links="[...news.images, ...news.videos] as string[]" />
       <ElRow justify="space-between" align="middle" class="color-zinc mb-12">
         <ElCol :span="$viewport.isLessOrEquals('mobileWide') ? 24 : 12">
           {{ formatISOToDatetime(news.createdAt) }}
