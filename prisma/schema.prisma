@@ -67,6 +67,7 @@ model Job {
   id            String            @id @default(cuid())
   name          String
   description   String
+  location      String            @default("")
   salary        Decimal           @db.Decimal(10, 2)
   contactEmail  String            @default("")
   contactNumber String?

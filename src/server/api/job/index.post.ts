@@ -5,11 +5,17 @@ export default defineEventHandler(async event => {
   if (event.req.method === 'POST') {
     const body = await readBody(event)
 
-    if (!body.contactEmail || !body.name || !body.description || !body.salary) {
+    if (
+      !body.contactEmail ||
+      !body.name ||
+      !body.description ||
+      !body.salary ||
+      !body.location
+    ) {
       throw createError({
         statusCode: 400,
         statusMessage:
-          "Body parameter is missing, this body should include: 'contactEmail', 'name', 'description' and 'salary'. 'contactNumber' is optional."
+          "Body parameter is missing, this body should include: 'contactEmail', 'name', 'description', 'salary' and 'location'. 'contactNumber' is optional."
       })
     }
 
@@ -20,6 +26,7 @@ export default defineEventHandler(async event => {
         salary: body.salary,
         contactEmail: body.contactEmail,
         contactNumber: body.contactNumber,
+        location: body.location,
         jobCategory: {
           connect: {
             id: body.jobCategoryId

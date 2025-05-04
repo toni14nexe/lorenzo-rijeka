@@ -4,17 +4,19 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: ''
+      content:
+        'Ovdje možete pronaći ponudu svih naših dostupnih objava za posao i detalje o poslu.'
     },
     { property: 'og:title', content: 'Poslovi' },
     {
       property: 'og:description',
-      content: ''
+      content:
+        'Ovdje možete pronaći ponudu svih naših dostupnih objava za posao i detalje o poslu.'
     }
   ]
 })
 </script>
 
-<template>Poslovi</template>
+<template><JobsPage /></template>
 
 <style lang="css" scoped></style>
