@@ -63,7 +63,9 @@ function handleFullscreenChange() {
       <ElButton @click="prev" size="large">
         <ElIcon><ArrowLeftBold /></ElIcon>
       </ElButton>
-      <ElButton @click="enterFullscreen" size="large">⛶</ElButton>
+      <ElButton v-if="!isFullscreen" @click="enterFullscreen" size="large">
+        ⛶
+      </ElButton>
       <ElButton @click="next" size="large">
         <ElIcon><ArrowRightBold /></ElIcon>
       </ElButton>
