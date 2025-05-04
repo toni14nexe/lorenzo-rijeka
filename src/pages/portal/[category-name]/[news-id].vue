@@ -8,12 +8,12 @@ useHead({
   meta: [
     {
       name: 'description',
-      content: 'Ovdje možete pročitati naše vijesti.'
+      content: `Ovdje možete pročitati našu vijest. ${title.value}`
     },
     { property: 'og:title', content: 'Portal' },
     {
       property: 'og:description',
-      content: 'Ovdje možete pročitati naše vijesti.'
+      content: `Ovdje možete pročitati našu vijest. ${title.value}`
     }
   ]
 })

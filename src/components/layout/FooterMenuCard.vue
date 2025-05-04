@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps(['categories', 'title', 'urlPrefix', 'loading'])
+defineProps(['categories', 'title', 'urlPrefix', 'loading', 'h3Title'])
 
 const { $viewport } = useNuxtApp()
 const colSpan = computed(() => {
@@ -16,7 +16,8 @@ const colSpan = computed(() => {
 <template>
   <ElCard class="mt-24 mb-24">
     <ElRow class="footer" justify="center" align="middle">
-      <span class="color-primary">{{ title }}</span>
+      <h3 v-if="h3Title" class="color-primary">{{ title }}</h3>
+      <span v-else class="color-primary">{{ title }}</span>
     </ElRow>
     <ElSkeleton v-if="loading" animated>
       <template #template>

@@ -5,8 +5,8 @@ useHead({
   title: 'Portal',
   meta: [
     {
-      name: 'Portal sa najnovijim vijestima i kategorijama vijesti.',
-      content: ''
+      name: 'description',
+      content: 'Portal sa najnovijim vijestima i kategorijama vijesti.'
     },
     { property: 'og:title', content: 'Portal' },
     {

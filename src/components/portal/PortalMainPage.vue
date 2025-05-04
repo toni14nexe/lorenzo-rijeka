@@ -48,6 +48,14 @@ async function getNews() {
         <template #template>
           <ElRow
             v-if="$viewport.isGreaterOrEquals('tablet')"
+            justify="center"
+            align="middle"
+            style="height: 62.44px"
+          >
+            <ElSkeletonItem variant="h3" style="width: 20%; height: 25px" />
+          </ElRow>
+          <ElRow
+            v-if="$viewport.isGreaterOrEquals('tablet')"
             :gutter="12"
             class="mb-24"
           >
@@ -69,13 +77,18 @@ async function getNews() {
             title="Portal"
             urlPrefix="/portal/"
             :loading="categoriesLoading"
+            :h3Title="true"
           />
-          <div
-            v-loading="true"
-            element-loading-text="Učitavanje..."
-            class="mt-24 mb-24"
-            style="height: 300px"
-          />
+          <ElRow :gutter="12" class="mb-24">
+            <ElCol
+              v-for="(_, index) in 10"
+              :xs="24"
+              :sm="12"
+              :class="{ 'mt-12': index > 1 }"
+            >
+              <ElSkeletonItem variant="image" class="skeleton-image" />
+            </ElCol>
+          </ElRow>
         </template>
       </ElSkeleton>
     </template>
@@ -84,6 +97,9 @@ async function getNews() {
       description="Ups! Ovdje nema dostupnih vijesti..."
     />
     <template v-else>
+      <ElRow v-if="$viewport.isGreaterOrEquals('tablet')" justify="center">
+        <h3 class="color-primary">Najnovije vijesti</h3>
+      </ElRow>
       <ElRow
         v-if="$viewport.isGreaterOrEquals('tablet')"
         :gutter="12"
@@ -120,6 +136,7 @@ async function getNews() {
         title="Portal"
         urlPrefix="/portal/"
         :loading="categoriesLoading"
+        :h3Title="true"
       />
 
       <ElRow

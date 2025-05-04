@@ -42,8 +42,8 @@ async function getNews() {
 
 <template>
   <div class="page-container">
-    <ElRow justify="center" align="middle" class="mb-24">
-      <h3 class="color-primary">{{ title }}</h3>
+    <ElRow justify="center" align="middle">
+      <h3 class="color-primary">Kategorija: {{ title }}</h3>
     </ElRow>
     <template v-if="isLoading">
       <ElSkeleton animated>
@@ -66,12 +66,11 @@ async function getNews() {
             </ElCol>
           </ElRow>
           <ElDivider v-if="$viewport.isGreaterOrEquals('tablet')" />
-          <div
-            v-loading="true"
-            element-loading-text="Učitavanje..."
-            class="mt-24 mb-24"
-            style="height: 300px"
-          />
+          <ElRow :gutter="12" class="mb-24 mt-12">
+            <ElCol v-for="_ in 10" :xs="24" :sm="12" class="mt-12">
+              <ElSkeletonItem variant="image" class="skeleton-image" />
+            </ElCol>
+          </ElRow>
         </template>
       </ElSkeleton>
     </template>

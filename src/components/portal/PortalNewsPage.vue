@@ -20,7 +20,6 @@ async function getNews() {
     isLoading.value = false
   }
 }
-const aaa = true
 </script>
 
 <template>
@@ -68,7 +67,10 @@ const aaa = true
       <ElRow justify="center" align="middle">
         <h3 class="color-primary">{{ news?.title }}</h3>
       </ElRow>
-      <Gallery :links="[...news.images, ...news.videos] as string[]" />
+      <Gallery
+        v-if="news.images?.length || news.videos?.length"
+        :links="[...(news.images ?? []), ...(news.videos ?? [])] as string[]"
+      />
       <ElRow justify="space-between" align="middle" class="color-zinc mb-12">
         <ElCol :span="$viewport.isLessOrEquals('mobileWide') ? 24 : 12">
           {{ formatISOToDatetime(news.createdAt) }}

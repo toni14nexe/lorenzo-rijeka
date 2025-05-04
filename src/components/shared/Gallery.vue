@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { ArrowRightBold, ArrowLeftBold } from '@element-plus/icons-vue'
+import {
+  ArrowRightBold,
+  ArrowLeftBold,
+  CloseBold
+} from '@element-plus/icons-vue'
 
 const props = defineProps<{
   links: string[]
@@ -8,6 +12,15 @@ const props = defineProps<{
 
 const currentIndex = ref(0)
 const sliderRef = ref<HTMLDivElement | null>(null)
+const isFullscreen = ref(false)
+
+onMounted(() => {
+  document.addEventListener('fullscreenchange', handleFullscreenChange)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('fullscreenchange', handleFullscreenChange)
+})
 
 function next() {
   currentIndex.value = (currentIndex.value + 1) % props.links.length
@@ -17,14 +30,26 @@ function prev() {
     (currentIndex.value - 1 + props.links.length) % props.links.length
 }
 function enterFullscreen() {
-  if (sliderRef.value?.requestFullscreen) {
-    sliderRef.value.requestFullscreen()
-  }
+  if (sliderRef.value?.requestFullscreen) sliderRef.value.requestFullscreen()
+}
+
+function exitFullscreen() {
+  if (document.fullscreenElement && document.exitFullscreen)
+    document.exitFullscreen()
+}
+
+function handleFullscreenChange() {
+  isFullscreen.value = !!document.fullscreenElement
 }
 </script>
 
 <template>
   <div ref="sliderRef" class="slider-container">
+    <ElRow justify="end" v-if="isFullscreen">
+      <ElButton @click="exitFullscreen" size="large" class="exit-button">
+        <ElIcon><CloseBold /></ElIcon>
+      </ElButton>
+    </ElRow>
     <div class="media-display">
       <img
         v-if="links[currentIndex].includes('/image/')"
@@ -81,7 +106,8 @@ function enterFullscreen() {
   padding: 0 1rem;
   transform: translateY(-50%);
 }
-.controls button {
+.controls button,
+.exit-button {
   background: rgba(0, 0, 0, 0.75);
   border: none;
   color: #fff;
@@ -89,7 +115,8 @@ function enterFullscreen() {
   cursor: pointer;
   border-radius: 20px;
 }
-.controls button:hover {
+.controls button:hover,
+.exit-button:hover {
   background: rgba(0, 0, 0, 0.3);
 }
 @media (min-width: 767px) {
