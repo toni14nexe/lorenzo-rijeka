@@ -6,7 +6,8 @@ import {
   OfficeBuilding,
   CloseBold,
   ArrowDown,
-  ArrowRight
+  ArrowRight,
+  Postcard
 } from '@element-plus/icons-vue'
 import HamburgerIcon from '~/assets/icons/hamburger.vue'
 import FacebookIcon from '~/assets/icons/facebook.vue'
@@ -336,6 +337,18 @@ function handleSearch() {
               <component :is="category.icon" />
             </ElIcon>
             {{ category.name.toUpperCase() }}
+          </ElRow>
+        </NuxtLink>
+        <NuxtLink
+          to="/reklamiranje"
+          class="el-button drawer-button"
+          :class="{ 'el-button--primary': 'reklamiranje' === route.name }"
+        >
+          <ElRow class="drawer-button-text-wrapper" align="middle">
+            <ElIcon class="home-icon" :size="48">
+              <Postcard />
+            </ElIcon>
+            REKLAMIRANJE
           </ElRow>
         </NuxtLink>
       </div>

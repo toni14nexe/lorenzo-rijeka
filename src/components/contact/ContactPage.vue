@@ -106,6 +106,12 @@ async function sendMessage(formEl: FormInstance | undefined) {
         </a>
       </p>
     </ElRow>
+    <ElRow align="middle">
+      <p>
+        Želite postaviti svoju reklamu na našu web stranicu, učinite od ovdje:
+        <NuxtLink to="/reklamiranje"> Gastabajter Reklamiranje </NuxtLink>
+      </p>
+    </ElRow>
 
     <ElRow align="middle" justify="center">
       <h1
