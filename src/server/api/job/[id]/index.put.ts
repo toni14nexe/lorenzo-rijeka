@@ -13,6 +13,14 @@ export default defineEventHandler(async event => {
 
   const body = await readBody(event)
 
+  if (!body.contactEmail || !body.name || !body.description || !body.salary) {
+    throw createError({
+      statusCode: 400,
+      statusMessage:
+        "Body parameter is missing, this body should include: 'contactEmail', 'name', 'description' and 'salary'. 'contactNumber' is optional."
+    })
+  }
+
   const jobCategory = await prisma.jobsCategory.findUnique({
     where: { id: body.jobCategoryId }
   })
@@ -31,6 +39,8 @@ export default defineEventHandler(async event => {
         name: body.name,
         description: body.description,
         salary: body.salary,
+        contactEmail: body.contactEmail,
+        contactNumber: body.contactNumber,
         jobCategoryId: body.jobCategoryId,
         updatedAt: new Date()
       }
