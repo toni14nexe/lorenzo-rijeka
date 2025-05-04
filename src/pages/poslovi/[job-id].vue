@@ -1,22 +1,24 @@
 <script lang="ts" setup>
-const title = ref('Job ID')
+import JobPage from '~/components/jobs/JobPage.vue'
+
+const title = ref('Oglas za posao')
 
 useHead({
   title: title.value,
   meta: [
     {
       name: 'description',
-      content: ''
+      content: `Ovdje možete pročitati našu vijest. ${title.value}`
     },
     { property: 'og:title', content: 'Portal' },
     {
       property: 'og:description',
-      content: ''
+      content: `Ovdje možete pročitati našu vijest. ${title.value}`
     }
   ]
 })
 </script>
 
-<template>Job ID page</template>
+<template><JobPage /></template>
 
 <style lang="css" scoped></style>

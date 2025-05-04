@@ -14,7 +14,8 @@ export default defineEventHandler(async event => {
     where: {
       id: params.id,
       deletedAt: null
-    }
+    },
+    include: { jobCategory: true }
   })
 
   if (!job) {

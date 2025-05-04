@@ -4,6 +4,9 @@ export type Job = {
   name: String
   description: String | null
   salary: PortalCategory | null
+  location: String
+  contactEmail: String
+  contactNumber?: String
   createdAt: DateTime
   updatedAt: DateTime | null
   deletedAt: DateTime | null
