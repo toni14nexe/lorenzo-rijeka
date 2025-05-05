@@ -1,0 +1,22 @@
+<script lang="ts" setup>
+const title = ref('Proizvod')
+
+useHead({
+  title: title.value,
+  meta: [
+    {
+      name: 'description',
+      content: `Ovdje možete pronaći sve o našem proizvodu. ${title.value}`
+    },
+    { property: 'og:title', content: 'Portal' },
+    {
+      property: 'og:description',
+      content: `Ovdje možete pronaći sve o našem proizvodu. ${title.value}`
+    }
+  ]
+})
+</script>
+
+<template>Proizvod</template>
+
+<style lang="css" scoped></style>

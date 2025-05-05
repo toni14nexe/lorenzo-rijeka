@@ -1,20 +1,24 @@
 <script lang="ts" setup>
+import WebshopPage from '~/components/webshop/WebshopPage.vue'
+
 useHead({
   title: 'Webshop',
   meta: [
     {
       name: 'description',
-      content: ''
+      content:
+        'Ovdje se nalazi naš webshop s ponudom naših dostupnih i najnovijih proizvoda.'
     },
     { property: 'og:title', content: 'Webshop' },
     {
       property: 'og:description',
-      content: ''
+      content:
+        'Ovdje se nalazi naš webshop s ponudom naših dostupnih i najnovijih proizvoda.'
     }
   ]
 })
 </script>
 
-<template>Webshop</template>
+<template><WebshopPage /></template>
 
 <style lang="css" scoped></style>
