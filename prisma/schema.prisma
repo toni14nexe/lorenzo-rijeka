@@ -92,6 +92,11 @@ model Product {
   name                String
   description         String
   price               Decimal           @db.Decimal(10, 2)
+  locationPlace       String            @default("")
+  locationCountry     String            @default("")
+  contactEmail        String            @default("")
+  contactNumber       String?
+  sold                Int               @default(0)
   images              String[]
   videos              String[]
   createdAt           DateTime          @default(now())
@@ -99,4 +104,23 @@ model Product {
   deletedAt           DateTime?
   productCategoryId   String
   productCategory     ProductCategory   @relation("ProductCategoryProduct", fields: [productCategoryId], references: [id])
+  orders              Order[]           @relation("ProductOrder")
+}
+
+model Order {
+  id                  String            @id @default(cuid())
+  quantity            String
+  totalPrice          Decimal           @db.Decimal(10, 2)
+  buyerFullname       String
+  buyerAddress        String
+  buyerPlace          String
+  buyerCountry        String
+  buyerEmail          String
+  buyerNumber         String?
+  description         String?
+  payment             String            @default("Pouzećem")
+  createdAt           DateTime          @default(now())
+  deletedAt           DateTime?
+  productId           String
+  product             Product           @relation("ProductOrder", fields: [productId], references: [id])
 }

@@ -4,6 +4,11 @@ export type Product = {
   name: String
   description: String | null
   price: PortalCategory | null
+  locationPlace: String
+  locationCountry: String
+  contactEmail: String
+  contactNumber?: String
+  sold: Number
   images: String[]
   videos: String[]
   createdAt: DateTime
