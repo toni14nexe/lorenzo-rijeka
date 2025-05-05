@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { Job } from '~/types/jobs'
 
-const { $viewport, $axios } = useNuxtApp()
+const { $axios } = useNuxtApp()
 const route = useRoute()
 const isLoading = ref(true)
 const job = ref<Job>()
@@ -52,7 +52,7 @@ async function getJob() {
     </template>
     <ElEmpty
       v-else-if="!job"
-      description="Ups! Ovdje nema dostupnih vijesti..."
+      description="Ups! Ovdje nema dostupnog posla..."
     />
     <template v-else>
       <ElRow justify="center" align="middle">

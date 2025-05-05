@@ -35,7 +35,11 @@ async function getNews() {
           <ElRow justify="center">
             <ElSkeletonItem
               variant="image"
-              style="height: 60dvh; width: 100%; border-radius: 8px"
+              style="
+                height: calc(60dvh + 2rem);
+                width: 100%;
+                border-radius: 8px;
+              "
             />
           </ElRow>
           <ElRow justify="space-between" align="middle" class="mb-24">

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import ProductPage from '~/components/webshop/ProductPage.vue'
+
 const title = ref('Proizvod')
 
 useHead({
@@ -17,6 +19,6 @@ useHead({
 })
 </script>
 
-<template>Proizvod</template>
+<template><ProductPage /></template>
 
 <style lang="css" scoped></style>
