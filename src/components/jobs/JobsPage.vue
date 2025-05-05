@@ -40,12 +40,12 @@ async function getJobs() {
 
 <template>
   <div class="page-container">
-    <ElRow v-if="$viewport.isGreaterOrEquals('tablet')" justify="center">
-      <h3 class="color-primary">Najnoviji poslovi</h3>
-    </ElRow>
     <template v-if="isLoading">
       <ElSkeleton animated>
         <template #template>
+          <ElRow v-if="$viewport.isGreaterOrEquals('tablet')" justify="center">
+            <h3 class="color-primary">Najnoviji poslovi</h3>
+          </ElRow>
           <ElRow
             v-if="$viewport.isGreaterOrEquals('tablet')"
             :gutter="12"
@@ -94,11 +94,41 @@ async function getJobs() {
         </template>
       </ElSkeleton>
     </template>
-    <ElEmpty
-      v-else-if="!jobs.length"
-      description="Ups! Ovdje nema dostupnih poslova..."
-    />
+    <template v-else-if="!jobs.length">
+      <ElRow justify="center">
+        <h3 class="color-primary">Poslovi</h3>
+      </ElRow>
+      <ElRow justify="center" align="middle">
+        <ElSelect
+          v-model="categorySearch"
+          multiple
+          filterable
+          allow-create
+          default-first-option
+          :reserve-keyword="false"
+          placeholder="Odaberite kategoriju"
+          :loading="categoriesLoading"
+          :style="`width: ${$viewport.isLessThan('mobileWide') ? '195' : '320'}px`"
+        >
+          <ElOption
+            v-for="category in jobsCategories"
+            :key="String(category.id)"
+            :label="String(category.name)"
+            :value="String(category.id)"
+          />
+        </ElSelect>
+        <ElButton type="primary" plain class="ml-8" @click="getJobs">
+          <ElIcon :size="20">
+            <Search />
+          </ElIcon>
+        </ElButton>
+      </ElRow>
+      <ElEmpty description="Ups! Ovdje nema dostupnih poslova..." />
+    </template>
     <template v-else>
+      <ElRow v-if="$viewport.isGreaterOrEquals('tablet')" justify="center">
+        <h3 class="color-primary">Najnoviji poslovi</h3>
+      </ElRow>
       <ElRow
         v-if="$viewport.isGreaterOrEquals('tablet')"
         :gutter="12"
