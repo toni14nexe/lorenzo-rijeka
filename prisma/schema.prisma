@@ -114,6 +114,7 @@ model Order {
   buyerFullname       String
   buyerAddress        String
   buyerPlace          String
+  buyerZipCode        String
   buyerCountry        String
   buyerEmail          String
   buyerNumber         String?
