@@ -18,6 +18,39 @@ export function validateMobileNumber(mobile: string) {
   return true
 }
 
+export function validateFullname(fullname: string) {
+  if (fullname) {
+    const fullnameRegex = /^[A-ZČĆŽŠĐ][a-zčćžšđ]+(?: [A-ZČĆŽŠĐ][a-zčćžšđ]+)+$/
+    return fullnameRegex.test(fullname)
+  }
+  return true
+}
+
+export function validateAddress(address: string) {
+  if (address) {
+    const addressRegex =
+      /^[A-Za-zČĆŽŠĐčćžšđ0-9\s\.\-\/]+(,\s?[A-Za-zČĆŽŠĐčćžšđ0-9\s\.\-\/]+)?$/
+    return addressRegex.test(address)
+  }
+  return true
+}
+
+export function validateZipCode(zip: string) {
+  if (zip) {
+    const zipRegex = /^[0-9]{4,5}(-[0-9]{3,4})?$/
+    return zipRegex.test(zip)
+  }
+  return true
+}
+
+export function validateCountry(country: string) {
+  if (country) {
+    const countryRegex = /^[A-Za-zČĆŽŠĐčćžšđ\s\-]{2,}$/
+    return countryRegex.test(country)
+  }
+  return true
+}
+
 export function isValuesEqual(
   value1: string | number,
   value2: string | number

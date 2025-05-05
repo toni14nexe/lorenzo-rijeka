@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import ProductPage from '~/components/webshop/ProductPage.vue'
+import OrderPage from '~/components/webshop/OrderPage.vue'
 
 const title = ref('Dovršite narudžbu')
 
@@ -19,6 +19,6 @@ useHead({
 })
 </script>
 
-<template>Narudzba</template>
+<template><OrderPage /></template>
 
 <style lang="css" scoped></style>
