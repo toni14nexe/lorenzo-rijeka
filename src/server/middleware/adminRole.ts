@@ -20,7 +20,9 @@ export default defineEventHandler(async (event: H3Event) => {
     (url.includes('/api/order') &&
       event.req.method !== 'POST' &&
       event.req.method !== 'GET') ||
-    (url.includes('/api/ad') && event.req.method !== 'GET')
+    (url.includes('/api/ad') &&
+      event.req.method !== 'POST' &&
+      event.req.method !== 'GET')
   ) {
     const token = event.req.headers['authorization']?.split(' ')[1]
     try {
