@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import JobWidget from '~/components/jobs/JobWidget.vue'
+import JobWidget from '~/components/shared/JobWidget.vue'
 import Pagination from '~/components/shared/Pagination.vue'
 import type { Job } from '~/types/jobs'
 import { Search } from '@element-plus/icons-vue'

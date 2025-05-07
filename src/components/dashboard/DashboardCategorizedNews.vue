@@ -47,7 +47,7 @@ const sideAds = ref([
     <h3 class="color-primary">Najnovije</h3>
   </ElRow>
 
-  <ElRow
+  <!-- <ElRow
     :gutter="24"
     class="mb-24"
     :style="`${$viewport.match('tablet') ? 'margin-left: -9px; margin-right: -9px' : $viewport.isLessThan('tablet') ? 'margin-left: -6px; margin-right: -18px' : undefined}`"
@@ -118,11 +118,11 @@ const sideAds = ref([
     <ElCol v-if="$viewport.isGreaterThan('tablet')" :span="5">
       <AdWidget class="side-ad" :ad="sideAds[1]" />
     </ElCol>
-  </ElRow>
+  </ElRow> -->
 
   <div v-if="$viewport.isLessOrEquals('tablet')" :span="5" class="mb-24">
     <ElDivider />
-    <ElRow class="mt-24" :gutter="12">
+    <!-- <ElRow class="mt-24" :gutter="12">
       <ElCol :span="$viewport.isLessThan('mobileWide') ? 24 : 12">
         <AdWidget class="side-ad" :ad="sideAds[0]" />
       </ElCol>
@@ -132,7 +132,7 @@ const sideAds = ref([
       >
         <AdWidget class="side-ad" :ad="sideAds[1]" />
       </ElCol>
-    </ElRow>
+    </ElRow> -->
   </div>
 </template>
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ProductWidget from '~/components/webshop/ProductWidget.vue'
+import ProductWidget from '~/components/shared/ProductWidget.vue'
 import Pagination from '~/components/shared/Pagination.vue'
 import type { Product } from '~/types/webshop'
 import { Search } from '@element-plus/icons-vue'

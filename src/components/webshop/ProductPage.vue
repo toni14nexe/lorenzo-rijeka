@@ -75,7 +75,7 @@ async function getProduct() {
     </template>
     <ElEmpty
       v-else-if="!product"
-      description="Ups! Ovdje nema dostupnog proizvoda..."
+      description="Ups! Nema dostupnih proizvoda..."
     />
     <template v-else>
       <ElRow justify="center" align="middle">

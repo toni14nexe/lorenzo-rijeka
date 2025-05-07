@@ -32,13 +32,28 @@ const categories = shallowRef([
 
 watch(
   () => route.path,
-  () => (isMobileDrawerMenuOpen.value = false)
+  () => {
+    isMobileDrawerMenuOpen.value = false
+    if (route.name !== 'pretrazivanje') searchValue.value = ''
+  }
 )
 
 onMounted(() => categoriesStore.getPortalCategories())
 
 function handleSearch() {
-  if (searchValue.value) navigateTo(`/pretraživanje?value=${searchValue.value}`)
+  if (searchValue.value.trim().length < 3)
+    ElNotification({
+      type: 'warning',
+      message: 'Vrijednost pretraživanja ne smije biti kraća od 3 znaka!',
+      duration: 3000
+    })
+  else if (searchValue.value.trim().length > 100)
+    ElNotification({
+      type: 'warning',
+      message: 'Vrijednost pretraživanja ne smije biti duža od 100 znakova!',
+      duration: 3000
+    })
+  else navigateTo(`/pretrazivanje?value=${searchValue.value}`)
 }
 </script>
 
@@ -102,7 +117,7 @@ function handleSearch() {
                   <template #suffix>
                     <NuxtLink
                       :to="
-                        searchValue ? `/pretraživanje?value=${searchValue}` : ''
+                        searchValue ? `/pretrazivanje?value=${searchValue}` : ''
                       "
                     >
                       <ElIcon :size="20" class="search-icon mt-8">
@@ -114,7 +129,7 @@ function handleSearch() {
               </ElRow>
               <ElRow class="mt-12" justify="end">
                 <NuxtLink
-                  :to="searchValue ? `/pretraživanje?value=${searchValue}` : ''"
+                  :to="searchValue ? `/pretrazivanje?value=${searchValue}` : ''"
                 >
                   <ElButton type="primary"> Traži </ElButton>
                 </NuxtLink>
@@ -234,7 +249,7 @@ function handleSearch() {
             </ElCol>
             <ElCol :span="4" align="end">
               <NuxtLink
-                :to="searchValue ? `/pretraživanje?value=${searchValue}` : ''"
+                :to="searchValue ? `/pretrazivanje?value=${searchValue}` : ''"
               >
                 <ElIcon :size="22" class="search-icon mt-8">
                   <Search />

@@ -50,10 +50,7 @@ async function getJob() {
         </template>
       </ElSkeleton>
     </template>
-    <ElEmpty
-      v-else-if="!job"
-      description="Ups! Ovdje nema dostupnog posla..."
-    />
+    <ElEmpty v-else-if="!job" description="Ups! Nema dostupnih poslova..." />
     <template v-else>
       <ElRow justify="center" align="middle">
         <h3 class="color-primary">{{ job?.name }}</h3>

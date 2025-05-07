@@ -76,7 +76,7 @@ async function getNews() {
     </template>
     <ElEmpty
       v-else-if="!news.length"
-      description="Ups! Ovdje nema dostupnih vijesti..."
+      description="Ups! Nema dostupnih vijesti..."
     />
     <template v-else>
       <ElRow
