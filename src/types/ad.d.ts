@@ -4,6 +4,7 @@ export type Ad = {
   positionDescription?: String
   url?: String
   imageUrl: String
+  price?: Number
 }
 
 export type AdSettings = {

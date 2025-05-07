@@ -42,7 +42,7 @@ async function sendMessage(formEl: FormInstance | undefined) {
         await $axios.post(`/contact/email`, form)
         ElNotification({
           type: 'success',
-          message: 'Poruka je uspješno poslana.',
+          message: 'Email je uspješno poslan.',
           duration: 3000
         })
         form.fullname = ''
@@ -51,7 +51,7 @@ async function sendMessage(formEl: FormInstance | undefined) {
       } catch (error) {
         ElNotification({
           type: 'error',
-          message: 'Došlo je do greške prilikom slanja poruke.',
+          message: 'Došlo je do greške prilikom slanja emaila.',
           duration: 3000
         })
         console.error('API Error:', error)
@@ -64,16 +64,9 @@ async function sendMessage(formEl: FormInstance | undefined) {
 </script>
 
 <template>
-  <div class="page-container">
+  <div class="page-container mb-24">
     <ElRow align="middle" justify="center">
-      <h1
-        :class="[
-          'color-primary',
-          { 'mr-77': $viewport.isGreaterOrEquals('tablet') }
-        ]"
-      >
-        Kontaktirajte nas
-      </h1>
+      <h1 class="color-primary">Kontaktirajte nas</h1>
     </ElRow>
 
     <ElRow align="middle">
@@ -114,14 +107,7 @@ async function sendMessage(formEl: FormInstance | undefined) {
     </ElRow>
 
     <ElRow align="middle" justify="center">
-      <h1
-        :class="[
-          'color-primary',
-          { 'mr-77': $viewport.isGreaterOrEquals('tablet') }
-        ]"
-      >
-        Poruka
-      </h1>
+      <h1 class="color-primary">Poruka</h1>
     </ElRow>
 
     <ElRow justify="center">
@@ -168,7 +154,6 @@ async function sendMessage(formEl: FormInstance | undefined) {
           <ElButton
             type="primary"
             :loading="loading.submit"
-            :disabled="form.message.length < 10"
             @click="sendMessage(ruleFormRef)"
             size="large"
             >Pošalji

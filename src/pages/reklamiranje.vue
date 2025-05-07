@@ -1,20 +1,22 @@
 <script lang="ts" setup>
+import AdsPage from '~/components/ads/AdsPage.vue'
+
 useHead({
   title: 'Reklamiranje',
   meta: [
     {
       name: 'description',
-      content: ''
+      content: 'Postavite svoju reklamu na našu stranicu.'
     },
     { property: 'og:title', content: 'Reklamiranje' },
     {
       property: 'og:description',
-      content: ''
+      content: 'Postavite svoju reklamu na našu stranicu.'
     }
   ]
 })
 </script>
 
-<template>Reklamiranje</template>
+<template><AdsPage /></template>
 
 <style lang="css" scoped></style>
