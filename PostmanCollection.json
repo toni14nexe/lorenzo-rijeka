@@ -1510,7 +1510,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{dev_api_url}}/api/search?value=ruko",
+					"raw": "{{dev_api_url}}/api/search?value=10",
 					"host": [
 						"{{dev_api_url}}"
 					],
@@ -1521,8 +1521,26 @@
 					"query": [
 						{
 							"key": "value",
-							"value": "ruko"
+							"value": "10"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET ads details",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{dev_api_url}}/api/ad",
+					"host": [
+						"{{dev_api_url}}"
+					],
+					"path": [
+						"api",
+						"ad"
 					]
 				}
 			},

@@ -125,3 +125,18 @@ model Order {
   productId           String
   product             Product           @relation("ProductOrder", fields: [productId], references: [id])
 }
+
+model AdSettings {
+  id                    String          @id @default(cuid())
+  position              String
+  show                  Boolean
+}
+
+
+model Ad {
+  id                    String          @id @default(cuid())
+  position              String
+  positionDescription   String?
+  url                   String?
+  imageUrl              String
+}
