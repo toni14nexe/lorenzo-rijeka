@@ -1,49 +1,22 @@
 <script setup lang="ts">
 import AdWidget from '~/components/shared/AdWidget.vue'
 
-const smallAds = ref([
-  {
-    position: 1,
-    imageUrl:
-      'https://a.storyblok.com/f/172506/1292x552/b28e696cd5/nuxt-vs-next-cover-image.webp',
-    link: 'https://a.storyblok.com/f/172506/1292x552/b28e696cd5/nuxt-vs-next-cover-image.webp'
-  },
-  {
-    position: 2,
-    imageUrl: '',
-    link: ''
-  },
-  {
-    position: 3,
-    imageUrl:
-      'https://vueschool.io/storage/media/677bbaa8ba92bed432f2bc7b6490c03a/Nuxt-3-Fundamentals_transparent.png',
-    link: 'https://vueschool.io/storage/media/677bbaa8ba92bed432f2bc7b6490c03a/Nuxt-3-Fundamentals_transparent.png'
-  },
-  {
-    position: 4,
-    imageUrl:
-      'https://miro.medium.com/v2/resize:fit:1000/1*KVYKz-XyhECWOcd68ZVkHQ.jpeg',
-    link: 'https://miro.medium.com/v2/resize:fit:1000/1*KVYKz-XyhECWOcd68ZVkHQ.jpeg'
-  }
-])
-const largeAd = ref({
-  position: 5,
-  imageUrl: '',
-  link: ''
-})
+const adStore = useAdStore()
+const { adsLoading, adSettings, footerSlider, footerLarge } =
+  storeToRefs(adStore)
 </script>
 
 <template>
-  <div class="scrollbar mt-24 mb-24">
+  <div v-if="!adsLoading && adSettings[1].show" class="scrollbar mt-24">
     <AdWidget
-      v-for="ad in smallAds"
-      :key="ad.position"
+      v-for="ad in footerSlider"
+      :key="String(ad.id)"
       class="side-ad"
       :ad="ad"
     />
   </div>
-  <ElRow class="mt-24">
-    <AdWidget class="large-ad" :ad="largeAd" />
+  <ElRow v-if="!adsLoading && adSettings[2].show" class="mt-24">
+    <AdWidget class="large-ad" :ad="footerLarge" />
   </ElRow>
 </template>
 

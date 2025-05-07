@@ -17,6 +17,7 @@ import MegafoneIcon from '~/assets/icons/megafone.vue'
 import HeaderPortalDrawerItem from '~/components/layout/HeaderPortalDrawerItem.vue'
 
 const { $viewport } = useNuxtApp()
+const adStore = useAdStore()
 const categoriesStore = useCategoriesStore()
 const { portalCategories, categoriesLoading } = storeToRefs(categoriesStore)
 const route = useRoute()
@@ -38,7 +39,10 @@ watch(
   }
 )
 
-onMounted(() => categoriesStore.getPortalCategories())
+onMounted(() => {
+  adStore.getAdDetails()
+  categoriesStore.getPortalCategories()
+})
 
 function handleSearch() {
   if (searchValue.value.trim().length < 3)

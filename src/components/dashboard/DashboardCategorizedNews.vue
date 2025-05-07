@@ -5,41 +5,8 @@ import MegafoneIcon from '~/assets/icons/megafone.vue'
 import { Shop, OfficeBuilding } from '@element-plus/icons-vue'
 
 const { $viewport } = useNuxtApp()
-const news = ref([
-  {
-    id: 1,
-    title:
-      'Šahovski klub „Radnik” Velimirovac briljirao na županijskom finalu Plazma SIM-a u Osijeku',
-    imageUrl:
-      'https://miro.medium.com/v2/resize:fit:1000/1*KVYKz-XyhECWOcd68ZVkHQ.jpeg',
-    createdAt: '2025-04-27 16:16:24.880',
-    category: { name: 'Kategorija 1' }
-  },
-  {
-    id: 2,
-    title: 'SPD predao kandidacijsku listu za Grad Našice',
-    imageUrl:
-      'https://vueschool.io/storage/media/677bbaa8ba92bed432f2bc7b6490c03a/Nuxt-3-Fundamentals_transparent.png',
-    createdAt: '2025-04-27 16:16:24.880',
-    category: { name: 'Kategorija 2' }
-  },
-  {
-    id: 3,
-    title: 'RK Đurđenovac pobjednik',
-    imageUrl:
-      'https://a.storyblok.com/f/172506/1292x552/b28e696cd5/nuxt-vs-next-cover-image.webp',
-    createdAt: '2025-04-27 16:16:24.880',
-    category: { name: 'Kategorija 3' }
-  }
-])
-
-const sideAds = ref([
-  {
-    imageUrl:
-      'https://a.storyblok.com/f/172506/1292x552/b28e696cd5/nuxt-vs-next-cover-image.webp',
-    link: 'https://a.storyblok.com/f/172506/1292x552/b28e696cd5/nuxt-vs-next-cover-image.webp'
-  }
-])
+const adStore = useAdStore()
+const { adsLoading, adSettings, dashboardSide } = storeToRefs(adStore)
 </script>
 
 <template>
@@ -47,15 +14,24 @@ const sideAds = ref([
     <h3 class="color-primary">Najnovije</h3>
   </ElRow>
 
-  <!-- <ElRow
+  <ElRow
     :gutter="24"
     class="mb-24"
     :style="`${$viewport.match('tablet') ? 'margin-left: -9px; margin-right: -9px' : $viewport.isLessThan('tablet') ? 'margin-left: -6px; margin-right: -18px' : undefined}`"
   >
-    <ElCol v-if="$viewport.isGreaterThan('tablet')" :span="5">
-      <AdWidget class="side-ad" :ad="sideAds[0]" />
+    <ElCol
+      v-if="
+        !adsLoading && adSettings[0].show && $viewport.isGreaterThan('tablet')
+      "
+      :span="5"
+    >
+      <AdWidget class="side-ad" :ad="dashboardSide.left" />
     </ElCol>
-    <ElCol :span="$viewport.isLessOrEquals('tablet') ? 24 : 14">
+    <ElCol
+      :span="
+        !adSettings[0].show || $viewport.isLessOrEquals('tablet') ? 24 : 14
+      "
+    >
       <ElRow :gutter="12">
         <ElRow :gutter="12" justify="center" class="w-100">
           <ElTabs>
@@ -85,7 +61,7 @@ const sideAds = ref([
             </ElTabPane>
           </ElTabs>
         </ElRow>
-        <ElRow
+        <!-- <ElRow
           class="w-100"
           :style="`${$viewport.isGreaterOrEquals('tablet') ? 'margin-left: -3px' : undefined}`"
           :gutter="12"
@@ -112,27 +88,38 @@ const sideAds = ref([
               />
             </ElRow>
           </ElCol>
-        </ElRow>
+        </ElRow> -->
       </ElRow>
     </ElCol>
-    <ElCol v-if="$viewport.isGreaterThan('tablet')" :span="5">
-      <AdWidget class="side-ad" :ad="sideAds[1]" />
+    <ElCol
+      v-if="
+        !adsLoading && adSettings[0].show && $viewport.isGreaterThan('tablet')
+      "
+      :span="5"
+    >
+      <AdWidget class="side-ad" :ad="dashboardSide.right" />
     </ElCol>
-  </ElRow> -->
+  </ElRow>
 
-  <div v-if="$viewport.isLessOrEquals('tablet')" :span="5" class="mb-24">
+  <div
+    v-if="
+      !adsLoading && adSettings[0].show && $viewport.isLessOrEquals('tablet')
+    "
+    :span="5"
+    class="mb-24"
+  >
     <ElDivider />
-    <!-- <ElRow class="mt-24" :gutter="12">
+    <ElRow class="mt-24" :gutter="12">
       <ElCol :span="$viewport.isLessThan('mobileWide') ? 24 : 12">
-        <AdWidget class="side-ad" :ad="sideAds[0]" />
+        <AdWidget class="side-ad" :ad="dashboardSide.left" />
       </ElCol>
       <ElCol
         :span="$viewport.isLessThan('mobileWide') ? 24 : 12"
         :class="{ 'mt-8': $viewport.isLessThan('mobileWide') }"
       >
-        <AdWidget class="side-ad" :ad="sideAds[1]" />
+        <AdWidget class="side-ad" :ad="dashboardSide.right" />
       </ElCol>
-    </ElRow> -->
+    </ElRow>
   </div>
 </template>
 

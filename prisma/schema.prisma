@@ -139,4 +139,5 @@ model Ad {
   positionDescription   String?
   url                   String?
   imageUrl              String
+  price                 Decimal?        @db.Decimal(10, 2)
 }

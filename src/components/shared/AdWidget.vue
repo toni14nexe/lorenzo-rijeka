@@ -4,10 +4,10 @@ defineProps(['ad'])
 
 <template>
   <div v-if="ad && ad.imageUrl" class="active-ad-wrapper">
-    <NuxtLink :to="ad.link" target="_blank">
+    <NuxtLink :to="ad.url" target="_blank">
       <div
         class="ad ad-hover-opacity"
-        :class="{ 'cursor-pointer': ad.link }"
+        :class="{ 'cursor-pointer': ad.url }"
         :style="`background-image: url(${ad.imageUrl})`"
       />
     </NuxtLink>

@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import NewsWidget from '~/components/shared/NewsWidget.vue'
+
 const { $viewport } = useNuxtApp()
+const adStore = useAdStore()
+const { adSettings } = storeToRefs(adStore)
 
 const newestLargeNews = ref([
   {
@@ -101,7 +104,7 @@ const newestSmallNews = ref([
     </ElRow>
 
     <ElDivider />
-    <DashboardCategorizedNews />
+    <DashboardCategorizedNews v-if="adSettings" />
   </div>
 </template>
 
