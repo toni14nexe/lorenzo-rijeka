@@ -10,7 +10,7 @@
 .main {
   overflow-x: hidden;
   width: 100%;
-  min-height: 100dvh;
+  min-height: calc(100dvh - 50px);
   padding: 0;
   margin-bottom: 50px;
 }
