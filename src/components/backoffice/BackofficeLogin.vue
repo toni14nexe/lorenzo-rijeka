@@ -140,7 +140,4 @@ async function handleLogin(formEl: FormInstance | undefined) {
 .main-row {
   min-height: 100dvh;
 }
-.input-width {
-  width: 230px;
-}
 </style>

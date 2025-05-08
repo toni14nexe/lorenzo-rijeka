@@ -118,8 +118,4 @@ async function handleEdit(formEl: FormInstance | undefined) {
   </div>
 </template>
 
-<style lang="css" scoped>
-.input-width {
-  width: 250px;
-}
-</style>
+<style lang="css" scoped></style>

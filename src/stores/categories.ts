@@ -11,7 +11,7 @@ export const useCategoriesStore = defineStore('categories', {
     webshopCategories: <ProductCategory[]>[]
   }),
   actions: {
-    async getPortalCategories() {
+    async getCategories() {
       this.categoriesLoading = true
       try {
         const response = await useNuxtApp().$axios.get(`/categories`)

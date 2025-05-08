@@ -41,7 +41,7 @@ watch(
 
 onMounted(() => {
   adStore.getAdDetails()
-  categoriesStore.getPortalCategories()
+  categoriesStore.getCategories()
 })
 
 function handleSearch() {
