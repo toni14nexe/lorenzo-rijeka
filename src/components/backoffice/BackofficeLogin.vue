@@ -81,7 +81,7 @@ async function handleLogin(formEl: FormInstance | undefined) {
       <div>
         <ElCol :span="24">
           <ElRow justify="center" align="middle">
-            <h3 class="color-primary">Backoffice prijava</h3>
+            <h2 class="color-primary">Backoffice prijava</h2>
           </ElRow>
         </ElCol>
 

@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import BackofficeAdminTab from '~/components/backoffice/tabs/BackofficeAdminTab.vue'
+import BackofficePortalCategoriesTab from '~/components/backoffice/tabs/BackofficePortalCategoriesTab.vue'
 import { SwitchButton } from '@element-plus/icons-vue'
+import '~/assets/styles/backoffice.css'
 
 const userStore = useUserStore()
+const activeTab = ref('portal-categories')
 </script>
 
 <template>
@@ -10,7 +14,7 @@ const userStore = useUserStore()
       <ElCol :span="4" />
       <ElCol :span="16">
         <ElRow justify="center" align="middle">
-          <h3 class="color-primary">Backoffice</h3>
+          <h2 class="color-primary">Backoffice</h2>
         </ElRow>
       </ElCol>
       <ElCol :span="4" align="end">
@@ -26,7 +30,38 @@ const userStore = useUserStore()
         </ElButton>
       </ElCol>
     </ElRow>
+
     <ElDivider />
+
+    <ElRow :gutter="12" justify="center" class="w-100">
+      <ElTabs v-model="activeTab">
+        <ElTabPane label="Portal kategorije" name="portal-categories">
+          <BackofficePortalCategoriesTab
+            v-if="activeTab === 'portal-categories'"
+          />
+        </ElTabPane>
+        <ElTabPane label="Portal vijesti" name="portal-news">
+          Portal vijesti
+        </ElTabPane>
+        <ElTabPane label="Posao kategorije" name="job-categories">
+          Posao kategorije
+        </ElTabPane>
+        <ElTabPane label="Posao oglasi" name="job-ads">
+          Posao oglasi
+        </ElTabPane>
+        <ElTabPane label="Webshop kategorije" name="webshop-categories">
+          Webshop kategorije
+        </ElTabPane>
+        <ElTabPane label="Webshop proizvodi" name="webshop-products">
+          Webshop proizvodi
+        </ElTabPane>
+        <ElTabPane label="Narudžbe" name="webshop-orders"> Narudžbe </ElTabPane>
+        <ElTabPane label="Reklame" name="ads"> Reklame </ElTabPane>
+        <ElTabPane label="Admin" name="admin">
+          <BackofficeAdminTab v-if="activeTab === 'admin'" />
+        </ElTabPane>
+      </ElTabs>
+    </ElRow>
   </div>
 </template>
 
