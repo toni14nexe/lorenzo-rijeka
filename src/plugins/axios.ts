@@ -52,7 +52,7 @@ export default defineNuxtPlugin(nuxtApp => {
             )
           userStore.logout()
           if (route.name !== 'login')
-            setTimeout(() => (window.location.href = '/login'), 3000)
+            setTimeout(() => (window.location.href = '/'), 3000)
           break
         case 403:
           if (error.response.data.message === 'Account is not verified yet')
@@ -63,7 +63,7 @@ export default defineNuxtPlugin(nuxtApp => {
           )
           userStore.logout()
           if (route.name !== 'login')
-            setTimeout(() => (window.location.href = '/login'), 3000)
+            setTimeout(() => (window.location.href = '/'), 3000)
           break
         case 404:
           if (error.response.data.message === 'Invalid forget password email')

@@ -21,11 +21,6 @@ export default defineEventHandler(async event => {
 
     if (!user) throw createError({ statusCode: 401, message: 'User not found' })
 
-    // Getting the total count of lands
-    const totalUserLands = await prisma.lands.count({
-      where: { userId: user.id }
-    })
-
     // If token is valid, create a new token with a refreshed expiration
     const newToken = jwt.sign(
       {
@@ -38,13 +33,7 @@ export default defineEventHandler(async event => {
 
     return {
       token: newToken,
-      role: user.role,
-      licenceLifetime: user.licenceLifetime,
-      licenceType: user.licenceType,
-      licenceExpiration: user.licenceExpiration,
-      activities: user.activities,
-      userLandsExist: totalUserLands ? true : false,
-      MIBPG: user.MIBPG
+      role: user.role
     }
   } catch (error) {
     throw createError({
