@@ -11,8 +11,6 @@ export default defineEventHandler(async event => {
     })
   }
 
-  const body = await readBody(event)
-
   try {
     const jobsCategory = await prisma.jobsCategory.update({
       where: { id: params.id },
