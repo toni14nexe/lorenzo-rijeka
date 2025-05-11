@@ -194,77 +194,66 @@ async function handleUnarchive() {
       </ElCol>
     </ElRow>
 
-    <div
-      v-if="isLoading.activeCategories || isLoading.deletedCategories"
-      v-loading="true"
-      element-loading-text="Učitavanje..."
-      class="loading-div"
-    />
+    <span class="color-primary"><b>Aktivne kategorije</b></span>
+    <ElTable
+      :data="activeCategories"
+      stripe
+      empty-text="Nema dostupnih podataka"
+      v-loading="isLoading.activeCategories"
+    >
+      <ElTableColumn label="Naziv" prop="name" />
+      <ElTableColumn label="Nadkategorija" prop="parent.name">
+        <template #default="items">
+          {{ items.row.parent?.name || '-' }}
+        </template>
+      </ElTableColumn>
+      <ElTableColumn label="Akcije" align="center" width="148">
+        <template #default="items">
+          <ElButton type="primary" plain @click="openDialog('edit', items.row)">
+            <ElIcon size="24">
+              <Edit />
+            </ElIcon>
+          </ElButton>
+          <ElButton
+            type="danger"
+            plain
+            @click="openDialog('delete', items.row)"
+          >
+            <ElIcon size="24">
+              <DeleteFilled />
+            </ElIcon>
+          </ElButton>
+        </template>
+      </ElTableColumn>
+    </ElTable>
 
-    <template v-else>
-      <span class="color-primary"><b>Aktivne kategorije</b></span>
-      <ElTable
-        :data="activeCategories"
-        stripe
-        empty-text="Nema dostupnih podataka"
-      >
-        <ElTableColumn label="Naziv" prop="name" />
-        <ElTableColumn label="Nadkategorija" prop="parent.name">
-          <template #default="items">
-            {{ items.row.parent?.name || '-' }}
-          </template>
-        </ElTableColumn>
-        <ElTableColumn label="Akcije" align="center" width="148">
-          <template #default="items">
-            <ElButton
-              type="primary"
-              plain
-              @click="openDialog('edit', items.row)"
-            >
-              <ElIcon size="24">
-                <Edit />
-              </ElIcon>
-            </ElButton>
-            <ElButton
-              type="danger"
-              plain
-              @click="openDialog('delete', items.row)"
-            >
-              <ElIcon size="24">
-                <DeleteFilled />
-              </ElIcon>
-            </ElButton>
-          </template>
-        </ElTableColumn>
-      </ElTable>
-
-      <span class="color-primary mt-50"><b>Obrisane kategorije</b></span>
-      <ElTable
-        :data="deletedCategories"
-        stripe
-        empty-text="Nema dostupnih podataka"
-      >
-        <ElTableColumn label="Naziv" prop="name" />
-        <ElTableColumn label="Nadkategorija" prop="parent.name">
-          <template #default="items">
-            {{ items.row.parent?.name || '-' }}
-          </template>
-        </ElTableColumn>
-        <ElTableColumn label="Akcije" align="center" width="80">
-          <template #default="items">
-            <ElButton
-              type="primary"
-              plain
-              @click="openDialog('unarchive', items.row)"
-            >
-              <ElIcon size="24">
-                <RefreshLeft />
-              </ElIcon>
-            </ElButton>
-          </template>
-        </ElTableColumn>
-      </ElTable>
-    </template>
+    <span class="color-primary mt-50"><b>Obrisane kategorije</b></span>
+    <ElTable
+      :data="deletedCategories"
+      stripe
+      empty-text="Nema dostupnih podataka"
+      v-loading="isLoading.deletedCategories"
+    >
+      <ElTableColumn label="Naziv" prop="name" />
+      <ElTableColumn label="Nadkategorija" prop="parent.name">
+        <template #default="items">
+          {{ items.row.parent?.name || '-' }}
+        </template>
+      </ElTableColumn>
+      <ElTableColumn label="Akcije" align="center" width="80">
+        <template #default="items">
+          <ElButton
+            type="primary"
+            plain
+            @click="openDialog('unarchive', items.row)"
+          >
+            <ElIcon size="24">
+              <RefreshLeft />
+            </ElIcon>
+          </ElButton>
+        </template>
+      </ElTableColumn>
+    </ElTable>
   </div>
 
   <ElDialog
