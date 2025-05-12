@@ -12,6 +12,10 @@ export default defineEventHandler(async event => {
         price: body.price,
         images: body.images || [],
         videos: body.videos || [],
+        contactEmail: body.contactEmail,
+        contactNumber: body.contactNumber,
+        locationCountry: body.locationCountry,
+        locationPlace: body.locationPlace,
         productCategory: {
           connect: {
             id: body.productCategoryId

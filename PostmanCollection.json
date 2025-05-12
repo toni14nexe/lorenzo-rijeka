@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "4ba6786c-b6ba-4d1a-944e-473eb3b8e487",
+		"_postman_id": "9bcedd10-203d-4eea-aef4-9ba04fe252bc",
 		"name": "Gastabajter.de",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "24505256"
+		"_exporter_id": "43039481"
 	},
 	"item": [
 		{
@@ -845,53 +845,13 @@
 									}
 								},
 								"url": {
-									"raw": "{{dev_api_url}}/api/portal-newst/cma31dphi00026mnysx8cw9lz/unarchive",
+									"raw": "{{dev_api_url}}/api/portal-news/cma31dphi00026mnysx8cw9lz/unarchive",
 									"host": [
 										"{{dev_api_url}}"
 									],
 									"path": [
 										"api",
-										"portal-newst",
-										"cma31dphi00026mnysx8cw9lz",
-										"unarchive"
-									]
-								},
-								"description": "Generated from cURL: curl -X PUT http://localhost:3000/api/users/1 \\\n-H \"Content-Type: application/json\" \\\n-d '{\n  \"email\": \"updated@example.com\",\n  \"firstname\": \"Updated\",\n  \"lastname\": \"User\",\n  \"mobile\": \"9876543210\",  // mobile is now a string\n  \"country\": \"Updated Country\",\n  \"MIBPG\": \"654321\",\n  \"businessName\": \"Updated Business\",\n  \"organizationType\": \"Sole Proprietorship\",\n  \"county\": \"Updated County\",\n  \"place\": \"Updated Place\",\n  \"address\": \"456 Updated St\",\n  \"activities\": [\"updatedActivity1\", \"updatedActivity2\"],\n  \"oib\": \"987654321\"\n}'"
-							},
-							"response": []
-						},
-						{
-							"name": "PUT unarchive portal news",
-							"request": {
-								"method": "PATCH",
-								"header": [
-									{
-										"key": "Content-Type",
-										"value": "application/json"
-									},
-									{
-										"key": "authorization",
-										"value": "Bearer {{bearer_token}}",
-										"type": "text"
-									}
-								],
-								"body": {
-									"mode": "raw",
-									"raw": "",
-									"options": {
-										"raw": {
-											"language": "json"
-										}
-									}
-								},
-								"url": {
-									"raw": "{{dev_api_url}}/api/portal-newst/cma31dphi00026mnysx8cw9lz/unarchive",
-									"host": [
-										"{{dev_api_url}}"
-									],
-									"path": [
-										"api",
-										"portal-newst",
+										"portal-news",
 										"cma31dphi00026mnysx8cw9lz",
 										"unarchive"
 									]
@@ -1627,6 +1587,46 @@
 								"description": "Generated from cURL: curl -X PUT http://localhost:3000/api/users/1 \\\n-H \"Content-Type: application/json\" \\\n-d '{\n  \"email\": \"updated@example.com\",\n  \"firstname\": \"Updated\",\n  \"lastname\": \"User\",\n  \"mobile\": \"9876543210\",  // mobile is now a string\n  \"country\": \"Updated Country\",\n  \"MIBPG\": \"654321\",\n  \"businessName\": \"Updated Business\",\n  \"organizationType\": \"Sole Proprietorship\",\n  \"county\": \"Updated County\",\n  \"place\": \"Updated Place\",\n  \"address\": \"456 Updated St\",\n  \"activities\": [\"updatedActivity1\", \"updatedActivity2\"],\n  \"oib\": \"987654321\"\n}'"
 							},
 							"response": []
+						},
+						{
+							"name": "PUT unarchive webshop product",
+							"request": {
+								"method": "PATCH",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "authorization",
+										"value": "Bearer {{bearer_token}}",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{dev_api_url}}/api/product/cma31dphi00026mnysx8cw9lz/unarchive",
+									"host": [
+										"{{dev_api_url}}"
+									],
+									"path": [
+										"api",
+										"product",
+										"cma31dphi00026mnysx8cw9lz",
+										"unarchive"
+									]
+								},
+								"description": "Generated from cURL: curl -X PUT http://localhost:3000/api/users/1 \\\n-H \"Content-Type: application/json\" \\\n-d '{\n  \"email\": \"updated@example.com\",\n  \"firstname\": \"Updated\",\n  \"lastname\": \"User\",\n  \"mobile\": \"9876543210\",  // mobile is now a string\n  \"country\": \"Updated Country\",\n  \"MIBPG\": \"654321\",\n  \"businessName\": \"Updated Business\",\n  \"organizationType\": \"Sole Proprietorship\",\n  \"county\": \"Updated County\",\n  \"place\": \"Updated Place\",\n  \"address\": \"456 Updated St\",\n  \"activities\": [\"updatedActivity1\", \"updatedActivity2\"],\n  \"oib\": \"987654321\"\n}'"
+							},
+							"response": []
 						}
 					]
 				},
@@ -1685,7 +1685,7 @@
 							"query": [
 								{
 									"key": "categoryId",
-									"value": "",
+									"value": "cma73ym600000eb0lcp0j1use",
 									"disabled": true
 								},
 								{
@@ -1695,6 +1695,11 @@
 								{
 									"key": "perPage",
 									"value": "10"
+								},
+								{
+									"key": "deletedOnly",
+									"value": "true",
+									"disabled": true
 								}
 							]
 						}

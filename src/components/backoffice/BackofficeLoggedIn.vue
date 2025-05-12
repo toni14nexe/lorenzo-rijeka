@@ -3,7 +3,8 @@ import BackofficeAdminTab from '~/components/backoffice/tabs/BackofficeAdminTab.
 import BackofficePortalCategoriesTab from '~/components/backoffice/tabs/BackofficePortalCategoriesTab.vue'
 import BackofficePortalNewsTab from '~/components/backoffice/tabs/BackofficePortalNewsTab.vue'
 import BackofficeJobCategoriesTab from '~/components/backoffice/tabs/BackofficeJobCategoriesTab.vue'
-import BackofficeProductCategoriesTab from '~/components/backoffice/tabs/BackofficeProductCategoriesTab.vue'
+import BackofficeWebshopCategoriesTab from '~/components/backoffice/tabs/BackofficeWebshopCategoriesTab.vue'
+import BackofficeWebshopProductsTab from '~/components/backoffice/tabs/BackofficeWebshopProductsTab.vue'
 import { SwitchButton } from '@element-plus/icons-vue'
 import '~/assets/styles/backoffice.css'
 
@@ -53,12 +54,14 @@ const activeTab = ref()
           Posao oglasi
         </ElTabPane>
         <ElTabPane label="Webshop kategorije" name="webshop-categories">
-          <BackofficeProductCategoriesTab
+          <BackofficeWebshopCategoriesTab
             v-if="activeTab === 'webshop-categories'"
           />
         </ElTabPane>
         <ElTabPane label="Webshop proizvodi" name="webshop-products">
-          Webshop proizvodi
+          <BackofficeWebshopProductsTab
+            v-if="activeTab === 'webshop-products'"
+          />
         </ElTabPane>
         <ElTabPane label="Narudžbe" name="webshop-orders"> Narudžbe </ElTabPane>
         <ElTabPane label="Reklame" name="ads"> Reklame </ElTabPane>

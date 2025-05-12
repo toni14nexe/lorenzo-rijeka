@@ -6,6 +6,8 @@ export default defineEventHandler(async event => {
   const perPage = Number(query.perPage) || 10
   const page = Number(query.page) || 1
   const skip = (page - 1) * perPage
+  const deletedOnly = query.deletedOnly === 'true'
+
   const categoryIds = query.categoryIds
     ? String(query.categoryIds)
         .split(',')
@@ -13,15 +15,19 @@ export default defineEventHandler(async event => {
     : undefined
 
   const where = query.categoryIds
-    ? { deletedAt: null, productCategoryId: { in: categoryIds } }
-    : { deletedAt: null }
+    ? {
+        deletedAt: deletedOnly ? { not: null } : null,
+        productCategoryId: { in: categoryIds }
+      }
+    : { deletedAt: deletedOnly ? { not: null } : null }
 
   const [products, total] = await Promise.all([
     prisma.product.findMany({
       where,
       orderBy: { createdAt: 'desc' },
       skip,
-      take: perPage
+      take: perPage,
+      include: { productCategory: true }
     }),
     prisma.product.count({ where })
   ])

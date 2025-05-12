@@ -34,6 +34,10 @@ export default defineEventHandler(async event => {
         images: body.images || [],
         videos: body.videos || [],
         productCategoryId: body.productCategoryId,
+        contactEmail: body.contactEmail,
+        contactNumber: body.contactNumber,
+        locationCountry: body.locationCountry,
+        locationPlace: body.locationPlace,
         updatedAt: new Date()
       }
     })

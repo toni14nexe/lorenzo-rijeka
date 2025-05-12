@@ -22,7 +22,7 @@ export default defineEventHandler(async event => {
           "Body parameter is missing, this body should include: 'productId', 'buyerFullname', 'buyerEmail', 'buyerAddress', 'buyerPlace', 'buyerZipCode' and 'buyerCountry'. 'buyerNumber' and 'description' are optional."
       })
 
-    const product = await prisma.product.findUnique({
+    let product = await prisma.product.findUnique({
       where: {
         id: body.productId,
         deletedAt: null
@@ -55,6 +55,11 @@ export default defineEventHandler(async event => {
           }
         }
       }
+    })
+
+    product = await prisma.product.update({
+      where: { id: product.id },
+      data: { sold: Number(product.sold + body.quantity) }
     })
 
     const transporter = nodemailer.createTransport({
