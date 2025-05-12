@@ -98,9 +98,7 @@ onMounted(() => getAllNews())
 async function getCategories() {
   isLoading.value.categories = true
   try {
-    const response = await useNuxtApp().$axios.get(
-      `/portal-category?withoutHierarchy=true`
-    )
+    const response = await $axios.get(`/portal-category?withoutHierarchy=true`)
     categories.value = response.data
   } catch (error) {
     console.error('API Error:', error)
@@ -138,7 +136,7 @@ function openDialog(type: DialogType, item?: News) {
 async function getActivePortalNews() {
   isLoading.value.activeNews = true
   try {
-    const response = await useNuxtApp().$axios.get(
+    const response = await $axios.get(
       `/portal-news?page=${activeNewsPagination.value.page}&perPage=${activeNewsPagination.value.perPage}`
     )
     activeNews.value = response.data.news
@@ -153,7 +151,7 @@ async function getActivePortalNews() {
 async function getDeletedPortalNews() {
   isLoading.value.deletedNews = true
   try {
-    const response = await useNuxtApp().$axios.get(
+    const response = await $axios.get(
       `/portal-news?deletedOnly=true&page=${deletedNewspagination.value.page}&perPage=${deletedNewspagination.value.perPage}`
     )
     deletedNews.value = response.data.news
@@ -346,11 +344,11 @@ async function cloudinaryUpload(file: File, resourceType: 'image' | 'video') {
 <template>
   <div class="backoffice-page">
     <ElRow justify="space-between" align="middle" class="w-100">
-      <ElCol :span="4" />
-      <ElCol :span="16" align="center">
+      <ElCol :span="6" />
+      <ElCol :span="12" align="center">
         <h3 class="color-primary">Portal vijesti</h3>
       </ElCol>
-      <ElCol :span="4" align="end">
+      <ElCol :span="6" align="end">
         <ElButton type="primary" plain @click="openDialog('create')">
           <ElIcon size="24">
             <CirclePlusFilled />

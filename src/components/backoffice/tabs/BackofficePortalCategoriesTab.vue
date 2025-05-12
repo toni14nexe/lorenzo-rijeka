@@ -64,9 +64,7 @@ function openDialog(type: DialogType, item?: PortalCategory) {
 async function getActivePortalCategories() {
   isLoading.value.activeCategories = true
   try {
-    const response = await useNuxtApp().$axios.get(
-      `/portal-category?withoutHierarchy=true`
-    )
+    const response = await $axios.get(`/portal-category?withoutHierarchy=true`)
     activeCategories.value = response.data
   } catch (error) {
     console.error('API Error:', error)
@@ -78,9 +76,7 @@ async function getActivePortalCategories() {
 async function getDeletedPortalCategories() {
   isLoading.value.deletedCategories = true
   try {
-    const response = await useNuxtApp().$axios.get(
-      `/portal-category?deletedOnly=true`
-    )
+    const response = await $axios.get(`/portal-category?deletedOnly=true`)
     deletedCategories.value = response.data
   } catch (error) {
     console.error('API Error:', error)
@@ -180,11 +176,11 @@ async function handleUnarchive() {
 <template>
   <div class="backoffice-page">
     <ElRow justify="space-between" align="middle" class="w-100">
-      <ElCol :span="4" />
-      <ElCol :span="16" align="center">
+      <ElCol :span="6" />
+      <ElCol :span="12" align="center">
         <h3 class="color-primary">Portal kategorije</h3>
       </ElCol>
-      <ElCol :span="4" align="end">
+      <ElCol :span="6" align="end">
         <ElButton type="primary" plain @click="openDialog('create')">
           <ElIcon size="24">
             <CirclePlusFilled />

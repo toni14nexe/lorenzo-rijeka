@@ -6,6 +6,7 @@ import BackofficeJobCategoriesTab from '~/components/backoffice/tabs/BackofficeJ
 import BackofficeJobAdsTab from '~/components/backoffice/tabs/BackofficeJobAdsTab.vue'
 import BackofficeWebshopCategoriesTab from '~/components/backoffice/tabs/BackofficeWebshopCategoriesTab.vue'
 import BackofficeWebshopProductsTab from '~/components/backoffice/tabs/BackofficeWebshopProductsTab.vue'
+import BackofficeOrdersTab from '~/components/backoffice/tabs/BackofficeOrdersTab.vue'
 import { SwitchButton } from '@element-plus/icons-vue'
 import '~/assets/styles/backoffice.css'
 
@@ -64,7 +65,9 @@ const activeTab = ref()
             v-if="activeTab === 'webshop-products'"
           />
         </ElTabPane>
-        <ElTabPane label="Narudžbe" name="webshop-orders"> Narudžbe </ElTabPane>
+        <ElTabPane label="Narudžbe" name="webshop-orders">
+          <BackofficeOrdersTab v-if="activeTab === 'webshop-orders'" />
+        </ElTabPane>
         <ElTabPane label="Reklame" name="ads"> Reklame </ElTabPane>
         <ElTabPane label="Admin" name="admin">
           <BackofficeAdminTab v-if="activeTab === 'admin'" />

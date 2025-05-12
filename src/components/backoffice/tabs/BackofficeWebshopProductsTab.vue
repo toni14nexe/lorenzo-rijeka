@@ -146,7 +146,7 @@ onMounted(() => getAllProducts())
 async function getCategories() {
   isLoading.value.categories = true
   try {
-    const response = await useNuxtApp().$axios.get(`/product-category`)
+    const response = await $axios.get(`/product-category`)
     categories.value = response.data
   } catch (error) {
     console.error('API Error:', error)
@@ -188,7 +188,7 @@ function openDialog(type: DialogType, item?: Product) {
 async function getActiveProducts() {
   isLoading.value.activeProducts = true
   try {
-    const response = await useNuxtApp().$axios.get(
+    const response = await $axios.get(
       `/product?page=${activeProductsPagination.value.page}&perPage=${activeProductsPagination.value.perPage}`
     )
     activeProducts.value = response.data.products
@@ -203,7 +203,7 @@ async function getActiveProducts() {
 async function getDeletedProducts() {
   isLoading.value.deletedProducts = true
   try {
-    const response = await useNuxtApp().$axios.get(
+    const response = await $axios.get(
       `/product?deletedOnly=true&page=${deletedProductspagination.value.page}&perPage=${deletedProductspagination.value.perPage}`
     )
     deletedProducts.value = response.data.products

@@ -12,7 +12,8 @@ export default defineEventHandler(async event => {
       where: { deletedAt: null },
       orderBy: { createdAt: 'desc' },
       skip,
-      take: perPage
+      take: perPage,
+      include: { product: true }
     }),
     prisma.order.count({ where: { deletedAt: null } })
   ])

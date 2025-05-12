@@ -99,7 +99,7 @@ onMounted(() => getAllJobs())
 async function getCategories() {
   isLoading.value.categories = true
   try {
-    const response = await useNuxtApp().$axios.get(`/jobs-category`)
+    const response = await $axios.get(`/jobs-category`)
     categories.value = response.data
   } catch (error) {
     console.error('API Error:', error)
@@ -133,7 +133,7 @@ function openDialog(type: DialogType, item?: Job) {
 async function getActiveJobs() {
   isLoading.value.activeJobs = true
   try {
-    const response = await useNuxtApp().$axios.get(
+    const response = await $axios.get(
       `/job?page=${activeJobsPagination.value.page}&perPage=${activeJobsPagination.value.perPage}`
     )
     activeJobs.value = response.data.jobs
@@ -148,7 +148,7 @@ async function getActiveJobs() {
 async function getDeletedJobs() {
   isLoading.value.deletedJobs = true
   try {
-    const response = await useNuxtApp().$axios.get(
+    const response = await $axios.get(
       `/job?deletedOnly=true&page=${deletedJobspagination.value.page}&perPage=${deletedJobspagination.value.perPage}`
     )
     deletedJobs.value = response.data.jobs
@@ -264,11 +264,11 @@ async function handleUnarchive() {
 <template>
   <div class="backoffice-page">
     <ElRow justify="space-between" align="middle" class="w-100">
-      <ElCol :span="4" />
-      <ElCol :span="16" align="center">
+      <ElCol :span="6" />
+      <ElCol :span="12" align="center">
         <h3 class="color-primary">Posao oglasi</h3>
       </ElCol>
-      <ElCol :span="4" align="end">
+      <ElCol :span="6" align="end">
         <ElButton type="primary" plain @click="openDialog('create')">
           <ElIcon size="24">
             <CirclePlusFilled />
@@ -492,9 +492,4 @@ async function handleUnarchive() {
   </ElDialog>
 </template>
 
-<style lang="css" scoped>
-.editor {
-  height: 400px;
-  width: 80dvw;
-}
-</style>
+<style lang="css" scoped></style>

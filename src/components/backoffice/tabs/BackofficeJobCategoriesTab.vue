@@ -60,7 +60,7 @@ function openDialog(type: DialogType, item?: JobsCategory) {
 async function getActiveJobCategories() {
   isLoading.value.activeCategories = true
   try {
-    const response = await useNuxtApp().$axios.get(`/jobs-category`)
+    const response = await $axios.get(`/jobs-category`)
     activeCategories.value = response.data
   } catch (error) {
     console.error('API Error:', error)
@@ -72,9 +72,7 @@ async function getActiveJobCategories() {
 async function getDeletedJobCategories() {
   isLoading.value.deletedCategories = true
   try {
-    const response = await useNuxtApp().$axios.get(
-      `/jobs-category?deletedOnly=true`
-    )
+    const response = await $axios.get(`/jobs-category?deletedOnly=true`)
     deletedCategories.value = response.data
   } catch (error) {
     console.error('API Error:', error)
@@ -173,11 +171,11 @@ async function handleUnarchive() {
 <template>
   <div class="backoffice-page">
     <ElRow justify="space-between" align="middle" class="w-100">
-      <ElCol :span="4" />
-      <ElCol :span="16" align="center">
+      <ElCol :span="6" />
+      <ElCol :span="12" align="center">
         <h3 class="color-primary">Posao kategorije</h3>
       </ElCol>
-      <ElCol :span="4" align="end">
+      <ElCol :span="6" align="end">
         <ElButton type="primary" plain @click="openDialog('create')">
           <ElIcon size="24">
             <CirclePlusFilled />
