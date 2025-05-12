@@ -6,6 +6,7 @@ export default defineEventHandler(async event => {
   const perPage = Number(query.perPage) || 10
   const page = Number(query.page) || 1
   const skip = (page - 1) * perPage
+  const deletedOnly = query.deletedOnly === 'true'
   const categoryIds = query.categoryIds
     ? String(query.categoryIds)
         .split(',')
@@ -13,15 +14,19 @@ export default defineEventHandler(async event => {
     : undefined
 
   const where = query.categoryIds
-    ? { deletedAt: null, jobCategoryId: { in: categoryIds } }
-    : { deletedAt: null }
+    ? {
+        deletedAt: deletedOnly ? { not: null } : null,
+        jobCategoryId: { in: categoryIds }
+      }
+    : { deletedAt: deletedOnly ? { not: null } : null }
 
   const [jobs, total] = await Promise.all([
     prisma.job.findMany({
       where,
       orderBy: { createdAt: 'desc' },
       skip,
-      take: perPage
+      take: perPage,
+      include: { jobCategory: true }
     }),
     prisma.job.count({ where })
   ])

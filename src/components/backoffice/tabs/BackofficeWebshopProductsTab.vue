@@ -545,7 +545,7 @@ async function cloudinaryUpload(file: File, resourceType: 'image' | 'video') {
           />
         </ElFormItem>
         <div style="height: 450px">
-          <ElFormItem label="Sadržaj" prop="text">
+          <ElFormItem label="Opis" prop="text">
             <Editor v-model="form.description" class="editor" />
           </ElFormItem>
         </div>

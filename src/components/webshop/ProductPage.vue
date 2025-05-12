@@ -115,7 +115,7 @@ async function getProduct() {
       <div v-html="product.description" class="product-content mb-24" />
       <ElRow align="middle" class="mb-24 product-price">
         Cijena:
-        <b class="ml-4">{{ product.price }} €</b>
+        <b class="ml-4">{{ Number(product.price).toFixed(2) }} €</b>
       </ElRow>
       <ElRow justify="center" align="middle" class="mb-24">
         <NuxtLink :to="`/webshop/${product.id}/narudzba`">

@@ -3,6 +3,7 @@ import BackofficeAdminTab from '~/components/backoffice/tabs/BackofficeAdminTab.
 import BackofficePortalCategoriesTab from '~/components/backoffice/tabs/BackofficePortalCategoriesTab.vue'
 import BackofficePortalNewsTab from '~/components/backoffice/tabs/BackofficePortalNewsTab.vue'
 import BackofficeJobCategoriesTab from '~/components/backoffice/tabs/BackofficeJobCategoriesTab.vue'
+import BackofficeJobAdsTab from '~/components/backoffice/tabs/BackofficeJobAdsTab.vue'
 import BackofficeWebshopCategoriesTab from '~/components/backoffice/tabs/BackofficeWebshopCategoriesTab.vue'
 import BackofficeWebshopProductsTab from '~/components/backoffice/tabs/BackofficeWebshopProductsTab.vue'
 import { SwitchButton } from '@element-plus/icons-vue'
@@ -51,7 +52,7 @@ const activeTab = ref()
           <BackofficeJobCategoriesTab v-if="activeTab === 'job-categories'" />
         </ElTabPane>
         <ElTabPane label="Posao oglasi" name="job-ads">
-          Posao oglasi
+          <BackofficeJobAdsTab v-if="activeTab === 'job-ads'" />
         </ElTabPane>
         <ElTabPane label="Webshop kategorije" name="webshop-categories">
           <BackofficeWebshopCategoriesTab

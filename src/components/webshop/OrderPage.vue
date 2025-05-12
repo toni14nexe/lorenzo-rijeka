@@ -198,7 +198,7 @@ async function placeOrder(formEl: FormInstance | undefined) {
         <ElCard class="product-card">
           <ElRow align="middle"> Proizvod: {{ product.name }} </ElRow>
           <ElRow align="middle" class="mb-12">
-            Cijena: {{ product.price }} €
+            Cijena: {{ Number(product.price).toFixed(2) }} €
           </ElRow>
           <ElRow align="middle">
             Lokacija:

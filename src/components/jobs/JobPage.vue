@@ -78,7 +78,7 @@ async function getJob() {
       </ElRow>
       <ElRow v-if="job.salary" align="middle" class="mb-24 font-weight-500">
         Plaća:
-        {{ job.salary }} €
+        {{ Number(job.salary).toFixed(2) }} €
       </ElRow>
       <div v-html="job.description" class="job-content" />
     </template>

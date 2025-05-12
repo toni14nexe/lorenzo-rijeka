@@ -18,7 +18,7 @@ defineProps(['product'])
           <ElIcon :size="18" class="mr-8">
             <PriceTag />
           </ElIcon>
-          {{ product.price }} €
+          {{ Number(product.price).toFixed(2) }} €
         </ElRow>
       </div>
     </NuxtLink>
