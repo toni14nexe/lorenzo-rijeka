@@ -1,4 +1,5 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import Aura from '@primeuix/themes/aura'
 
 export default defineNuxtConfig({
   compatibilityDate: '2024-04-03',
@@ -10,16 +11,29 @@ export default defineNuxtConfig({
     '@pinia/nuxt',
     'nuxt-viewport',
     '@vueuse/motion/nuxt',
-    '@nuxtjs/sitemap'
+    '@nuxtjs/sitemap',
+    '@primevue/nuxt-module'
   ],
   runtimeConfig: {
     siteUrl: process.env.APP_BASE_URL,
     public: {
       appBaseUrl: process.env.APP_BASE_URL,
       axiosApiBaseUrl: process.env.AXIOS_API_BASE_URL,
-      stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
+      cloudinaryPreset: process.env.CLOUDINARY_PRESET,
+      cloudinaryCloudName: process.env.CLOUDINARY_CLOUD_NAME
+      /* stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY,
       stripeSecretKey: process.env.STRIPE_SECRET_KEY,
-      stripeButtonId: process.env.STRIPE_BUTTON_ID
+      stripeButtonId: process.env.STRIPE_BUTTON_ID, */
+    }
+  },
+  primevue: {
+    options: {
+      theme: {
+        preset: Aura,
+        options: {
+          darkModeSelector: false
+        }
+      }
     }
   },
   css: ['~/assets/styles/main.css'],

@@ -95,6 +95,10 @@ const isOpen = ref(false)
   border-radius: 0 8px 8px 0;
   border-left: none;
 }
+.portal-more-button:hover {
+  color: var(--el-button-hover-text-color) !important;
+  background-color: var(--el-color-primary-light-9) !important;
+}
 .rotate-90 {
   transform: rotate(90deg);
 }

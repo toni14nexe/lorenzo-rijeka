@@ -23,17 +23,21 @@ export default defineEventHandler(async event => {
   const perPage = Number(query.perPage) || 10
   const page = Number(query.page) || 1
   const skip = (page - 1) * perPage
+  const deletedOnly = query.deletedOnly === 'true'
 
   if (!categoryName) {
+    if (deletedOnly) var where: any = { deletedAt: { not: null } }
+    else where = { deletedAt: null }
+
     const [news, total] = await Promise.all([
       prisma.news.findMany({
-        where: { deletedAt: null },
+        where,
         orderBy: { createdAt: 'desc' },
         skip,
         take: perPage,
         include: { category: true }
       }),
-      prisma.news.count({ where: { deletedAt: null } })
+      prisma.news.count({ where })
     ])
 
     return { news, total }
@@ -52,7 +56,7 @@ export default defineEventHandler(async event => {
     const categoryIds = await getAllDescendantCategoryIds(rootCategory.id)
 
     const whereCondition = {
-      deletedAt: null,
+      deletedAt: deletedOnly ? { not: null } : null,
       categoryId: { in: categoryIds }
     }
 

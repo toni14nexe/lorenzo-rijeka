@@ -12,7 +12,7 @@ export default defineEventHandler(async event => {
   }
 
   try {
-    const portalCategory = await prisma.portalCategory.update({
+    const news = await prisma.news.update({
       where: { id: params.id },
       data: {
         deletedAt: null,
@@ -20,12 +20,12 @@ export default defineEventHandler(async event => {
       }
     })
 
-    return portalCategory
+    return news
   } catch (error) {
-    console.error('Error updating portal category:', error)
+    console.error('Error updating portal news:', error)
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to update portal category'
+      statusMessage: 'Failed to update portal news'
     })
   } finally {
     await prisma.$disconnect()

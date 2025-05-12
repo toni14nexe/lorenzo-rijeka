@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import BackofficeAdminTab from '~/components/backoffice/tabs/BackofficeAdminTab.vue'
 import BackofficePortalCategoriesTab from '~/components/backoffice/tabs/BackofficePortalCategoriesTab.vue'
+import BackofficePortalNewsTab from '~/components/backoffice/tabs/BackofficePortalNewsTab.vue'
 import BackofficeJobCategoriesTab from '~/components/backoffice/tabs/BackofficeJobCategoriesTab.vue'
 import BackofficeProductCategoriesTab from '~/components/backoffice/tabs/BackofficeProductCategoriesTab.vue'
 import { SwitchButton } from '@element-plus/icons-vue'
@@ -43,7 +44,7 @@ const activeTab = ref()
           />
         </ElTabPane>
         <ElTabPane label="Portal vijesti" name="portal-news">
-          Portal vijesti
+          <BackofficePortalNewsTab v-if="activeTab === 'portal-news'" />
         </ElTabPane>
         <ElTabPane label="Posao kategorije" name="job-categories">
           <BackofficeJobCategoriesTab v-if="activeTab === 'job-categories'" />

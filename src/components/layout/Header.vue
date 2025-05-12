@@ -544,11 +544,19 @@ function handleSearch() {
   height: 60px;
   border: none;
 }
+.portal-more-button:hover {
+  color: var(--el-button-hover-text-color) !important;
+  background-color: var(--el-color-primary-light-9) !important;
+}
 .mobile-portal-more-button {
   width: 100%;
   height: 45px;
   border-radius: 0 8px 8px 0;
   border-left: none;
+}
+.mobile-portal-more-button:hover {
+  color: var(--el-button-hover-text-color) !important;
+  background-color: var(--el-color-primary-light-9) !important;
 }
 .home-icon {
   width: 18px;
