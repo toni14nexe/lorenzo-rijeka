@@ -329,8 +329,13 @@ async function handleUnarchive() {
       v-loading="isLoading.deletedJobs"
     >
       <ElTableColumn label="Naslov" prop="name" />
-      <!-- <ElTableColumn label="Kategorija" prop="category.name" />
-      <ElTableColumn label="Autor" prop="author" /> -->
+      <ElTableColumn label="Kategorija" prop="jobCategory.name" />
+      <ElTableColumn label="Lokacija" prop="location" />
+      <ElTableColumn label="Plaća" prop="salary">
+        <template #default="items">
+          {{ Number(items.row.salary).toFixed(2) }} €
+        </template>
+      </ElTableColumn>
       <ElTableColumn label="Akcije" align="center" width="80">
         <template #default="items">
           <ElButton
