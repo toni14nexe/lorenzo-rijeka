@@ -193,6 +193,10 @@ function handleCloseDialog() {
   form.author = ''
   form.images = null
   form.videos = null
+  fileList.value = {
+    images: [],
+    videos: []
+  }
   dialog.value.isOpened = false
 }
 

@@ -86,7 +86,11 @@ async function getJobs() {
               v-for="(_, index) in 10"
               :xs="24"
               :sm="12"
-              :class="{ 'mt-12': index > 1 }"
+              :class="{
+                'mt-12':
+                  (index > 0 && $viewport.isLessThan('tablet')) ||
+                  (index > 1 && $viewport.isGreaterOrEquals('tablet'))
+              }"
             >
               <ElSkeletonItem variant="image" class="skeleton-image" />
             </ElCol>

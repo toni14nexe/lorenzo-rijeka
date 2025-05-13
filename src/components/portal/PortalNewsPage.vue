@@ -95,7 +95,7 @@ async function getNews() {
 <style lang="css" scoped>
 .news-content {
   line-height: 1.6;
-  text-wrap: no-wrap;
-  text-align: justify;
+  white-space: normal;
+  word-wrap: break-word;
 }
 </style>

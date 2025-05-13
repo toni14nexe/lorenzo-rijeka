@@ -88,8 +88,8 @@ async function getJob() {
 <style lang="css" scoped>
 .job-content {
   line-height: 1.6;
-  text-wrap: no-wrap;
-  text-align: justify;
+  white-space: normal;
+  word-wrap: break-word;
 }
 .font-weight-500 {
   font-weight: 500;

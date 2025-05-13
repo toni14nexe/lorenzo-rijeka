@@ -7,6 +7,38 @@ import { Shop, OfficeBuilding } from '@element-plus/icons-vue'
 const { $viewport } = useNuxtApp()
 const adStore = useAdStore()
 const { adsLoading, adSettings, dashboardSide } = storeToRefs(adStore)
+
+const news = ref([
+  {
+    id: 1,
+    title:
+      'Šahovski klub „Radnik” Velimirovac briljirao na županijskom finalu Plazma SIM-a u Osijeku',
+    createdAt: '2025-04-27 16:16:24.880',
+    category: { name: 'Kategorija 1' },
+    images: [
+      'https://nasice.com/wp-content/uploads/2025/05/1000021783-960x540.jpg'
+    ]
+  },
+
+  {
+    id: 2,
+    title: 'SPD predao kandidacijsku listu za Grad Našice',
+    createdAt: '2025-04-27 16:16:24.880',
+    category: { name: 'Kategorija 1' },
+    images: [
+      'https://nasice.com/wp-content/uploads/2025/05/DSC_8876-960x641.jpg'
+    ]
+  },
+  {
+    id: 3,
+    title: 'RK Đurđenovac pobjednik',
+    createdAt: '2025-04-27 16:16:24.880',
+    category: { name: 'Kategorija 1' },
+    images: [
+      'https://nasice.com/wp-content/uploads/2025/05/viber_slika_2025-05-05_10-29-01-216-960x637.jpg'
+    ]
+  }
+])
 </script>
 
 <template>
@@ -61,14 +93,17 @@ const { adsLoading, adSettings, dashboardSide } = storeToRefs(adStore)
             </ElTabPane>
           </ElTabs>
         </ElRow>
-        <!-- <ElRow
+        <ElRow
           class="w-100"
           :style="`${$viewport.isGreaterOrEquals('tablet') ? 'margin-left: -3px' : undefined}`"
           :gutter="12"
         >
           <ElCol
             :span="$viewport.isLessThan('tablet') ? 24 : 14"
-            :class="{ 'large-news': $viewport.isLessThan('tablet') }"
+            :class="{
+              'large-news-mobile': $viewport.isLessThan('tablet'),
+              'large-news-desktop': $viewport.isGreaterOrEquals('tablet')
+            }"
           >
             <NewsWidget :news="news[0]" />
           </ElCol>
@@ -88,7 +123,7 @@ const { adsLoading, adSettings, dashboardSide } = storeToRefs(adStore)
               />
             </ElRow>
           </ElCol>
-        </ElRow> -->
+        </ElRow>
       </ElRow>
     </ElCol>
     <ElCol
@@ -128,7 +163,10 @@ const { adsLoading, adSettings, dashboardSide } = storeToRefs(adStore)
   width: 100%;
   height: calc(40dvh + 54px);
 }
-.large-news {
+.large-news-desktop {
+  height: 40dvh;
+}
+.large-news-mobile {
   width: 100%;
   height: 30dvh;
 }

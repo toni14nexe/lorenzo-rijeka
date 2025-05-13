@@ -161,7 +161,7 @@ async function sendEmail(formEl: FormInstance | undefined) {
           <ClientOnly>
             <ElSelect
               v-model="form.adId"
-              placeholder="Odaberite kategoriju"
+              placeholder="Odaberite reklamu"
               :loading="adsLoading"
               class="max-w-250"
             >

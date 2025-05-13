@@ -50,8 +50,8 @@ const buttonLoading = ref(false)
 function openDialog(type: DialogType, item?: Ad) {
   if (item) {
     form.id = String(item.id)
-    form.imageUrl = String(item.imageUrl)
-    form.url = String(item.url)
+    form.imageUrl = item.imageUrl ? String(item.imageUrl) : ''
+    form.url = item.url ? String(item.url) : ''
     form.price = Number(item.price)
   }
   dialog.value = {

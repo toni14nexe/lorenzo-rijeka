@@ -20,6 +20,7 @@
     "@pinia/nuxt": "^0.5.5",
     "@primeuix/themes": "^1.1.1",
     "@primevue/forms": "^4.3.4",
+    "@primevue/nuxt-module": "^4.3.4",
     "@prisma/nuxt": "^0.0.35",
     "@stripe/stripe-js": "^7.2.0",
     "@types/jsonwebtoken": "^9.0.7",
@@ -42,7 +43,6 @@
   },
   "devDependencies": {
     "@nuxtjs/eslint-module": "^4.1.0",
-    "@primevue/nuxt-module": "^4.3.4",
     "@prisma/client": "^5.22.0",
     "@types/bcrypt": "^5.0.2",
     "@types/nodemailer": "^6.4.16",

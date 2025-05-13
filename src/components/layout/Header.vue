@@ -21,6 +21,7 @@ const adStore = useAdStore()
 const categoriesStore = useCategoriesStore()
 const { portalCategories, categoriesLoading } = storeToRefs(categoriesStore)
 const route = useRoute()
+const mobileSearchPopoverRef = ref()
 const searchValue = ref('')
 const isMobileDrawerMenuOpen = ref(false)
 const isPortalDrawerMenuOpen = ref(false)
@@ -57,7 +58,10 @@ function handleSearch() {
       message: 'Vrijednost pretraživanja ne smije biti duža od 100 znakova!',
       duration: 3000
     })
-  else navigateTo(`/pretrazivanje?value=${searchValue.value}`)
+  else {
+    navigateTo(`/pretrazivanje?value=${searchValue.value}`)
+    mobileSearchPopoverRef.value.hide()
+  }
 }
 </script>
 
@@ -101,7 +105,12 @@ function handleSearch() {
           :duration="400"
           :delay="600"
         >
-          <ElPopover placement="bottom-start" trigger="click" :width="300">
+          <ElPopover
+            ref="mobileSearchPopoverRef"
+            placement="bottom-start"
+            trigger="click"
+            :width="300"
+          >
             <template #reference>
               <ElIcon
                 :size="28"

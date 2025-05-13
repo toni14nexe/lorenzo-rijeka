@@ -13,7 +13,7 @@ const newestLargeNews = ref([
     createdAt: '2025-04-27 16:16:24.880',
     category: { name: 'Kategorija 1' },
     images: [
-      'https://miro.medium.com/v2/resize:fit:1000/1*KVYKz-XyhECWOcd68ZVkHQ.jpeg'
+      'https://nasice.com/wp-content/uploads/2025/05/1000021783-960x540.jpg'
     ]
   },
 
@@ -23,7 +23,7 @@ const newestLargeNews = ref([
     createdAt: '2025-04-27 16:16:24.880',
     category: { name: 'Kategorija 1' },
     images: [
-      'https://vueschool.io/storage/media/677bbaa8ba92bed432f2bc7b6490c03a/Nuxt-3-Fundamentals_transparent.png'
+      'https://nasice.com/wp-content/uploads/2025/05/DSC_8876-960x641.jpg'
     ]
   },
   {
@@ -32,7 +32,7 @@ const newestLargeNews = ref([
     createdAt: '2025-04-27 16:16:24.880',
     category: { name: 'Kategorija 1' },
     images: [
-      'https://a.storyblok.com/f/172506/1292x552/b28e696cd5/nuxt-vs-next-cover-image.webp'
+      'https://nasice.com/wp-content/uploads/2025/05/viber_slika_2025-05-05_10-29-01-216-960x637.jpg'
     ]
   }
 ])
@@ -45,7 +45,7 @@ const newestSmallNews = ref([
     createdAt: '2025-04-27 16:16:24.880',
     category: { name: 'Kategorija 1' },
     images: [
-      'https://miro.medium.com/v2/resize:fit:1000/1*KVYKz-XyhECWOcd68ZVkHQ.jpeg'
+      'https://nasice.com/wp-content/uploads/2025/05/494832286_2465390423814844_6433675970146429476_n-960x720.jpg'
     ]
   },
   {
@@ -53,9 +53,7 @@ const newestSmallNews = ref([
     title: 'SPD predao kandidacijsku listu za Grad Našice',
     createdAt: '2025-04-27 16:16:24.880',
     category: { name: 'Kategorija 1' },
-    images: [
-      'https://vueschool.io/storage/media/677bbaa8ba92bed432f2bc7b6490c03a/Nuxt-3-Fundamentals_transparent.png'
-    ]
+    images: ['https://nasice.com/wp-content/uploads/2025/05/podgorac_07_05.jpg']
   },
   {
     id: 3,
@@ -63,7 +61,7 @@ const newestSmallNews = ref([
     createdAt: '2025-04-27 16:16:24.880',
     category: { name: 'Kategorija 1' },
     images: [
-      'https://a.storyblok.com/f/172506/1292x552/b28e696cd5/nuxt-vs-next-cover-image.webp'
+      'https://nasice.com/wp-content/uploads/2025/05/viber_slika_2025-05-12_19-18-17-344-960x540.jpg'
     ]
   },
   {
@@ -73,7 +71,7 @@ const newestSmallNews = ref([
     createdAt: '2025-04-27 16:16:24.880',
     category: { name: 'Kategorija 1' },
     images: [
-      'https://vueschool.io/storage/media/677bbaa8ba92bed432f2bc7b6490c03a/Nuxt-3-Fundamentals_transparent.png'
+      'https://nasice.com/wp-content/uploads/2025/05/1000035868-960x588.jpg'
     ]
   }
 ])
