@@ -1,44 +1,33 @@
 <script setup lang="ts">
 import NewsWidget from '~/components/shared/NewsWidget.vue'
+import JobWidget from '~/components/shared/JobWidget.vue'
+import ProductWidget from '~/components/shared/ProductWidget.vue'
 import AdWidget from '~/components/shared/AdWidget.vue'
 import MegafoneIcon from '~/assets/icons/megafone.vue'
 import { Shop, OfficeBuilding } from '@element-plus/icons-vue'
 
-const { $viewport } = useNuxtApp()
+const props = defineProps(['propNews', 'propIsLoading'])
+
+const { $viewport, $axios } = useNuxtApp()
 const adStore = useAdStore()
 const { adsLoading, adSettings, dashboardSide } = storeToRefs(adStore)
+const data = ref()
+const isLoading = ref(false)
+const tab = ref('portal')
 
-const news = ref([
-  {
-    id: 1,
-    title:
-      'Šahovski klub „Radnik” Velimirovac briljirao na županijskom finalu Plazma SIM-a u Osijeku',
-    createdAt: '2025-04-27 16:16:24.880',
-    category: { name: 'Kategorija 1' },
-    images: [
-      'https://nasice.com/wp-content/uploads/2025/05/1000021783-960x540.jpg'
-    ]
-  },
+onMounted(() => (data.value = props.propNews))
 
-  {
-    id: 2,
-    title: 'SPD predao kandidacijsku listu za Grad Našice',
-    createdAt: '2025-04-27 16:16:24.880',
-    category: { name: 'Kategorija 1' },
-    images: [
-      'https://nasice.com/wp-content/uploads/2025/05/DSC_8876-960x641.jpg'
-    ]
-  },
-  {
-    id: 3,
-    title: 'RK Đurđenovac pobjednik',
-    createdAt: '2025-04-27 16:16:24.880',
-    category: { name: 'Kategorija 1' },
-    images: [
-      'https://nasice.com/wp-content/uploads/2025/05/viber_slika_2025-05-05_10-29-01-216-960x637.jpg'
-    ]
+async function getCategorizedData(value: string) {
+  isLoading.value = true
+  try {
+    const response = await $axios.get(`/dashboard-categorized?type=${value}`)
+    data.value = response.data
+  } catch (error) {
+    console.error('API Error:', error)
+  } finally {
+    isLoading.value = false
   }
-])
+}
 </script>
 
 <template>
@@ -46,7 +35,113 @@ const news = ref([
     <h3 class="color-primary">Najnovije</h3>
   </ElRow>
 
+  <ElSkeleton v-if="isLoading" animated>
+    <template #template>
+      <ElRow
+        :gutter="24"
+        class="mb-24"
+        :style="`${$viewport.match('tablet') ? 'margin-left: -9px; margin-right: -9px' : $viewport.isLessThan('tablet') ? 'margin-left: -6px; margin-right: -18px' : undefined}`"
+      >
+        <ElCol :span="5" v-if="$viewport.isGreaterThan('tablet')">
+          <AdWidget class="side-ad" :ad="dashboardSide.left" />
+        </ElCol>
+        <ElCol :span="$viewport.isLessOrEquals('tablet') ? 24 : 14">
+          <ElRow :gutter="12">
+            <ElRow :gutter="12" justify="center" class="w-100">
+              <ElTabs
+                @tab-change="value => getCategorizedData(value as string)"
+                v-model="tab"
+              >
+                <ElTabPane name="portal">
+                  <template #label>
+                    <ElIcon :size="18" class="mr-4">
+                      <MegafoneIcon />
+                    </ElIcon>
+                    Portal
+                  </template>
+                </ElTabPane>
+                <ElTabPane name="jobs">
+                  <template #label>
+                    <ElIcon :size="22" class="mr-4">
+                      <OfficeBuilding />
+                    </ElIcon>
+                    Poslovi
+                  </template>
+                </ElTabPane>
+                <ElTabPane name="webshop">
+                  <template #label>
+                    <ElIcon :size="22" class="mr-4">
+                      <Shop />
+                    </ElIcon>
+                    Webshop
+                  </template>
+                </ElTabPane>
+              </ElTabs>
+            </ElRow>
+            <ElRow
+              class="w-100"
+              :style="`${$viewport.isGreaterOrEquals('tablet') ? 'margin-left: -3px' : undefined}`"
+              :gutter="12"
+            >
+              <ElCol
+                :span="$viewport.isLessThan('tablet') ? 24 : 14"
+                :class="{
+                  'large-news-mobile': $viewport.isLessThan('tablet'),
+                  'large-news-desktop': $viewport.isGreaterOrEquals('tablet')
+                }"
+              >
+                <ElSkeletonItem
+                  variant="image"
+                  :style="`border-radius: 4px; ${$viewport.isLessThan('tablet') ? 'height: 30dvh' : 'height: 40dvh'}`"
+                />
+                <ElSkeletonItem
+                  v-if="$viewport.isLessThan('tablet')"
+                  variant="image"
+                  style="border-radius: 4px; height: 30dvh; margin-top: 12px"
+                />
+                <ElSkeletonItem
+                  v-if="$viewport.isLessThan('tablet')"
+                  variant="image"
+                  style="border-radius: 4px; height: 30dvh; margin-top: 12px"
+                />
+              </ElCol>
+              <ElCol
+                v-if="!$viewport.isLessThan('tablet')"
+                :span="$viewport.isLessThan('tablet') ? 24 : 10"
+              >
+                <ElRow class="categorized-news" :gutter="12">
+                  <ElSkeletonItem
+                    variant="image"
+                    style="
+                      border-radius: 4px;
+                      width: 100%;
+                      height: calc(20dvh - 3px);
+                    "
+                  />
+                </ElRow>
+                <ElRow class="categorized-news mt-6" :gutter="12">
+                  <ElSkeletonItem
+                    variant="image"
+                    style="
+                      border-radius: 4px;
+                      height: calc(20dvh - 3px);
+                      width: 100%;
+                    "
+                  />
+                </ElRow>
+              </ElCol>
+            </ElRow>
+          </ElRow>
+        </ElCol>
+        <ElCol :span="5" v-if="$viewport.isGreaterThan('tablet')">
+          <AdWidget class="side-ad" :ad="dashboardSide.right" />
+        </ElCol>
+      </ElRow>
+    </template>
+  </ElSkeleton>
+
   <ElRow
+    v-else-if="!isLoading && data"
     :gutter="24"
     class="mb-24"
     :style="`${$viewport.match('tablet') ? 'margin-left: -9px; margin-right: -9px' : $viewport.isLessThan('tablet') ? 'margin-left: -6px; margin-right: -18px' : undefined}`"
@@ -66,8 +161,11 @@ const news = ref([
     >
       <ElRow :gutter="12">
         <ElRow :gutter="12" justify="center" class="w-100">
-          <ElTabs>
-            <ElTabPane>
+          <ElTabs
+            @tab-change="value => getCategorizedData(value as string)"
+            v-model="tab"
+          >
+            <ElTabPane name="portal">
               <template #label>
                 <ElIcon :size="18" class="mr-4">
                   <MegafoneIcon />
@@ -75,7 +173,7 @@ const news = ref([
                 Portal
               </template>
             </ElTabPane>
-            <ElTabPane>
+            <ElTabPane name="jobs">
               <template #label>
                 <ElIcon :size="22" class="mr-4">
                   <OfficeBuilding />
@@ -83,7 +181,7 @@ const news = ref([
                 Poslovi
               </template>
             </ElTabPane>
-            <ElTabPane>
+            <ElTabPane name="webshop">
               <template #label>
                 <ElIcon :size="22" class="mr-4">
                   <Shop />
@@ -105,20 +203,48 @@ const news = ref([
               'large-news-desktop': $viewport.isGreaterOrEquals('tablet')
             }"
           >
-            <NewsWidget :news="news[0]" />
+            <NewsWidget v-if="tab === 'portal'" :news="data[0]" />
+            <JobWidget v-else-if="tab === 'jobs'" :job="data[0]" />
+            <ProductWidget v-else-if="tab === 'webshop'" :product="data[0]" />
           </ElCol>
           <ElCol :span="$viewport.isLessThan('tablet') ? 24 : 10">
             <ElRow class="categorized-news" :gutter="12">
               <NewsWidget
+                v-if="tab === 'portal'"
+                :news="data[1]"
                 class="small-news"
-                :news="news[1]"
+                :class="{ 'mx-6 mt-8': $viewport.isLessThan('tablet') }"
+              />
+              <JobWidget
+                v-else-if="tab === 'jobs'"
+                :job="data[1]"
+                class="small-news"
+                :class="{ 'mx-6 mt-8': $viewport.isLessThan('tablet') }"
+              />
+              <ProductWidget
+                v-else-if="tab === 'webshop'"
+                :product="data[1]"
+                class="small-news"
                 :class="{ 'mx-6 mt-8': $viewport.isLessThan('tablet') }"
               />
             </ElRow>
             <ElRow class="categorized-news mt-6" :gutter="12">
               <NewsWidget
+                v-if="tab === 'portal'"
+                :news="data[2]"
                 class="small-news"
-                :news="news[2]"
+                :class="{ 'mx-6': $viewport.isLessThan('tablet') }"
+              />
+              <JobWidget
+                v-else-if="tab === 'jobs'"
+                :job="data[2]"
+                class="small-news"
+                :class="{ 'mx-6': $viewport.isLessThan('tablet') }"
+              />
+              <ProductWidget
+                v-else-if="tab === 'webshop'"
+                :product="data[2]"
+                class="small-news"
                 :class="{ 'mx-6': $viewport.isLessThan('tablet') }"
               />
             </ElRow>

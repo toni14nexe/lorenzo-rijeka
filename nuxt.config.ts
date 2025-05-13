@@ -36,10 +36,7 @@ export default defineNuxtConfig({
       }
     }
   },
-  css: [
-    '@primevue/resources/themes/aura/theme.css',
-    '~/assets/styles/main.css'
-  ],
+  css: ['~/assets/styles/main.css'],
   vite: {
     resolve: {
       alias: {

@@ -1,9 +1,9 @@
 {
 	"info": {
-		"_postman_id": "9bcedd10-203d-4eea-aef4-9ba04fe252bc",
+		"_postman_id": "64cd61e0-6abb-4a61-899d-1ab6d9b2cb18",
 		"name": "Gastabajter.de",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "43039481"
+		"_exporter_id": "24505256"
 	},
 	"item": [
 		{
@@ -1853,6 +1853,45 @@
 						"description": "Generated from cURL: curl -X POST http://localhost:3000/api/users \\\n-H \"Content-Type: application/json\" \\\n-d '{\n    \"email\": \"user@example.com\",\n    \"firstname\": \"John\",\n    \"lastname\": \"Doe\",\n    \"mobile\": 1234567890,\n    \"country\": \"Country Name\",\n    \"MIBPG\": \"MIBPG Value\",\n    \"businessName\": \"Business Name\",\n    \"organizationType\": \"Organization Type\",\n    \"county\": \"County Name\",\n    \"place\": \"Place Name\",\n    \"address\": \"123 Main St\",\n    \"activities\": [\"activity1\", \"activity2\"],\n    \"oib\": \"123456789\"\n}'"
 					},
 					"response": []
+				},
+				{
+					"name": "PUT ad settings",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "authorization",
+								"value": "Bearer {{bearer_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"dashboard-side\": true,\n    \"footer-slider\": true,\n    \"footer-large\": true\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dev_api_url}}/api/ad/settings",
+							"host": [
+								"{{dev_api_url}}"
+							],
+							"path": [
+								"api",
+								"ad",
+								"settings"
+							]
+						},
+						"description": "Generated from cURL: curl -X PUT http://localhost:3000/api/users/1 \\\n-H \"Content-Type: application/json\" \\\n-d '{\n  \"email\": \"updated@example.com\",\n  \"firstname\": \"Updated\",\n  \"lastname\": \"User\",\n  \"mobile\": \"9876543210\",  // mobile is now a string\n  \"country\": \"Updated Country\",\n  \"MIBPG\": \"654321\",\n  \"businessName\": \"Updated Business\",\n  \"organizationType\": \"Sole Proprietorship\",\n  \"county\": \"Updated County\",\n  \"place\": \"Updated Place\",\n  \"address\": \"456 Updated St\",\n  \"activities\": [\"updatedActivity1\", \"updatedActivity2\"],\n  \"oib\": \"987654321\"\n}'"
+					},
+					"response": []
 				}
 			]
 		},
@@ -1893,6 +1932,24 @@
 							"key": "value",
 							"value": "10"
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET dashboard news",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{dev_api_url}}/api/dashboard",
+					"host": [
+						"{{dev_api_url}}"
+					],
+					"path": [
+						"api",
+						"dashboard"
 					]
 				}
 			},
