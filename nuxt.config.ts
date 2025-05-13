@@ -34,6 +34,9 @@ export default defineNuxtConfig({
           darkModeSelector: false
         }
       }
+    },
+    components: {
+      include: ['Editor']
     }
   },
   css: ['~/assets/styles/main.css'],
