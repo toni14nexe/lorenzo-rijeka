@@ -8,7 +8,6 @@ import AdsFooter from '~/components/shared/AdsFooter.vue'
   <Header />
   <ElMain class="main">
     <slot />
-    <ElDivider />
     <AdsFooter />
   </ElMain>
   <footer>

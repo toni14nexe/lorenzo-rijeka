@@ -7,17 +7,22 @@ const { adsLoading, adSettings, footerSlider, footerLarge } =
 </script>
 
 <template>
-  <div v-if="!adsLoading && adSettings[1].show" class="scrollbar mt-24">
-    <AdWidget
-      v-for="ad in footerSlider"
-      :key="String(ad.id)"
-      class="side-ad"
-      :ad="ad"
-    />
-  </div>
-  <ElRow v-if="!adsLoading && adSettings[2].show" class="mt-24">
-    <AdWidget class="large-ad" :ad="footerLarge" />
-  </ElRow>
+  <ClientOnly v-if="adSettings && (adSettings[1].show || adSettings[2].show)">
+    <ElDivider />
+
+    <div v-if="!adsLoading && adSettings[1].show" class="scrollbar mt-24">
+      <AdWidget
+        v-for="ad in footerSlider"
+        :key="String(ad.id)"
+        class="side-ad"
+        :ad="ad"
+      />
+    </div>
+
+    <ElRow v-if="!adsLoading && adSettings[2].show" class="mt-24">
+      <AdWidget class="large-ad" :ad="footerLarge" />
+    </ElRow>
+  </ClientOnly>
 </template>
 
 <style lang="css" scoped>
