@@ -107,7 +107,7 @@ async function getNews() {
 
       <ElDivider
         id="scroll-element"
-        v-if="$viewport.isGreaterOrEquals('tablet')"
+        :style="{ 'display: none': $viewport.isGreaterOrEquals('tablet') }"
       />
 
       <ElRow

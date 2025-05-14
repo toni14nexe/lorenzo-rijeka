@@ -6,11 +6,11 @@ import AdsFooter from '~/components/shared/AdsFooter.vue'
 
 <template>
   <Header />
-  <ElMain class="main">
+  <ElMain class="main" v-motion-slide-top :duration="1000" :delay="400">
     <slot />
     <AdsFooter />
   </ElMain>
-  <footer>
+  <footer v-motion-slide-top :duration="1000" :delay="400">
     <Footer />
   </footer>
 </template>

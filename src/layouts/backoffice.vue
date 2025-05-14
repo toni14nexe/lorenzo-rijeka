@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 
 <template>
-  <ElMain class="main">
+  <ElMain class="main" v-motion-slide-top :duration="1000" :delay="400">
     <slot />
   </ElMain>
 </template>
