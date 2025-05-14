@@ -12,6 +12,7 @@ import {
 import HamburgerIcon from '~/assets/icons/hamburger.vue'
 import FacebookIcon from '~/assets/icons/facebook.vue'
 import InstagramIcon from '~/assets/icons/instagram.vue'
+import TikTokIcon from '~/assets/icons/tiktok.vue'
 import MessageIcon from '~/assets/icons/message.vue'
 import MegafoneIcon from '~/assets/icons/megafone.vue'
 import HeaderPortalDrawerItem from '~/components/layout/HeaderPortalDrawerItem.vue'
@@ -26,6 +27,7 @@ const searchValue = ref('')
 const isMobileDrawerMenuOpen = ref(false)
 const isPortalDrawerMenuOpen = ref(false)
 const isMobilePortalOpen = ref(false)
+const facebookLinks = getFacebookLinks()
 const categories = shallowRef([
   { name: 'Poslovi', icon: OfficeBuilding, iconSize: 24 },
   { name: 'Webshop', icon: Shop, iconSize: 24 },
@@ -415,22 +417,40 @@ function handleSearch() {
             <MessageIcon />
           </ElIcon>
         </NuxtLink>
+        <ElPopover placement="top" trigger="click" width="300">
+          <template #reference>
+            <ElIcon :size="32" class="icon-link cursor-pointer mb-4">
+              <FacebookIcon />
+            </ElIcon>
+          </template>
+          <template #default>
+            <ElRow justify="center">
+              <p style="font-size: larger">Facebook grupe</p>
+            </ElRow>
+            <div v-for="item in facebookLinks" class="mb-4">
+              -
+              <NuxtLink :to="item.url" target="_blank">
+                {{ item.name }}
+              </NuxtLink>
+            </div>
+          </template>
+        </ElPopover>
         <NuxtLink
-          to="https://facebook.com/"
-          class="icon-link mr-4 ml-4"
-          target="_blank"
-        >
-          <ElIcon :size="32">
-            <FacebookIcon />
-          </ElIcon>
-        </NuxtLink>
-        <NuxtLink
-          to="https://instagram.com/"
+          to="https://www.instagram.com/promotim_augsburg/?utm_source=qr&igsh=MXNrenN6aDNlNGI3eQ%3D%3D#"
           class="icon-link ml-4"
           target="_blank"
         >
           <ElIcon :size="32">
             <InstagramIcon />
+          </ElIcon>
+        </NuxtLink>
+        <NuxtLink
+          to="https://www.tiktok.com/@gastarbajteri_augsburg?_t=ZN-8vwIsWxNLok&_r=1"
+          class="icon-link ml-8"
+          target="_blank"
+        >
+          <ElIcon :size="32">
+            <TikTokIcon />
           </ElIcon>
         </NuxtLink>
       </ElRow>
@@ -476,22 +496,40 @@ function handleSearch() {
             <MessageIcon />
           </ElIcon>
         </NuxtLink>
+        <ElPopover placement="top" trigger="click" width="300">
+          <template #reference>
+            <ElIcon :size="32" class="icon-link cursor-pointer mb-4">
+              <FacebookIcon />
+            </ElIcon>
+          </template>
+          <template #default>
+            <ElRow justify="center">
+              <p style="font-size: larger">Facebook grupe</p>
+            </ElRow>
+            <div v-for="item in facebookLinks" class="mb-4">
+              -
+              <NuxtLink :to="item.url" target="_blank">
+                {{ item.name }}
+              </NuxtLink>
+            </div>
+          </template>
+        </ElPopover>
         <NuxtLink
-          to="https://facebook.com/"
-          class="icon-link mr-4 ml-4"
-          target="_blank"
-        >
-          <ElIcon :size="32">
-            <FacebookIcon />
-          </ElIcon>
-        </NuxtLink>
-        <NuxtLink
-          to="https://instagram.com/"
+          to="https://www.instagram.com/promotim_augsburg/?utm_source=qr&igsh=MXNrenN6aDNlNGI3eQ%3D%3D#"
           class="icon-link ml-4"
           target="_blank"
         >
           <ElIcon :size="32">
             <InstagramIcon />
+          </ElIcon>
+        </NuxtLink>
+        <NuxtLink
+          to="https://www.tiktok.com/@gastarbajteri_augsburg?_t=ZN-8vwIsWxNLok&_r=1"
+          class="icon-link ml-8"
+          target="_blank"
+        >
+          <ElIcon :size="32">
+            <TikTokIcon />
           </ElIcon>
         </NuxtLink>
       </ElRow>

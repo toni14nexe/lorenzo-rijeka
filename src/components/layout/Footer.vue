@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import FacebookIcon from '~/assets/icons/facebook.vue'
 import InstagramIcon from '~/assets/icons/instagram.vue'
+import TikTokIcon from '~/assets/icons/tiktok.vue'
 import MessageIcon from '~/assets/icons/message.vue'
 import FooterMenuCard from '~/components/layout/FooterMenuCard.vue'
 
@@ -8,6 +9,7 @@ defineProps(['dividerMarginTop'])
 
 const categoriesStore = useCategoriesStore()
 const { categoriesLoading, portalCategories } = storeToRefs(categoriesStore)
+const facebookLinks = getFacebookLinks()
 const mainCategories = ref([
   { id: 1, name: 'Naslovnica' },
   { id: 2, name: 'Portal' },
@@ -44,22 +46,40 @@ const mainCategories = ref([
           <MessageIcon />
         </ElIcon>
       </NuxtLink>
+      <ElPopover placement="top" trigger="click" width="300">
+        <template #reference>
+          <ElIcon :size="40" class="icon-link cursor-pointer mb-4">
+            <FacebookIcon />
+          </ElIcon>
+        </template>
+        <template #default>
+          <ElRow justify="center">
+            <p style="font-size: larger">Facebook grupe</p>
+          </ElRow>
+          <div v-for="item in facebookLinks" class="mb-4">
+            -
+            <NuxtLink :to="item.url" target="_blank">
+              {{ item.name }}
+            </NuxtLink>
+          </div>
+        </template>
+      </ElPopover>
       <NuxtLink
-        to="https://facebook.com/"
-        class="icon-link mr-4 ml-4"
-        target="_blank"
-      >
-        <ElIcon :size="40">
-          <FacebookIcon />
-        </ElIcon>
-      </NuxtLink>
-      <NuxtLink
-        to="https://instagram.com/"
+        to="https://www.instagram.com/promotim_augsburg/?utm_source=qr&igsh=MXNrenN6aDNlNGI3eQ%3D%3D#"
         class="icon-link ml-4"
         target="_blank"
       >
         <ElIcon :size="40">
           <InstagramIcon />
+        </ElIcon>
+      </NuxtLink>
+      <NuxtLink
+        to="https://www.tiktok.com/@gastarbajteri_augsburg?_t=ZN-8vwIsWxNLok&_r=1"
+        class="icon-link ml-4"
+        target="_blank"
+      >
+        <ElIcon :size="40">
+          <TikTokIcon />
         </ElIcon>
       </NuxtLink>
     </ElRow>
