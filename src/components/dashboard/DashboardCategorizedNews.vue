@@ -152,7 +152,13 @@ async function getCategorizedData(value: string) {
       "
       :span="5"
     >
-      <AdWidget class="side-ad" :ad="dashboardSide.left" />
+      <a
+        v-if="dashboardSide.left.url"
+        :href="String(dashboardSide.left.url)"
+        target="_blank"
+      >
+        <AdWidget class="side-ad" :ad="dashboardSide.left" />
+      </a>
     </ElCol>
     <ElCol
       :span="
@@ -207,8 +213,11 @@ async function getCategorizedData(value: string) {
             <JobWidget v-else-if="tab === 'jobs'" :job="data[0]" />
             <ProductWidget v-else-if="tab === 'webshop'" :product="data[0]" />
           </ElCol>
-          <ElCol :span="$viewport.isLessThan('tablet') ? 24 : 10">
-            <ElRow class="categorized-news" :gutter="12">
+          <ElCol
+            :span="$viewport.isLessThan('tablet') ? 24 : 10"
+            class="small-news-container"
+          >
+            <ElRow class="small-news-row" :gutter="12">
               <NewsWidget
                 v-if="tab === 'portal'"
                 :news="data[1]"
@@ -228,7 +237,7 @@ async function getCategorizedData(value: string) {
                 :class="{ 'mx-6 mt-8': $viewport.isLessThan('tablet') }"
               />
             </ElRow>
-            <ElRow class="categorized-news mt-6" :gutter="12">
+            <ElRow class="small-news-row mt-6" :gutter="12">
               <NewsWidget
                 v-if="tab === 'portal'"
                 :news="data[2]"
@@ -296,9 +305,15 @@ async function getCategorizedData(value: string) {
   width: 100%;
   height: 30dvh;
 }
+.small-news-container {
+  height: calc(20dvh - 3px);
+}
+.small-news-row {
+  height: calc(20dvh - 3px);
+}
 .small-news {
   width: 100%;
-  height: calc(20dvh - 4px);
+  height: calc(20dvh - 3px);
   font-size: x-small;
 }
 @media screen and (max-width: 767px) {
@@ -306,5 +321,28 @@ async function getCategorizedData(value: string) {
     height: 30dvh;
     font-size: medium;
   }
+  .small-news-container {
+    height: fit-content;
+  }
+  .small-news-row:first-child {
+    margin-bottom: 16px;
+  }
+  .small-news-row {
+    height: calc(30dvh + 0px);
+  }
+}
+
+.ad {
+  height: calc(40dvh + 54px);
+  border: 1px solid var(--el-border-color);
+  border-radius: 4px;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+  box-shadow: var(--el-box-shadow-light);
+  display: block;
+}
+.ad-hover-opacity {
+  transition: 0.3s ease-in-out;
 }
 </style>

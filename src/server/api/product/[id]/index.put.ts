@@ -49,7 +49,5 @@ export default defineEventHandler(async event => {
       statusCode: 500,
       statusMessage: 'Failed to update product'
     })
-  } finally {
-    await prisma.$disconnect()
   }
 })

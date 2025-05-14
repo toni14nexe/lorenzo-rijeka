@@ -1,29 +1,35 @@
 <script setup lang="ts">
 defineProps(['ad'])
+
+function openUrl(url: string, inNewTab?: boolean) {
+  console.log(url)
+  if (inNewTab) window.open(url, '_blank', 'noopener,noreferrer')
+  else window.location.href = url
+}
 </script>
 
 <template>
   <div v-if="ad && ad.imageUrl" class="active-ad-wrapper">
-    <NuxtLink :to="ad.url" target="_blank">
-      <div
-        class="ad ad-hover-opacity"
-        :class="{ 'cursor-pointer': ad.url }"
-        :style="`background-image: url(${ad.imageUrl})`"
-      />
-    </NuxtLink>
-  </div>
-  <NuxtLink v-else to="/reklamiranje" class="no-decoration">
-    <ElEmpty
-      class="ad empty-ad cursor-pointer"
-      description="Ovdje može biti vaša reklama!"
+    <div
+      class="ad ad-hover-opacity"
+      :class="{ 'cursor-pointer': ad.url }"
+      :style="`background-image: url(${ad.imageUrl})`"
+      @click="ad.url ? openUrl(ad.url, true) : undefined"
     />
-  </NuxtLink>
+  </div>
+  <ElEmpty
+    v-else
+    class="empty-ad"
+    description="Ovdje može biti vaša reklama!"
+    @click="openUrl('/reklamiranje')"
+  />
 </template>
 
 <style lang="css" scoped>
 .active-ad-wrapper {
   border-radius: 6px;
   background-color: black;
+  display: block;
 }
 .ad {
   height: 100%;
@@ -33,6 +39,7 @@ defineProps(['ad'])
   background-position: center center;
   background-size: cover;
   box-shadow: var(--el-box-shadow-light);
+  display: block;
 }
 .ad-hover-opacity {
   transition: 0.3s ease-in-out;
@@ -41,6 +48,10 @@ defineProps(['ad'])
   opacity: 0.75;
 }
 .empty-ad {
+  border: 1px solid var(--el-border-color);
+  border-radius: 4px;
+  box-shadow: var(--el-box-shadow-light);
+  cursor: pointer;
   transition: 0.3s ease-in-out;
 }
 .empty-ad:hover {

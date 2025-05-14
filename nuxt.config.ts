@@ -52,7 +52,7 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      title: 'Gastabajter.de',
+      title: 'Gastarbajter.de',
       script: [
         {
           src: 'https://js.stripe.com/v3/buy-button.js',
@@ -95,7 +95,7 @@ export default defineNuxtConfig({
       ],
       meta: [
         {
-          name: 'Gastabajter.de',
+          name: 'Gastarbajter.de',
           content:
             'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.'
         },
@@ -105,7 +105,7 @@ export default defineNuxtConfig({
             'agro, poljoprivreda, inspekcija, papiri, PDF, izvoz podataka, izvoz, export, sjetva, gnojivo, zaštita, leguminoza, eco, eko, proizvodnja, stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo'
         },
         { name: 'author', content: 'InnovaTech obrt za informatičke usluge' },
-        { property: 'og:title', content: 'Gastabajter.de' },
+        { property: 'og:title', content: 'Gastarbajter.de' },
         {
           property: 'og:description',
           content:
@@ -116,7 +116,7 @@ export default defineNuxtConfig({
           content: 'https://i.ibb.co/GZLqPjQ/apple-touch-icon.png'
         },
         { property: 'twitter:card', content: 'summary_large_image' },
-        { property: 'twitter:title', content: 'Gastabajter.de' },
+        { property: 'twitter:title', content: 'Gastarbajter.de' },
         {
           property: 'twitter:description',
           content:

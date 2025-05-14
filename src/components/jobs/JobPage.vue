@@ -11,7 +11,7 @@ onMounted(() => getJob())
 async function getJob() {
   isLoading.value = true
   try {
-    const response = await $axios.get(`/job/${route.params.jobid}`)
+    const response = await $axios.get(`/job/${route.params.jobId}`)
     job.value = response.data
   } catch (error) {
     console.error('API Error:', error)

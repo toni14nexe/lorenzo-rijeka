@@ -27,7 +27,5 @@ export default defineEventHandler(async event => {
       statusCode: 500,
       statusMessage: 'Failed to update ad settings'
     })
-  } finally {
-    await prisma.$disconnect()
   }
 })

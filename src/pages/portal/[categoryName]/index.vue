@@ -2,7 +2,8 @@
 import PortalCategoryPage from '~/components/portal/PortalCategoryPage.vue'
 
 const route = useRoute()
-const title = `${route.params.categoryname[0].toUpperCase()}${route.params.categoryname.slice(1, route.params.categoryname.length)}`
+const title = `${route.params.categoryName[0].toUpperCase()}${route.params.categoryName.slice(1, route.params.categoryName.length)}`
+
 useHead({
   title: title,
   meta: [

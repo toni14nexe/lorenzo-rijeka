@@ -95,14 +95,14 @@ async function sendMessage(formEl: FormInstance | undefined) {
       <p>
         Kontaktirajte nas putem obrasca ispod ili na našu email adresu:
         <a href="mailto:toni.kolaric@innova-tech.live">
-          kontakt@gastabajter.de
+          kontakt@gastarbajter.de
         </a>
       </p>
     </ElRow>
     <ElRow align="middle">
       <p>
         Želite postaviti svoju reklamu na našu web stranicu, učinite od ovdje:
-        <NuxtLink to="/reklamiranje"> Gastabajter Reklamiranje </NuxtLink>
+        <NuxtLink to="/reklamiranje"> Gastarbajter Reklamiranje </NuxtLink>
       </p>
     </ElRow>
 

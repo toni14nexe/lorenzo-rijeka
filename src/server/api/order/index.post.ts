@@ -76,9 +76,9 @@ export default defineEventHandler(async event => {
     const mailOptions = {
       from: process.env.APP_EMAIL,
       to: [body.buyerEmail, product.contactEmail, process.env.APP_EMAIL],
-      subject: `Gastabajter.de narudžba ${order.id}`,
+      subject: `Gastarbajter.de narudžba ${order.id}`,
       html: `
-               <a href="${process.env.APP_BASE_URL}" style="text-decoration: none"><h1 style="background-color: #409EFF; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">Gastabajter.de</h1></a>
+               <a href="${process.env.APP_BASE_URL}" style="text-decoration: none"><h1 style="background-color: #409EFF; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">Gastarbajter.de</h1></a>
                <h3>Narudžba ${order.id} je zaprimljena u ${formatToDatetime(String(order.createdAt))}.</h3>
                <br/>
                <b><p>Kupac</p></b>

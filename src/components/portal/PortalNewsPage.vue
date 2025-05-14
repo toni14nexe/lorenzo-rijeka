@@ -12,7 +12,7 @@ onMounted(() => getNews())
 async function getNews() {
   isLoading.value = true
   try {
-    const response = await $axios.get(`/portal-news/${route.params.newsid}`)
+    const response = await $axios.get(`/portal-news/${route.params.newsId}`)
     news.value = response.data
   } catch (error) {
     console.error('API Error:', error)

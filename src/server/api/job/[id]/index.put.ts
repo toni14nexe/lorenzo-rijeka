@@ -60,7 +60,5 @@ export default defineEventHandler(async event => {
       statusCode: 500,
       statusMessage: 'Failed to update job'
     })
-  } finally {
-    await prisma.$disconnect()
   }
 })

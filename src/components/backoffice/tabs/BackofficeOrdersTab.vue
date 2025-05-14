@@ -42,13 +42,6 @@ function handleOpenDialog(order: Order) {
     order
   }
 }
-
-function handleCloseDialog() {
-  dialog.value = {
-    isOpened: false,
-    order: undefined
-  }
-}
 </script>
 
 <template>
@@ -97,7 +90,6 @@ function handleCloseDialog() {
     :close-on-click-modal="false"
     destroy-on-close
     fullscreen
-    @close="handleCloseDialog"
   >
     <template #header>
       <ElRow justify="center">

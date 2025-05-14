@@ -94,7 +94,7 @@ function handleSearch() {
           :delay="400"
         >
           <NuxtLink to="/" class="mobile-title">
-            <h3 class="color-primary">Gastabajter.de</h3></NuxtLink
+            <h3 class="color-primary">Gastarbajter.de</h3></NuxtLink
           >
         </ElCol>
         <ElCol
@@ -156,7 +156,7 @@ function handleSearch() {
       <ElRow v-else class="header-container">
         <ElCol :span="5" align="center" v-motion-slide-top :duration="400">
           <NuxtLink to="/" class="title">
-            <h3 class="color-primary">Gastabajter.de</h3>
+            <h3 class="color-primary">Gastarbajter.de</h3>
           </NuxtLink>
         </ElCol>
         <ElCol :span="3" v-motion-slide-top :duration="400" :delay="200">
@@ -279,7 +279,7 @@ function handleSearch() {
   <ElDrawer v-model="isMobileDrawerMenuOpen" direction="ltr" size="100%">
     <template #header>
       <ElRow>
-        <h3 class="color-primary">Gastabajter.de</h3>
+        <h3 class="color-primary">Gastarbajter.de</h3>
       </ElRow>
     </template>
     <template #default>

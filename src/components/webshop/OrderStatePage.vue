@@ -10,7 +10,7 @@ type State = 'loading' | 'success' | 'error'
 
 const { $axios } = useNuxtApp()
 const route = useRoute()
-const orderId = ref(route.params.orderid)
+const orderId = ref(route.params.orderId)
 const state = ref<State>('loading')
 const order = ref<Order>()
 

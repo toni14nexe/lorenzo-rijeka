@@ -13,7 +13,7 @@ onMounted(() => getProduct())
 async function getProduct() {
   isLoading.value = true
   try {
-    const response = await $axios.get(`/product/${route.params.productid}`)
+    const response = await $axios.get(`/product/${route.params.productId}`)
     product.value = response.data
   } catch (error) {
     console.error('API Error:', error)

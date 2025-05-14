@@ -112,7 +112,7 @@ onMounted(() => getProduct())
 async function getProduct() {
   isLoading.value = true
   try {
-    const response = await $axios.get(`/product/${route.params.productid}`)
+    const response = await $axios.get(`/product/${route.params.productId}`)
     product.value = response.data
     form.totalPrice = Number(product.value?.price)
     form.productId = String(product.value?.id)
