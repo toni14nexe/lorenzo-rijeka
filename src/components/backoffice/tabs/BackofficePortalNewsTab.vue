@@ -512,7 +512,7 @@ async function cloudinaryUpload(file: File, resourceType: 'image' | 'video') {
         label-width="auto"
         status-icon
       >
-        <ElFormItem label="Kategorija" prop="text">
+        <ElFormItem label="Kategorija" prop="categoryId">
           <ElSelect
             v-model="form.categoryId"
             :loading="isLoading.categories"

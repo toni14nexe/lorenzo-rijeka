@@ -110,22 +110,28 @@ async function sendEmail(formEl: FormInstance | undefined) {
         </template>
       </ElSkeleton>
       <ElCol v-else :span="24" align="middle">
-        <p v-for="ad in dashboardSide">
-          Reklama {{ ad.id }} -
-          {{ ad.price ? `${Number(ad.price).toFixed(2)} €` : '???.?? €' }}
-        </p>
-        <p v-for="ad in footerSlider">
-          Reklama {{ ad.id }} -
-          {{ ad.price ? `${Number(ad.price).toFixed(2)} €` : '???.?? €' }}
-        </p>
-        <p>
-          Reklama {{ footerLarge.id }} -
-          {{
-            footerLarge.price
-              ? `${Number(footerLarge.price).toFixed(2)} €`
-              : '???.?? €'
-          }}
-        </p>
+        <template v-if="dashboardSide.left && dashboardSide.right">
+          <p v-for="ad in dashboardSide">
+            Reklama {{ ad.id }} -
+            {{ ad.price ? `${Number(ad.price).toFixed(2)} €` : '???.?? €' }}
+          </p>
+        </template>
+        <template v-if="footerSlider?.length">
+          <p v-for="ad in footerSlider">
+            Reklama {{ ad.id }} -
+            {{ ad.price ? `${Number(ad.price).toFixed(2)} €` : '???.?? €' }}
+          </p>
+        </template>
+        <template v-if="footerLarge">
+          <p>
+            Reklama {{ footerLarge.id }} -
+            {{
+              footerLarge.price
+                ? `${Number(footerLarge.price).toFixed(2)} €`
+                : '???.?? €'
+            }}
+          </p>
+        </template>
       </ElCol>
     </ElRow>
 
@@ -158,31 +164,30 @@ async function sendEmail(formEl: FormInstance | undefined) {
           />
         </ElFormItem>
         <ElFormItem label="Reklama" prop="adId">
-          <ClientOnly>
-            <ElSelect
-              v-model="form.adId"
-              placeholder="Odaberite reklamu"
-              :loading="adsLoading"
-              class="max-w-250"
-            >
-              <ElOption
-                v-for="ad in dashboardSide"
-                :key="String(ad.id)"
-                :label="String(ad.id)"
-                :value="String(ad.id)"
-              />
-              <ElOption
-                v-for="ad in footerSlider"
-                :key="String(ad.id)"
-                :label="String(ad.id)"
-                :value="String(ad.id)"
-              />
-              <ElOption
-                :label="String(footerLarge.id)"
-                :value="footerLarge.id"
-              />
-            </ElSelect>
-          </ClientOnly>
+          <ElSelect
+            v-model="form.adId"
+            placeholder="Odaberite reklamu"
+            :loading="adsLoading"
+            class="max-w-250"
+          >
+            <ElOption
+              v-if="dashboardSide.left && dashboardSide.right"
+              v-for="ad in dashboardSide"
+              :label="String(ad.id)"
+              :value="String(ad.id)"
+            />
+            <ElOption
+              v-if="footerSlider?.length"
+              v-for="ad in footerSlider"
+              :label="String(ad.id)"
+              :value="String(ad.id)"
+            />
+            <ElOption
+              v-if="footerLarge"
+              :label="String(footerLarge.id)"
+              :value="footerLarge.id"
+            />
+          </ElSelect>
         </ElFormItem>
         <ElFormItem prop="message">
           <ElInput

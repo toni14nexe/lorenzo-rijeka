@@ -542,4 +542,9 @@ async function handleUnarchive() {
   </ElDialog>
 </template>
 
-<style lang="css" scoped></style>
+<style lang="css" scoped>
+.editor {
+  height: 400px;
+  width: 80dvw;
+}
+</style>
