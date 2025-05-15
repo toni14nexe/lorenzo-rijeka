@@ -1,4 +1,3 @@
-import { useCookie } from '#app'
 import { defineStore } from 'pinia'
 import type { DashboardSideAds, Ad, AdSettings } from '~/types/ad'
 
@@ -10,43 +9,45 @@ type AdDetailsResponse = {
 export const useAdStore = defineStore('ad', {
   state: () => ({
     adsLoading: true,
-    adSettings:
-      useCookie<AdSettings[]>('adSettings').value || <AdSettings[] | null>null,
-    dashboardSide:
-      useCookie<DashboardSideAds>('dashboardSide').value ||
-      <DashboardSideAds | null>null,
-    footerSlider: useCookie<Ad[]>('footerSlider').value || <Ad[] | null>null,
-    footerLarge: useCookie<Ad>('footerLarge').value || <Ad | null>null
+    adSettings: getLocalItem<AdSettings[]>('adSettings') || null,
+    dashboardSide: getLocalItem<DashboardSideAds>('dashboardSide') || null,
+    footerSlider: getLocalItem<Ad[]>('footerSlider') || null,
+    footerLarge: getLocalItem<Ad>('footerLarge') || null
   }),
   actions: {
-    async getAdDetails() {
+    async setAdDetails() {
+      this.adsLoading = true
+      this.adSettings = getLocalItem('adSettings')
+      this.dashboardSide = getLocalItem('dashboardSide')
+      this.footerSlider = getLocalItem('footerSlider')
+      this.footerLarge = getLocalItem('footerLarge')
+
       if (
-        !this.dashboardSide ||
-        !this.footerSlider ||
         !this.adSettings ||
-        !this.footerLarge
+        (this.adSettings[0].show && !this.dashboardSide) ||
+        (this.adSettings[1].show && !this.footerSlider) ||
+        (this.adSettings[2].show && !this.footerLarge)
       ) {
-        this.adsLoading = true
         try {
           const response = await useNuxtApp().$axios.get(`/ad`)
 
-          // Set adSettings
           this.adSettings = response.data.adSettings
-          const cookie = useCookie<AdSettings[]>('adSettings', {
-            maxAge: 600
-          }) // 10 minutes
-          cookie.value = this.adSettings
+          setLocalItem('adSettings', this.adSettings, 600_000) // 10 min
 
-          // Set ads
+          // @ts-expect-error
           if (this.adSettings[0].show) this.setDashboardSide(response.data)
+          // @ts-expect-error
           if (this.adSettings[1].show) this.setFooterSlider(response.data)
+          // @ts-expect-error
           if (this.adSettings[2].show) this.setFooterLarge(response.data)
         } catch (error) {
           console.error('API Error:', error)
         } finally {
           this.adsLoading = false
         }
-      } else this.adsLoading = false
+      } else {
+        this.adsLoading = false
+      }
     },
 
     setDashboardSide(data: AdDetailsResponse) {
@@ -54,22 +55,17 @@ export const useAdStore = defineStore('ad', {
         left: data.ads[0],
         right: data.ads[1]
       }
-      const cookie = useCookie<DashboardSideAds>('dashboardSide', {
-        maxAge: 600
-      }) // 10 minutes
-      cookie.value = this.dashboardSide
+      setLocalItem('dashboardSide', this.dashboardSide, 600_000) // 10 min
     },
 
     setFooterSlider(data: AdDetailsResponse) {
       this.footerSlider = [data.ads[2], data.ads[3], data.ads[4], data.ads[5]]
-      const cookie = useCookie<Ad[]>('footerSlider', { maxAge: 600 }) // 10 minutes
-      cookie.value = this.footerSlider
+      setLocalItem('footerSlider', this.footerSlider, 600_000) // 10 min
     },
 
     setFooterLarge(data: AdDetailsResponse) {
       this.footerLarge = data.ads[6]
-      const cookie = useCookie<Ad>('footerLarge', { maxAge: 600 }) // 10 minutes
-      cookie.value = this.footerLarge
+      setLocalItem('footerLarge', this.footerLarge, 600_000) // 10 min
     }
   }
 })

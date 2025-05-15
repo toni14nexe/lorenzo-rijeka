@@ -43,7 +43,7 @@ watch(
 )
 
 onMounted(() => {
-  adStore.getAdDetails()
+  adStore.setAdDetails()
   categoriesStore.getCategories()
 })
 
