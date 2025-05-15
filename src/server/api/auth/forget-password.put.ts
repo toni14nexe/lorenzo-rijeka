@@ -28,10 +28,10 @@ export default defineEventHandler(async event => {
   // Reset password email
 
   const url = process.env.APP_BASE_URL
-  // Use for gmail auth
   const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    host: 'smtp.gmail.com',
+    service:
+      process.env.APP_EMAIL_HOST === 'smtp.zoho.eu' ? undefined : 'gmail',
+    host: process.env.APP_EMAIL_HOST,
     port: 465,
     secure: true,
     auth: {
@@ -40,21 +40,9 @@ export default defineEventHandler(async event => {
     }
   })
 
-  // Use for Zoho auth
-  /* const transporter = nodemailer.createTransport({
-    service: 'Zoho',
-    host: 'smtp.zoho.com',
-    port: 465, // Use 587 for TLS if you prefer
-    secure: true, // true for 465, false for 587
-    auth: {
-      user: process.env.APP_EMAIL,
-      pass: process.env.APP_EMAIL_PASSWORD
-    }
-  }) */
-
   const verificationUrl = `${process.env.APP_BASE_URL}/reset-password?token=${forgetPassHash}`
   const mailOptions = {
-    from: process.env.APP_EMAIL,
+    from: `"Gastarbajter.de" <${process.env.APP_EMAIL}>`,
     to: body.email,
     subject: 'Promijenite svoju lozinku',
     html: `

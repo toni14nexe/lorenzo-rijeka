@@ -28,8 +28,9 @@ export default defineEventHandler(async event => {
 
     // Verification email
     const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      host: 'smtp.gmail.com',
+      service:
+        process.env.APP_EMAIL_HOST === 'smtp.zoho.eu' ? undefined : 'gmail',
+      host: process.env.APP_EMAIL_HOST,
       port: 465,
       secure: true,
       auth: {
@@ -39,7 +40,7 @@ export default defineEventHandler(async event => {
     })
     const verificationUrl = `${process.env.APP_BASE_URL}/login?token=${verificationToken}`
     const mailOptions = {
-      from: process.env.APP_EMAIL,
+      from: `"Gastarbajter.de" <${process.env.APP_EMAIL}>`,
       to: body.email,
       subject: 'Potvrdite svoju email adresu',
       html: `
