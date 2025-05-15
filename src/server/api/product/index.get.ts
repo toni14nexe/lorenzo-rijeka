@@ -7,6 +7,7 @@ export default defineEventHandler(async event => {
   const page = Number(query.page) || 1
   const skip = (page - 1) * perPage
   const deletedOnly = query.deletedOnly === 'true'
+  const search = query.search || ''
 
   const categoryIds = query.categoryIds
     ? String(query.categoryIds)
@@ -14,12 +15,18 @@ export default defineEventHandler(async event => {
         .map(id => id.trim())
     : undefined
 
-  const where = query.categoryIds
+  const where: any = query.categoryIds
     ? {
         deletedAt: deletedOnly ? { not: null } : null,
         productCategoryId: { in: categoryIds }
       }
     : { deletedAt: deletedOnly ? { not: null } : null }
+
+  if (search)
+    where.name = {
+      contains: search,
+      mode: 'insensitive'
+    }
 
   const [products, total] = await Promise.all([
     prisma.product.findMany({

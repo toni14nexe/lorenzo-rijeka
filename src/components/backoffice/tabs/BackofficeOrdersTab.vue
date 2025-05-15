@@ -1,11 +1,12 @@
 <script setup lang="ts">
 import type { Order } from '~/types/webshop'
-import { InfoFilled } from '@element-plus/icons-vue'
+import { InfoFilled, Search } from '@element-plus/icons-vue'
 import Pagination from '~/components/shared/Pagination.vue'
 
 const { $axios } = useNuxtApp()
 const isLoading = ref(true)
 const orders = ref<Order[]>()
+const searchValue = ref('')
 const dialog = ref<{
   isOpened: boolean
   order: Order | undefined
@@ -21,11 +22,17 @@ const pagination = ref({
 
 onMounted(() => getOrders())
 
+function handleSearch() {
+  pagination.value.page = 1
+  debounceSearch()
+}
+const debounceSearch = debounce(getOrders, 300)
+
 async function getOrders() {
   isLoading.value = true
   try {
     const response = await $axios.get(
-      `/order?page=${pagination.value.page}&perPage=${pagination.value.perPage}`
+      `/order?page=${pagination.value.page}&perPage=${pagination.value.perPage}&search=${searchValue.value}`
     )
     orders.value = response.data.orders
     pagination.value.total = response.data.total
@@ -47,7 +54,19 @@ function handleOpenDialog(order: Order) {
 <template>
   <div class="backoffice-page">
     <ElRow justify="center" align="middle" class="w-100">
-      <h3 class="color-primary">Narudžbe</h3>
+      <ElCol :span="8" :offset="8" align="center">
+        <h3 class="color-primary">Narudžbe</h3>
+      </ElCol>
+      <ElCol :span="8" align="end">
+        <ElInput
+          v-model="searchValue"
+          type="text"
+          placeholder="Pretražite ID, kupca ili proizvod..."
+          class="max-w-250"
+          :prefix-icon="Search"
+          @input="handleSearch"
+        />
+      </ElCol>
     </ElRow>
 
     <ElTable
@@ -58,7 +77,7 @@ function handleOpenDialog(order: Order) {
     >
       <ElTableColumn label="ID" prop="id" />
       <ElTableColumn label="Kupac" prop="buyerFullname" />
-      <ElTableColumn label="Proizvod" prop="buyerFullname" />
+      <ElTableColumn label="Proizvod" prop="product.name" />
       <ElTableColumn label="Količina" prop="quantity" />
       <ElTableColumn label="Cijena" prop="totalPrice">
         <template #default="items">

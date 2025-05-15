@@ -1,9 +1,15 @@
 import { defineEventHandler } from 'h3'
 import { prisma } from '~/server/utils/prisma'
 
-const getAllCategories = async (deletedOnly: boolean) => {
+const getAllCategories = async (deletedOnly: boolean, search: string) => {
   if (deletedOnly) var where: any = { deletedAt: { not: null } }
   else where = { deletedAt: null }
+
+  if (search)
+    where.name = {
+      contains: search,
+      mode: 'insensitive'
+    }
 
   return await prisma.portalCategory.findMany({
     where,
@@ -35,13 +41,16 @@ export default defineEventHandler(async event => {
   const query = getQuery(event)
   const deletedOnly = query.deletedOnly === 'true'
   const withoutHierarchy = query.withoutHierarchy === 'true'
+  const search = (query.search as string) || ''
   let portalCategories = undefined
 
-  if (deletedOnly) portalCategories = await getAllCategories(deletedOnly)
+  if (deletedOnly)
+    portalCategories = await getAllCategories(deletedOnly, search)
   else {
-    if (withoutHierarchy) portalCategories = await getAllCategories(deletedOnly)
+    if (withoutHierarchy)
+      portalCategories = await getAllCategories(deletedOnly, search)
     else {
-      const categories = await getAllCategories(deletedOnly)
+      const categories = await getAllCategories(deletedOnly, search)
       if (withoutHierarchy) portalCategories = buildHierarchy(categories)
     }
   }

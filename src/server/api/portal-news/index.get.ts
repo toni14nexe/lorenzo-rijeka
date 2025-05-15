@@ -24,10 +24,17 @@ export default defineEventHandler(async event => {
   const page = Number(query.page) || 1
   const skip = (page - 1) * perPage
   const deletedOnly = query.deletedOnly === 'true'
+  const search = query.search || ''
 
   if (!categoryName) {
     if (deletedOnly) var where: any = { deletedAt: { not: null } }
     else where = { deletedAt: null }
+
+    if (search)
+      where.title = {
+        contains: search,
+        mode: 'insensitive'
+      }
 
     const [news, total] = await Promise.all([
       prisma.news.findMany({

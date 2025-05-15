@@ -9,7 +9,8 @@ import {
   Delete,
   ZoomIn,
   GoldMedal,
-  Download
+  Download,
+  Search
 } from '@element-plus/icons-vue'
 import type {
   FormInstance,
@@ -54,6 +55,10 @@ const isLoading = ref({
 const activeProducts = ref<Product[]>()
 const deletedProducts = ref<Product[]>()
 const categories = ref<ProductCategory[]>()
+const searchValues = ref({
+  active: '',
+  deleted: ''
+})
 const dialog = ref<{
   isOpened: boolean
   type: DialogType
@@ -185,11 +190,17 @@ function openDialog(type: DialogType, item?: Product) {
   }
 }
 
+function handleActiveSearch() {
+  activeProductsPagination.value.page = 1
+  debounceActiveSearch()
+}
+const debounceActiveSearch = debounce(getActiveProducts, 300)
+
 async function getActiveProducts() {
   isLoading.value.activeProducts = true
   try {
     const response = await $axios.get(
-      `/product?page=${activeProductsPagination.value.page}&perPage=${activeProductsPagination.value.perPage}`
+      `/product?page=${activeProductsPagination.value.page}&perPage=${activeProductsPagination.value.perPage}&search=${searchValues.value.active}`
     )
     activeProducts.value = response.data.products
     activeProductsPagination.value.total = response.data.total
@@ -200,11 +211,17 @@ async function getActiveProducts() {
   }
 }
 
+function handleDeletedSearch() {
+  deletedProductspagination.value.page = 1
+  debounceDeletedSearch()
+}
+const debounceDeletedSearch = debounce(getDeletedProducts, 300)
+
 async function getDeletedProducts() {
   isLoading.value.deletedProducts = true
   try {
     const response = await $axios.get(
-      `/product?deletedOnly=true&page=${deletedProductspagination.value.page}&perPage=${deletedProductspagination.value.perPage}`
+      `/product?deletedOnly=true&page=${deletedProductspagination.value.page}&perPage=${deletedProductspagination.value.perPage}&search=${searchValues.value.deleted}`
     )
     deletedProducts.value = response.data.products
     deletedProductspagination.value.total = response.data.total
@@ -416,7 +433,21 @@ async function cloudinaryUpload(file: File, resourceType: 'image' | 'video') {
       </ElCol>
     </ElRow>
 
-    <span class="color-primary"><b>Aktivni proizvodi</b></span>
+    <ElRow justify="center" align="middle" class="w-100">
+      <ElCol :span="8" :offset="8" align="center">
+        <span class="color-primary"><b>Aktivni proizvodi</b></span>
+      </ElCol>
+      <ElCol :span="8" align="end">
+        <ElInput
+          v-model="searchValues.active"
+          type="text"
+          placeholder="Pretražite naziv..."
+          class="max-w-250"
+          :prefix-icon="Search"
+          @input="handleActiveSearch"
+        />
+      </ElCol>
+    </ElRow>
     <ElTable
       :data="activeProducts"
       stripe
@@ -454,7 +485,21 @@ async function cloudinaryUpload(file: File, resourceType: 'image' | 'video') {
       class="mb-24"
     />
 
-    <span class="color-primary mt-50"><b>Obrisani proizvodi</b></span>
+    <ElRow justify="center" align="middle" class="w-100">
+      <ElCol :span="8" :offset="8" align="center">
+        <span class="color-primary"><b>Obrisani proizvodi</b></span>
+      </ElCol>
+      <ElCol :span="8" align="end">
+        <ElInput
+          v-model="searchValues.deleted"
+          type="text"
+          placeholder="Pretražite naziv..."
+          class="max-w-250"
+          :prefix-icon="Search"
+          @input="handleDeletedSearch"
+        />
+      </ElCol>
+    </ElRow>
     <ElTable
       :data="deletedProducts"
       stripe

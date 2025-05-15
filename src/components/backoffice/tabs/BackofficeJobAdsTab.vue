@@ -4,7 +4,8 @@ import {
   CirclePlusFilled,
   Edit,
   DeleteFilled,
-  RefreshLeft
+  RefreshLeft,
+  Search
 } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import Pagination from '~/components/shared/Pagination.vue'
@@ -31,6 +32,10 @@ const isLoading = ref({
 const activeJobs = ref<Job[]>()
 const deletedJobs = ref<Job[]>()
 const categories = ref<JobsCategory[]>()
+const searchValues = ref({
+  active: '',
+  deleted: ''
+})
 const dialog = ref<{
   isOpened: boolean
   type: DialogType
@@ -130,11 +135,17 @@ function openDialog(type: DialogType, item?: Job) {
   }
 }
 
+function handleActiveSearch() {
+  activeJobsPagination.value.page = 1
+  debounceActiveSearch()
+}
+const debounceActiveSearch = debounce(getActiveJobs, 300)
+
 async function getActiveJobs() {
   isLoading.value.activeJobs = true
   try {
     const response = await $axios.get(
-      `/job?page=${activeJobsPagination.value.page}&perPage=${activeJobsPagination.value.perPage}`
+      `/job?page=${activeJobsPagination.value.page}&perPage=${activeJobsPagination.value.perPage}&search=${searchValues.value.active}`
     )
     activeJobs.value = response.data.jobs
     activeJobsPagination.value.total = response.data.total
@@ -145,11 +156,17 @@ async function getActiveJobs() {
   }
 }
 
+function handleDeletedSearch() {
+  deletedJobspagination.value.page = 1
+  debounceDeletedSearch()
+}
+const debounceDeletedSearch = debounce(getDeletedJobs, 300)
+
 async function getDeletedJobs() {
   isLoading.value.deletedJobs = true
   try {
     const response = await $axios.get(
-      `/job?deletedOnly=true&page=${deletedJobspagination.value.page}&perPage=${deletedJobspagination.value.perPage}`
+      `/job?deletedOnly=true&page=${deletedJobspagination.value.page}&perPage=${deletedJobspagination.value.perPage}&search=${searchValues.value.deleted}`
     )
     deletedJobs.value = response.data.jobs
     deletedJobspagination.value.total = response.data.total
@@ -278,7 +295,21 @@ async function handleUnarchive() {
       </ElCol>
     </ElRow>
 
-    <span class="color-primary"><b>Aktivni poslovi</b></span>
+    <ElRow justify="center" align="middle" class="w-100">
+      <ElCol :span="8" :offset="8" align="center">
+        <span class="color-primary"><b>Aktivni poslovi</b></span>
+      </ElCol>
+      <ElCol :span="8" align="end">
+        <ElInput
+          v-model="searchValues.active"
+          type="text"
+          placeholder="Pretražite naslov..."
+          class="max-w-250"
+          :prefix-icon="Search"
+          @input="handleActiveSearch"
+        />
+      </ElCol>
+    </ElRow>
     <ElTable
       :data="activeJobs"
       stripe
@@ -321,7 +352,21 @@ async function handleUnarchive() {
       class="mb-24"
     />
 
-    <span class="color-primary mt-50"><b>Obrisani poslovi</b></span>
+    <ElRow justify="center" align="middle" class="w-100">
+      <ElCol :span="8" :offset="8" align="center">
+        <span class="color-primary"><b>Obrisani poslovi</b></span>
+      </ElCol>
+      <ElCol :span="8" align="end">
+        <ElInput
+          v-model="searchValues.deleted"
+          type="text"
+          placeholder="Pretražite naslov..."
+          class="max-w-250"
+          :prefix-icon="Search"
+          @input="handleDeletedSearch"
+        />
+      </ElCol>
+    </ElRow>
     <ElTable
       :data="deletedJobs"
       stripe

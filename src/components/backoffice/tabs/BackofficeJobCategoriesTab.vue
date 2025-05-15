@@ -4,7 +4,8 @@ import {
   CirclePlusFilled,
   Edit,
   DeleteFilled,
-  RefreshLeft
+  RefreshLeft,
+  Search
 } from '@element-plus/icons-vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
@@ -21,6 +22,10 @@ const isLoading = ref({
 })
 const activeCategories = ref<JobsCategory[]>()
 const deletedCategories = ref<JobsCategory[]>()
+const searchValues = ref({
+  active: '',
+  deleted: ''
+})
 const dialog = ref<{
   isOpened: boolean
   type: DialogType
@@ -57,10 +62,17 @@ function openDialog(type: DialogType, item?: JobsCategory) {
   }
 }
 
+function handleActiveSearch() {
+  debounceActiveSearch()
+}
+const debounceActiveSearch = debounce(getActiveJobCategories, 300)
+
 async function getActiveJobCategories() {
   isLoading.value.activeCategories = true
   try {
-    const response = await $axios.get(`/jobs-category`)
+    const response = await $axios.get(
+      `/jobs-category?search=${searchValues.value.active}`
+    )
     activeCategories.value = response.data
   } catch (error) {
     console.error('API Error:', error)
@@ -69,10 +81,17 @@ async function getActiveJobCategories() {
   }
 }
 
+function handleDeletedSearch() {
+  debounceDeletedSearch()
+}
+const debounceDeletedSearch = debounce(getDeletedJobCategories, 300)
+
 async function getDeletedJobCategories() {
   isLoading.value.deletedCategories = true
   try {
-    const response = await $axios.get(`/jobs-category?deletedOnly=true`)
+    const response = await $axios.get(
+      `/jobs-category?deletedOnly=true&search=${searchValues.value.deleted}`
+    )
     deletedCategories.value = response.data
   } catch (error) {
     console.error('API Error:', error)
@@ -184,7 +203,22 @@ async function handleUnarchive() {
         </ElButton>
       </ElCol>
     </ElRow>
-    <span class="color-primary"><b>Aktivne kategorije</b></span>
+
+    <ElRow justify="center" align="middle" class="w-100">
+      <ElCol :span="8" :offset="8" align="center">
+        <span class="color-primary"><b>Aktivne kategorije</b></span>
+      </ElCol>
+      <ElCol :span="8" align="end">
+        <ElInput
+          v-model="searchValues.active"
+          type="text"
+          placeholder="Pretražite naziv..."
+          class="max-w-250"
+          :prefix-icon="Search"
+          @input="handleActiveSearch"
+        />
+      </ElCol>
+    </ElRow>
     <ElTable
       :data="activeCategories"
       stripe
@@ -212,7 +246,21 @@ async function handleUnarchive() {
       </ElTableColumn>
     </ElTable>
 
-    <span class="color-primary mt-50"><b>Obrisane kategorije</b></span>
+    <ElRow justify="center" align="middle" class="w-100">
+      <ElCol :span="8" :offset="8" align="center">
+        <span class="color-primary"><b>Obrisane kategorije</b></span>
+      </ElCol>
+      <ElCol :span="8" align="end">
+        <ElInput
+          v-model="searchValues.deleted"
+          type="text"
+          placeholder="Pretražite naziv..."
+          class="max-w-250"
+          :prefix-icon="Search"
+          @input="handleDeletedSearch"
+        />
+      </ElCol>
+    </ElRow>
     <ElTable
       :data="deletedCategories"
       stripe

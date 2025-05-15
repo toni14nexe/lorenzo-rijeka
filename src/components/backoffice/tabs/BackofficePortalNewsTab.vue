@@ -9,7 +9,8 @@ import {
   Delete,
   ZoomIn,
   GoldMedal,
-  Download
+  Download,
+  Search
 } from '@element-plus/icons-vue'
 import type {
   FormInstance,
@@ -50,6 +51,10 @@ const isLoading = ref({
 const activeNews = ref<News[]>()
 const deletedNews = ref<News[]>()
 const categories = ref<PortalCategory[]>()
+const searchValues = ref({
+  active: '',
+  deleted: ''
+})
 const dialog = ref<{
   isOpened: boolean
   type: DialogType
@@ -133,11 +138,17 @@ function openDialog(type: DialogType, item?: News) {
   }
 }
 
+function handleActiveSearch() {
+  activeNewsPagination.value.page = 1
+  debounceActiveSearch()
+}
+const debounceActiveSearch = debounce(getActivePortalNews, 300)
+
 async function getActivePortalNews() {
   isLoading.value.activeNews = true
   try {
     const response = await $axios.get(
-      `/portal-news?page=${activeNewsPagination.value.page}&perPage=${activeNewsPagination.value.perPage}`
+      `/portal-news?page=${activeNewsPagination.value.page}&perPage=${activeNewsPagination.value.perPage}&search=${searchValues.value.active}`
     )
     activeNews.value = response.data.news
     activeNewsPagination.value.total = response.data.total
@@ -148,11 +159,17 @@ async function getActivePortalNews() {
   }
 }
 
+function handleDeletedSearch() {
+  deletedNewspagination.value.page = 1
+  debounceDeletedSearch()
+}
+const debounceDeletedSearch = debounce(getDeletedPortalNews, 300)
+
 async function getDeletedPortalNews() {
   isLoading.value.deletedNews = true
   try {
     const response = await $axios.get(
-      `/portal-news?deletedOnly=true&page=${deletedNewspagination.value.page}&perPage=${deletedNewspagination.value.perPage}`
+      `/portal-news?deletedOnly=true&page=${deletedNewspagination.value.page}&perPage=${deletedNewspagination.value.perPage}&search=${searchValues.value.deleted}`
     )
     deletedNews.value = response.data.news
     deletedNewspagination.value.total = response.data.total
@@ -362,7 +379,21 @@ async function cloudinaryUpload(file: File, resourceType: 'image' | 'video') {
       </ElCol>
     </ElRow>
 
-    <span class="color-primary"><b>Aktivne vijesti</b></span>
+    <ElRow justify="center" align="middle" class="w-100">
+      <ElCol :span="8" :offset="8" align="center">
+        <span class="color-primary"><b>Aktivne vijesti</b></span>
+      </ElCol>
+      <ElCol :span="8" align="end">
+        <ElInput
+          v-model="searchValues.active"
+          type="text"
+          placeholder="Pretražite naslov..."
+          class="max-w-250"
+          :prefix-icon="Search"
+          @input="handleActiveSearch"
+        />
+      </ElCol>
+    </ElRow>
     <ElTable
       :data="activeNews"
       stripe
@@ -400,7 +431,21 @@ async function cloudinaryUpload(file: File, resourceType: 'image' | 'video') {
       class="mb-24"
     />
 
-    <span class="color-primary mt-50"><b>Obrisane vijesti</b></span>
+    <ElRow justify="center" align="middle" class="w-100">
+      <ElCol :span="8" :offset="8" align="center">
+        <span class="color-primary"><b>Obrisane vijesti</b></span>
+      </ElCol>
+      <ElCol :span="8" align="end">
+        <ElInput
+          v-model="searchValues.deleted"
+          type="text"
+          placeholder="Pretražite naslov..."
+          class="max-w-250"
+          :prefix-icon="Search"
+          @input="handleDeletedSearch"
+        />
+      </ElCol>
+    </ElRow>
     <ElTable
       :data="deletedNews"
       stripe
