@@ -62,7 +62,7 @@ function handleSearch() {
     })
   else {
     navigateTo(`/pretrazivanje?value=${searchValue.value}`)
-    mobileSearchPopoverRef.value.hide()
+    if (mobileSearchPopoverRef.value) mobileSearchPopoverRef.value.hide()
   }
 }
 </script>

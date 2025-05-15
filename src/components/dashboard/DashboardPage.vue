@@ -185,6 +185,7 @@ async function getDashboardNews() {
     <template v-else>
       <ElRow :gutter="12" class="mb-24">
         <ElCol
+          v-if="newestLargeNews?.length"
           v-for="news in newestLargeNews"
           :key="String(news.id)"
           :xs="24"
@@ -195,6 +196,7 @@ async function getDashboardNews() {
           <NewsWidget :news="news" />
         </ElCol>
         <ElCol
+          v-if="newestSmallNews?.length"
           v-for="news in newestSmallNews"
           :key="String(news.id)"
           :xs="24"
