@@ -63,30 +63,30 @@ export default defineNuxtConfig({
         {
           rel: 'apple-touch-icon',
           sizes: '180x180',
-          href: 'https://i.ibb.co/GZLqPjQ/apple-touch-icon.png'
+          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/favicon-180x180_we2zi4.png'
         },
         {
           rel: 'icon',
           type: 'image/png',
           sizes: '32x32',
-          href: 'https://i.ibb.co/SwqynV0N/favicon-32x32.png'
+          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342582/favicon-32x32_avu6vh.png'
         },
         {
           rel: 'icon',
           type: 'image/png',
           sizes: '16x16',
-          href: 'https://i.ibb.co/PvdrtGVv/favicon-16x16.png'
+          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342581/favicon-16x16_ghbvtz.png'
         },
         {
           rel: 'icon',
           type: 'image/png',
           sizes: '96x96',
-          href: 'https://i.ibb.co/h1Ks5157/favicon-96x96.png'
+          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342417/favicon-96x96_xfuydm.png'
         },
         {
           rel: 'apple-touch-icon',
           sizes: '180x180',
-          href: 'https://i.ibb.co/GZLqPjQ/apple-touch-icon.png'
+          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/favicon-180x180_we2zi4.png'
         }
         /* {
           rel: 'manifest',
@@ -113,7 +113,8 @@ export default defineNuxtConfig({
         },
         {
           property: 'og:image',
-          content: 'https://i.ibb.co/GZLqPjQ/apple-touch-icon.png'
+          content:
+            'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
         },
         { property: 'twitter:card', content: 'summary_large_image' },
         { property: 'twitter:title', content: 'Gastarbajter.de' },
@@ -124,7 +125,8 @@ export default defineNuxtConfig({
         },
         {
           property: 'twitter:image',
-          content: 'https://i.ibb.co/GZLqPjQ/apple-touch-icon.png'
+          content:
+            'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
         }
       ]
     }

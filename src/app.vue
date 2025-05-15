@@ -28,14 +28,16 @@ useHead({
     // Image
     {
       property: 'og:image',
-      content: 'https://i.ibb.co/GZLqPjQ/apple-touch-icon.png'
+      content:
+        'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
     },
     { property: 'og:image:width', content: '50' },
     { property: 'og:image:height', content: '50' },
     { name: 'twitter:card', content: 'summary_large_image' },
     {
       name: 'twitter:image',
-      content: 'https://i.ibb.co/GZLqPjQ/apple-touch-icon.png'
+      content:
+        'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
     },
     {
       name: 'google-site-verification',
@@ -50,9 +52,11 @@ useSeoMeta({
   ogTitle: 'Dobrodošli u Gastarbajter.de',
   ogDescription:
     'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.',
-  ogImage: 'https://i.ibb.co/GZLqPjQ/apple-touch-icon.png',
+  ogImage:
+    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png',
   twitterCard: 'summary_large_image',
-  twitterImage: 'https://i.ibb.co/GZLqPjQ/apple-touch-icon.png'
+  twitterImage:
+    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
 })
 </script>
 
@@ -62,30 +66,30 @@ useSeoMeta({
       <link
         rel="apple-touch-icon"
         sizes="180x180"
-        href="https://i.ibb.co/GZLqPjQ/apple-touch-icon.png"
+        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png"
       />
       <link
         rel="icon"
         type="image/png"
         sizes="32x32"
-        href="https://i.ibb.co/SwqynV0N/favicon-32x32.png"
+        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342582/favicon-32x32_avu6vh.png"
       />
       <link
         rel="icon"
         type="image/png"
         sizes="16x16"
-        href="https://i.ibb.co/PvdrtGVv/favicon-16x16.png"
+        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342581/favicon-16x16_ghbvtz.png"
       />
       <link
         rel="icon"
         type="image/png"
-        href="https://i.ibb.co/h1Ks5157/favicon-96x96.png"
+        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342417/favicon-96x96_xfuydm.png"
         sizes="96x96"
       />
       <link
         rel="apple-touch-icon"
         sizes="180x180"
-        href="https://i.ibb.co/GZLqPjQ/apple-touch-icon.png"
+        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png"
       />
       <meta name="apple-mobile-web-app-title" content="Gastarbajter.de" />
     </head>
