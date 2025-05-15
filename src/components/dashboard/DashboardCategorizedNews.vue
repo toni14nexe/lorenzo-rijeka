@@ -152,13 +152,7 @@ async function getCategorizedData(value: string) {
       "
       :span="5"
     >
-      <a
-        v-if="dashboardSide.left.url"
-        :href="String(dashboardSide.left.url)"
-        target="_blank"
-      >
-        <AdWidget class="side-ad" :ad="dashboardSide.left" />
-      </a>
+      <AdWidget class="side-ad" :ad="dashboardSide.left" />
     </ElCol>
     <ElCol
       :span="
