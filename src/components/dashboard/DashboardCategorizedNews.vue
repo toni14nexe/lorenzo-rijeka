@@ -43,7 +43,7 @@ async function getCategorizedData(value: string) {
         :style="`${$viewport.match('tablet') ? 'margin-left: -9px; margin-right: -9px' : $viewport.isLessThan('tablet') ? 'margin-left: -6px; margin-right: -18px' : undefined}`"
       >
         <ElCol :span="5" v-if="$viewport.isGreaterThan('tablet')">
-          <AdWidget class="side-ad" :ad="dashboardSide.left" />
+          <AdWidget class="side-ad" :ad="dashboardSide?.left" />
         </ElCol>
         <ElCol :span="$viewport.isLessOrEquals('tablet') ? 24 : 14">
           <ElRow :gutter="12">
@@ -82,6 +82,7 @@ async function getCategorizedData(value: string) {
               class="w-100"
               :style="`${$viewport.isGreaterOrEquals('tablet') ? 'margin-left: -3px' : undefined}`"
               :gutter="12"
+              style="height: calc(90dvh + 24px)"
             >
               <ElCol
                 :span="$viewport.isLessThan('tablet') ? 24 : 14"
@@ -134,7 +135,7 @@ async function getCategorizedData(value: string) {
           </ElRow>
         </ElCol>
         <ElCol :span="5" v-if="$viewport.isGreaterThan('tablet')">
-          <AdWidget class="side-ad" :ad="dashboardSide.right" />
+          <AdWidget class="side-ad" :ad="dashboardSide?.right" />
         </ElCol>
       </ElRow>
     </template>
@@ -146,14 +147,16 @@ async function getCategorizedData(value: string) {
     class="mb-24"
     :style="`${$viewport.match('tablet') ? 'margin-left: -9px; margin-right: -9px' : $viewport.isLessThan('tablet') ? 'margin-left: -6px; margin-right: -18px' : undefined}`"
   >
+    <!-- @vue-expect-error -->
     <ElCol
       v-if="
         !adsLoading && adSettings[0].show && $viewport.isGreaterThan('tablet')
       "
       :span="5"
     >
-      <AdWidget class="side-ad" :ad="dashboardSide.left" />
+      <AdWidget class="side-ad" :ad="dashboardSide?.left" />
     </ElCol>
+    <!-- @vue-expect-error -->
     <ElCol
       :span="
         !adSettings[0].show || $viewport.isLessOrEquals('tablet') ? 24 : 14
@@ -255,16 +258,18 @@ async function getCategorizedData(value: string) {
         </ElRow>
       </ElRow>
     </ElCol>
+    <!-- @vue-expect-error -->
     <ElCol
       v-if="
         !adsLoading && adSettings[0].show && $viewport.isGreaterThan('tablet')
       "
       :span="5"
     >
-      <AdWidget class="side-ad" :ad="dashboardSide.right" />
+      <AdWidget class="side-ad" :ad="dashboardSide?.right" />
     </ElCol>
   </ElRow>
 
+  <!-- @vue-expect-error -->
   <div
     v-if="
       !adsLoading && adSettings[0].show && $viewport.isLessOrEquals('tablet')
@@ -275,13 +280,13 @@ async function getCategorizedData(value: string) {
     <ElDivider />
     <ElRow class="mt-24" :gutter="12">
       <ElCol :span="$viewport.isLessThan('mobileWide') ? 24 : 12">
-        <AdWidget class="side-ad" :ad="dashboardSide.left" />
+        <AdWidget class="side-ad" :ad="dashboardSide?.left" />
       </ElCol>
       <ElCol
         :span="$viewport.isLessThan('mobileWide') ? 24 : 12"
         :class="{ 'mt-8': $viewport.isLessThan('mobileWide') }"
       >
-        <AdWidget class="side-ad" :ad="dashboardSide.right" />
+        <AdWidget class="side-ad" :ad="dashboardSide?.right" />
       </ElCol>
     </ElRow>
   </div>
