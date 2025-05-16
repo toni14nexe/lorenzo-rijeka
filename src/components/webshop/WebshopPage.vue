@@ -20,6 +20,11 @@ const products = ref<Product[]>([])
 
 onMounted(() => getProducts())
 
+function handleCategorySearch() {
+  pagination.value.page = 1
+  getProducts()
+}
+
 async function getProducts() {
   isLoading.value = true
   try {
@@ -153,7 +158,7 @@ async function getProducts() {
 
       <ElDivider
         id="scroll-element"
-        :style="{ 'display: none': $viewport.isGreaterOrEquals('tablet') }"
+        :class="{ 'display-none': $viewport.isLessThan('tablet') }"
       />
 
       <ElRow justify="center">
@@ -179,7 +184,12 @@ async function getProducts() {
             :value="String(category.id)"
           />
         </ElSelect>
-        <ElButton type="primary" plain class="ml-8" @click="getProducts">
+        <ElButton
+          type="primary"
+          plain
+          class="ml-8"
+          @click="handleCategorySearch"
+        >
           <ElIcon :size="20">
             <Search />
           </ElIcon>

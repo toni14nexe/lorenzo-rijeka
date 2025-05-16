@@ -59,14 +59,17 @@ function handleFullscreenChange() {
       <video v-else :src="links[currentIndex]" controls class="media-item" />
     </div>
 
-    <div class="controls">
-      <ElButton @click="prev" size="large">
+    <div
+      class="controls"
+      :class="links.length > 1 ? 'space-between' : 'center'"
+    >
+      <ElButton v-if="links.length > 1" @click="prev" size="large">
         <ElIcon><ArrowLeftBold /></ElIcon>
       </ElButton>
       <ElButton v-if="!isFullscreen" @click="enterFullscreen" size="large">
         ⛶
       </ElButton>
-      <ElButton @click="next" size="large">
+      <ElButton v-if="links.length > 1" @click="next" size="large">
         <ElIcon><ArrowRightBold /></ElIcon>
       </ElButton>
     </div>
@@ -104,9 +107,14 @@ function handleFullscreenChange() {
   left: 0;
   right: 0;
   display: flex;
-  justify-content: space-between;
   padding: 0 1rem;
   transform: translateY(-50%);
+}
+.space-between {
+  justify-content: space-between;
+}
+.center {
+  justify-content: center;
 }
 .controls button,
 .exit-button {

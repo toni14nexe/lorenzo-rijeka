@@ -20,6 +20,11 @@ const jobs = ref<Job[]>([])
 
 onMounted(() => getJobs())
 
+function handleCategorySearch() {
+  pagination.value.page = 1
+  getJobs()
+}
+
 async function getJobs() {
   isLoading.value = true
   try {
@@ -152,7 +157,7 @@ async function getJobs() {
 
       <ElDivider
         id="scroll-element"
-        :style="{ 'display: none': $viewport.isGreaterOrEquals('tablet') }"
+        :class="{ 'display-none': $viewport.isLessThan('tablet') }"
       />
 
       <ElRow justify="center">
@@ -178,7 +183,12 @@ async function getJobs() {
             :value="String(category.id)"
           />
         </ElSelect>
-        <ElButton type="primary" plain class="ml-8" @click="getJobs">
+        <ElButton
+          type="primary"
+          plain
+          class="ml-8"
+          @click="handleCategorySearch"
+        >
           <ElIcon :size="20">
             <Search />
           </ElIcon>

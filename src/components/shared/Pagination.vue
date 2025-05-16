@@ -17,7 +17,6 @@ watch(
   state => {
     if (!state && !firstLoading.value) {
       const scrollTarget = document.getElementById(props.scrollElementId)
-      console.log(scrollTarget)
       scrollToElementTop(scrollTarget, -60)
     } else firstLoading.value = false
   }

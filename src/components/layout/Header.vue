@@ -584,12 +584,16 @@ function handleSearch() {
 }
 .portal-button {
   height: 60px;
-  border-top: none;
+  border-right: none;
 }
 .portal-more-button {
   width: 100%;
   height: 60px;
   border: none;
+  border-left: 1px dotted var(--el-border-color);
+  border-top: 1px solid var(--el-border-color);
+  border-right: 1px solid var(--el-border-color);
+  border-radius: 0;
 }
 .portal-more-button:hover {
   color: var(--el-button-hover-text-color) !important;

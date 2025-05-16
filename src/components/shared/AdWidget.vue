@@ -2,8 +2,8 @@
 defineProps(['ad'])
 
 function openUrl(url: string, inNewTab?: boolean) {
-  console.log(url)
-  if (inNewTab) window.open(url, '_blank', 'noopener,noreferrer')
+  if (inNewTab)
+    navigateTo(url, inNewTab ? { open: { target: '_blank' } } : undefined)
   else window.location.href = url
 }
 </script>
@@ -21,7 +21,7 @@ function openUrl(url: string, inNewTab?: boolean) {
     v-else
     class="empty-ad"
     description="Ovdje može biti vaša reklama!"
-    @click="openUrl('/reklamiranje')"
+    @click="navigateTo('/reklamiranje')"
   />
 </template>
 
