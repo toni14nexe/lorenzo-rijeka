@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import DashboardInfoCardContainer from '~/components/dashboard/DashboardInfoCardContainer.vue'
 import NewsWidget from '~/components/shared/NewsWidget.vue'
 import type { News } from '~/types/portal'
 
@@ -64,6 +65,8 @@ async function getDashboardNews() {
             />
           </ElCol>
         </ElRow>
+
+        <DashboardInfoCardContainer />
 
         <ElDivider />
 
@@ -202,6 +205,8 @@ async function getDashboardNews() {
           <NewsWidget :news="news" />
         </ElCol>
       </ElRow>
+
+      <DashboardInfoCardContainer />
 
       <ElDivider />
 
