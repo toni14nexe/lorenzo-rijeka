@@ -1,11 +1,16 @@
 <script setup lang="ts">
 import type { News } from '~/types/portal'
 import Gallery from '~/components/shared/Gallery.vue'
+import FacebookShareButton from '~/components/shared/FacebookShareButton.vue'
 
 const { $viewport, $axios } = useNuxtApp()
 const route = useRoute()
 const isLoading = ref(true)
 const news = ref<News>()
+
+const parsedHtml = computed(() =>
+  news.value?.text ? news.value.text.replace(/&nbsp;/g, ' ') : ''
+)
 
 onMounted(() => getNews())
 
@@ -87,7 +92,11 @@ async function getNews() {
           {{ news.category.name }}
         </ElCol>
       </ElRow>
-      <div v-html="news.text" class="news-content" />
+      <div v-html="parsedHtml" class="news-content" />
+
+      <ElRow justify="center" class="mb-12 social-share-buttons">
+        <FacebookShareButton />
+      </ElRow>
     </template>
   </div>
 </template>
@@ -97,5 +106,6 @@ async function getNews() {
   line-height: 1.6;
   white-space: normal;
   word-wrap: break-word;
+  text-align: justify;
 }
 </style>

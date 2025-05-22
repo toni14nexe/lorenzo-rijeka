@@ -2,7 +2,7 @@
 import type { AdSettings } from '~/types/ad'
 
 interface Props {
-  adSettings: AdSettings
+  comSettings: AdSettings
 }
 interface Emits {
   (e: 'save'): void
@@ -19,15 +19,15 @@ const settings = ref({
 const isButtonDisabled = ref(true)
 const buttonLoading = ref(false)
 
-onMounted(() => setAdSettings())
+onMounted(() => setComSettings())
 
-function setAdSettings() {
+function setComSettings() {
   // @ts-expect-error
-  settings.value['dashboard-side'] = props.adSettings[0].show
+  settings.value['dashboard-side'] = props.comSettings[0]?.show
   // @ts-expect-error
-  settings.value['footer-slider'] = props.adSettings[1].show
+  settings.value['footer-slider'] = props.comSettings[1]?.show
   // @ts-expect-error
-  settings.value['footer-large'] = props.adSettings[2].show
+  settings.value['footer-large'] = props.comSettings[2]?.show
 }
 
 async function saveSettings() {

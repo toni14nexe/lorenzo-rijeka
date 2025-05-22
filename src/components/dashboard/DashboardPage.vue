@@ -4,8 +4,8 @@ import NewsWidget from '~/components/shared/NewsWidget.vue'
 import type { News } from '~/types/portal'
 
 const { $viewport, $axios } = useNuxtApp()
-const adStore = useAdStore()
-const { adSettings } = storeToRefs(adStore)
+const comStore = useComStore()
+const { comSettings } = storeToRefs(comStore)
 const isLoading = ref(true)
 const newestLargeNews = ref<News[]>()
 const newestSmallNews = ref<News[]>()
@@ -211,7 +211,7 @@ async function getDashboardNews() {
       <ElDivider />
 
       <DashboardCategorizedNews
-        v-if="adSettings"
+        v-if="comSettings"
         :prop-news="categorizedNews"
         :prop-is-loading="isLoading"
       />

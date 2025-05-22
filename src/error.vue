@@ -2,7 +2,7 @@
 import { useRoute } from 'vue-router'
 import Header from '~/components/layout/Header.vue'
 import Footer from '~/components/layout/Footer.vue'
-import AdsFooter from '~/components/shared/AdsFooter.vue'
+import ComsFooter from '~/components/shared/ComsFooter.vue'
 
 const route = useRoute()
 const errorCode = route.params?.code || 404
@@ -14,7 +14,7 @@ onMounted(() => setTimeout(() => (show.value = true), 1000))
 <template>
   <Header />
   <div class="main">
-    <ElRow justify="center" align="middle">
+    <ElRow justify="center" align="middle" class="mb-16">
       <ElCol align="center">
         <h1>Ups! Stranica nije dostupna ili nešto nije u redu s njom.</h1>
       </ElCol>
@@ -31,7 +31,7 @@ onMounted(() => setTimeout(() => (show.value = true), 1000))
         </NuxtLink>
       </ElCol>
     </ElRow>
-    <AdsFooter />
+    <ComsFooter />
   </div>
   <Footer :divider-margin-top="24" />
 </template>

@@ -1,10 +1,15 @@
 <script setup lang="ts">
+import FacebookShareButton from '~/components/shared/FacebookShareButton.vue'
 import type { Job } from '~/types/jobs'
 
 const { $axios } = useNuxtApp()
 const route = useRoute()
 const isLoading = ref(true)
 const job = ref<Job>()
+
+const parsedHtml = computed(() =>
+  job.value?.description ? job.value.description.replace(/&nbsp;/g, ' ') : ''
+)
 
 onMounted(() => getJob())
 
@@ -80,7 +85,10 @@ async function getJob() {
         Plaća:
         {{ Number(job.salary).toFixed(2) }} €
       </ElRow>
-      <div v-html="job.description" class="job-content" />
+      <div v-html="parsedHtml" class="job-content" />
+      <ElRow justify="center" class="mb-12 social-share-buttons">
+        <FacebookShareButton />
+      </ElRow>
     </template>
   </div>
 </template>
@@ -90,6 +98,7 @@ async function getJob() {
   line-height: 1.6;
   white-space: normal;
   word-wrap: break-word;
+  text-align: justify;
 }
 .font-weight-500 {
   font-weight: 500;

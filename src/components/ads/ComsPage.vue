@@ -8,9 +8,9 @@ interface RuleForm {
 }
 
 const { $axios } = useNuxtApp()
-const adStore = useAdStore()
-const { adsLoading, dashboardSide, footerSlider, footerLarge } =
-  storeToRefs(adStore)
+const comStore = useComStore()
+const { comsLoading, dashboardSide, footerSlider, footerLarge } =
+  storeToRefs(comStore)
 const ruleFormRef = ref<FormInstance>()
 const loading = ref({ submit: false })
 const form = reactive<RuleForm>({
@@ -99,7 +99,7 @@ async function sendEmail(formEl: FormInstance | undefined) {
       <ElCol :span="24" align="middle">
         <h3 class="color-primary">Cijene</h3>
       </ElCol>
-      <ElSkeleton v-if="adsLoading" animated>
+      <ElSkeleton v-if="comsLoading" animated>
         <template #template>
           <ElCol v-for="_ in 7" align="middle">
             <ElSkeletonItem
@@ -110,7 +110,7 @@ async function sendEmail(formEl: FormInstance | undefined) {
         </template>
       </ElSkeleton>
       <ElCol v-else :span="24" align="middle">
-        <template v-if="dashboardSide.left && dashboardSide.right">
+        <template v-if="dashboardSide?.left && dashboardSide?.right">
           <p v-for="ad in dashboardSide">
             Reklama {{ ad.id }} -
             {{ ad.price ? `${Number(ad.price).toFixed(2)} €` : '???.?? €' }}
@@ -167,11 +167,11 @@ async function sendEmail(formEl: FormInstance | undefined) {
           <ElSelect
             v-model="form.adId"
             placeholder="Odaberite reklamu"
-            :loading="adsLoading"
+            :loading="comsLoading"
             class="max-w-250"
           >
             <ElOption
-              v-if="dashboardSide.left && dashboardSide.right"
+              v-if="dashboardSide?.left && dashboardSide?.right"
               v-for="ad in dashboardSide"
               :label="String(ad.id)"
               :value="String(ad.id)"

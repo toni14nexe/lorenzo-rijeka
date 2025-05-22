@@ -1,19 +1,17 @@
 <script lang="ts" setup>
 import PortalNewsPage from '~/components/portal/PortalNewsPage.vue'
 
-const title = ref('Portal')
-
 useHead({
-  title: title.value,
+  title: 'Gastabajter.de - Vijesti',
   meta: [
     {
       name: 'description',
-      content: `Ovdje možete pročitati našu vijest. ${title.value}`
+      content: `Ovdje možete pročitati našu vijest.`
     },
-    { property: 'og:title', content: 'Portal' },
+    { property: 'og:title', content: 'Gastabajter.de - Vijesti' },
     {
       property: 'og:description',
-      content: `Ovdje možete pročitati našu vijest. ${title.value}`
+      content: `Ovdje možete pročitati našu vijest.`
     }
   ]
 })

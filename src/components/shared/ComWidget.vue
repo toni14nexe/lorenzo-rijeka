@@ -1,5 +1,5 @@
 <script setup lang="ts">
-defineProps(['ad'])
+defineProps(['com'])
 
 function openUrl(url: string, inNewTab?: boolean) {
   if (inNewTab)
@@ -9,29 +9,29 @@ function openUrl(url: string, inNewTab?: boolean) {
 </script>
 
 <template>
-  <div v-if="ad && ad.imageUrl" class="active-ad-wrapper">
+  <div v-if="com && com.imageUrl" class="active-component-wrapper">
     <div
-      class="ad ad-hover-opacity"
-      :class="{ 'cursor-pointer': ad.url }"
-      :style="`background-image: url(${ad.imageUrl})`"
-      @click="ad.url ? openUrl(ad.url, true) : undefined"
+      class="component component-hover-opacity"
+      :class="{ 'cursor-pointer': com.url }"
+      :style="`background-image: url(${com.imageUrl})`"
+      @click="com.url ? openUrl(com.url, true) : undefined"
     />
   </div>
   <ElEmpty
     v-else
-    class="empty-ad"
+    class="empty-component"
     description="Ovdje može biti vaša reklama!"
     @click="navigateTo('/reklamiranje')"
   />
 </template>
 
 <style lang="css" scoped>
-.active-ad-wrapper {
+.active-component-wrapper {
   border-radius: 6px;
   background-color: black;
   display: block;
 }
-.ad {
+.component {
   height: 100%;
   border: 1px solid var(--el-border-color);
   border-radius: 4px;
@@ -41,20 +41,20 @@ function openUrl(url: string, inNewTab?: boolean) {
   box-shadow: var(--el-box-shadow-light);
   display: block;
 }
-.ad-hover-opacity {
+.component-hover-opacity {
   transition: 0.3s ease-in-out;
 }
-.ad-hover-opacity:hover {
+.component-hover-opacity:hover {
   opacity: 0.75;
 }
-.empty-ad {
+.empty-component {
   border: 1px solid var(--el-border-color);
   border-radius: 4px;
   box-shadow: var(--el-box-shadow-light);
   cursor: pointer;
   transition: 0.3s ease-in-out;
 }
-.empty-ad:hover {
+.empty-component:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
 .no-decoration {

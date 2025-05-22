@@ -5,7 +5,7 @@ import type { AdSettings, Ad } from '~/types/ad'
 
 const { $axios } = useNuxtApp()
 const isLoading = ref(true)
-const adSettings = ref<AdSettings>()
+const comSettings = ref<AdSettings>()
 const ads = ref<Ad[]>()
 
 onMounted(() => getAdDetails())
@@ -14,7 +14,7 @@ async function getAdDetails() {
   isLoading.value = true
   try {
     const response = await $axios.get(`/ad`)
-    adSettings.value = response.data.adSettings
+    comSettings.value = response.data.adSettings
     ads.value = response.data.ads
   } catch (error) {
     console.error('API Error:', error)
@@ -38,7 +38,7 @@ async function getAdDetails() {
 
     <template v-else>
       <BackofficeAdsGeneralSettings
-        :ad-settings="adSettings as AdSettings"
+        :com-settings="comSettings as AdSettings"
         @save="getAdDetails"
       />
       <BackofficeAdsSettings :ads="ads as Ad[]" @save="getAdDetails" />

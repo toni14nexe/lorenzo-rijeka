@@ -9,12 +9,12 @@ useHead({
     {
       name: 'description',
       content:
-        'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.'
+        'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.'
     },
     {
       name: 'keywords',
       content:
-        'agro, poljoprivreda, inspekcija, papiri, PDF, izvoz podataka, izvoz, export, sjetva, gnojivo, zaštita, leguminoza, eco, eko, proizvodnja, stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo'
+        'platforma, gastrabajtere, gastabajter, gastabajteri, gastrabajter, gastrajabjteri, gastabajtere, poslovi, oglasnik, posao, webshop, trgovina, proizvodi, domaće, domaći'
     },
     { name: 'author', content: 'InnovaTech obrt za informatičke usluge' },
     { property: 'og:type', content: 'website' },
@@ -22,7 +22,7 @@ useHead({
     {
       property: 'og:description',
       content:
-        'Najbolja platforma za poljoprivrednike i upravljanje papirima za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvostočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.'
+        'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.'
     },
 
     // Image
@@ -33,6 +33,7 @@ useHead({
     },
     { property: 'og:image:width', content: '50' },
     { property: 'og:image:height', content: '50' },
+    { property: 'og:url', content: 'https://gastabajter.de' },
     { name: 'twitter:card', content: 'summary_large_image' },
     {
       name: 'twitter:image',
@@ -43,15 +44,19 @@ useHead({
       name: 'google-site-verification',
       content: 'XcMEZOdux3Ig-o3E4zproRBhHJiC-7GhdOnmmAogY7Q'
     }
+  ],
+  link: [
+    { rel: 'icon', type: 'image/png', href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342417/favicon-96x96_xfuydm.png' },
+    { rel: 'apple-touch-icon', href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png' }
   ]
 })
 
 useSeoMeta({
   description:
-    'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.',
-  ogTitle: 'Dobrodošli u Gastarbajter.de',
+    'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.',
+  ogTitle: 'Dobrodošli na Gastarbajter.de',
   ogDescription:
-    'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.',
+    'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.',
   ogImage:
     'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png',
   twitterCard: 'summary_large_image',
@@ -65,6 +70,7 @@ useSeoMeta({
     <head>
       <link
         rel="apple-touch-icon"
+        type="image/png"
         sizes="180x180"
         href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png"
       />
@@ -88,6 +94,7 @@ useSeoMeta({
       />
       <link
         rel="apple-touch-icon"
+        type="image/png"
         sizes="180x180"
         href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png"
       />

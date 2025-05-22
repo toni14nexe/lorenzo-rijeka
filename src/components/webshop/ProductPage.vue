@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Gallery from '~/components/shared/Gallery.vue'
+import FacebookShareButton from '~/components/shared/FacebookShareButton.vue'
 import type { Product } from '~/types/webshop'
 import { ShoppingCart } from '@element-plus/icons-vue'
 
@@ -7,6 +8,10 @@ const { $axios } = useNuxtApp()
 const route = useRoute()
 const isLoading = ref(true)
 const product = ref<Product>()
+
+const parsedHtml = computed(() =>
+  product.value?.description ? product.value.description.replace(/&nbsp;/g, ' ') : ''
+)
 
 onMounted(() => getProduct())
 
@@ -112,10 +117,13 @@ async function getProduct() {
         Broj:
         {{ product.contactNumber }}
       </ElRow>
-      <div v-html="product.description" class="product-content mb-24" />
+      <div v-html="parsedHtml" class="product-content mb-24" />
       <ElRow align="middle" class="mb-24 product-price">
         Cijena:
         <b class="ml-4">{{ Number(product.price).toFixed(2) }} €</b>
+      </ElRow>
+      <ElRow class="mb-12 social-share-buttons">
+        <FacebookShareButton />
       </ElRow>
       <ElRow justify="center" align="middle" class="mb-24">
         <NuxtLink :to="`/webshop/${product.id}/narudzba`">
@@ -134,6 +142,7 @@ async function getProduct() {
   line-height: 1.6;
   white-space: normal;
   word-wrap: break-word;
+  text-align: justify;
 }
 .font-weight-500 {
   font-weight: 500;

@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import Header from '~/components/layout/Header.vue'
 import Footer from '~/components/layout/Footer.vue'
-import AdsFooter from '~/components/shared/AdsFooter.vue'
+import ComsFooter from '~/components/shared/ComsFooter.vue'
 </script>
 
 <template>
   <Header />
   <ElMain class="main" v-motion-slide-top :duration="1000" :delay="400">
     <slot />
-    <AdsFooter />
+    <ComsFooter />
   </ElMain>
   <footer v-motion-slide-top :duration="1000" :delay="400">
     <Footer />

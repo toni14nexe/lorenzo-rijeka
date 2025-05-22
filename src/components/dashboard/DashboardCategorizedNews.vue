@@ -2,15 +2,15 @@
 import NewsWidget from '~/components/shared/NewsWidget.vue'
 import JobWidget from '~/components/shared/JobWidget.vue'
 import ProductWidget from '~/components/shared/ProductWidget.vue'
-import AdWidget from '~/components/shared/AdWidget.vue'
+import ComWidget from '~/components/shared/ComWidget.vue'
 import MegafoneIcon from '~/assets/icons/megafone.vue'
 import { Shop, OfficeBuilding } from '@element-plus/icons-vue'
 
 const props = defineProps(['propNews', 'propIsLoading'])
 
 const { $viewport, $axios } = useNuxtApp()
-const adStore = useAdStore()
-const { adsLoading, adSettings, dashboardSide } = storeToRefs(adStore)
+const comStore = useComStore()
+const { comsLoading, comSettings, dashboardSide } = storeToRefs(comStore)
 const data = ref()
 const isLoading = ref(false)
 const tab = ref('portal')
@@ -43,7 +43,7 @@ async function getCategorizedData(value: string) {
         :style="`${$viewport.match('tablet') ? 'margin-left: -9px; margin-right: -9px' : $viewport.isLessThan('tablet') ? 'margin-left: -6px; margin-right: -18px' : undefined}`"
       >
         <ElCol :span="5" v-if="$viewport.isGreaterThan('tablet')">
-          <AdWidget class="side-ad" :ad="dashboardSide?.left" />
+          <ComWidget class="side-com" :com="dashboardSide?.left" />
         </ElCol>
         <ElCol :span="$viewport.isLessOrEquals('tablet') ? 24 : 14">
           <ElRow :gutter="12">
@@ -135,7 +135,7 @@ async function getCategorizedData(value: string) {
           </ElRow>
         </ElCol>
         <ElCol :span="5" v-if="$viewport.isGreaterThan('tablet')">
-          <AdWidget class="side-ad" :ad="dashboardSide?.right" />
+          <ComWidget class="side-com" :com="dashboardSide?.right" />
         </ElCol>
       </ElRow>
     </template>
@@ -150,16 +150,16 @@ async function getCategorizedData(value: string) {
     <!-- @vue-expect-error -->
     <ElCol
       v-if="
-        !adsLoading && adSettings[0].show && $viewport.isGreaterThan('tablet')
+        !comsLoading && comSettings[0]?.show && $viewport.isGreaterThan('tablet')
       "
       :span="5"
     >
-      <AdWidget class="side-ad" :ad="dashboardSide?.left" />
+      <ComWidget class="side-com" :com="dashboardSide?.left" />
     </ElCol>
     <!-- @vue-expect-error -->
     <ElCol
       :span="
-        !adSettings[0].show || $viewport.isLessOrEquals('tablet') ? 24 : 14
+        !comSettings[0]?.show || $viewport.isLessOrEquals('tablet') ? 24 : 14
       "
     >
       <ElRow :gutter="12">
@@ -261,18 +261,18 @@ async function getCategorizedData(value: string) {
     <!-- @vue-expect-error -->
     <ElCol
       v-if="
-        !adsLoading && adSettings[0].show && $viewport.isGreaterThan('tablet')
+        !comsLoading && comSettings[0]?.show && $viewport.isGreaterThan('tablet')
       "
       :span="5"
     >
-      <AdWidget class="side-ad" :ad="dashboardSide?.right" />
+      <ComWidget class="side-com" :com="dashboardSide?.right" />
     </ElCol>
   </ElRow>
 
   <!-- @vue-expect-error -->
   <div
     v-if="
-      !adsLoading && adSettings[0].show && $viewport.isLessOrEquals('tablet')
+      !comsLoading && comSettings[0]?.show && $viewport.isLessOrEquals('tablet')
     "
     :span="5"
     class="mb-24"
@@ -280,20 +280,20 @@ async function getCategorizedData(value: string) {
     <ElDivider />
     <ElRow class="mt-24" :gutter="12">
       <ElCol :span="$viewport.isLessThan('mobileWide') ? 24 : 12">
-        <AdWidget class="side-ad" :ad="dashboardSide?.left" />
+        <ComWidget class="side-com" :com="dashboardSide?.left" />
       </ElCol>
       <ElCol
         :span="$viewport.isLessThan('mobileWide') ? 24 : 12"
         :class="{ 'mt-8': $viewport.isLessThan('mobileWide') }"
       >
-        <AdWidget class="side-ad" :ad="dashboardSide?.right" />
+        <ComWidget class="side-com" :com="dashboardSide?.right" />
       </ElCol>
     </ElRow>
   </div>
 </template>
 
 <style lang="css" scoped>
-.side-ad {
+.side-com {
   width: 100%;
   height: calc(40dvh + 54px);
 }
@@ -331,7 +331,7 @@ async function getCategorizedData(value: string) {
   }
 }
 
-.ad {
+.com {
   height: calc(40dvh + 54px);
   border: 1px solid var(--el-border-color);
   border-radius: 4px;
@@ -341,7 +341,7 @@ async function getCategorizedData(value: string) {
   box-shadow: var(--el-box-shadow-light);
   display: block;
 }
-.ad-hover-opacity {
+.com-hover-opacity {
   transition: 0.3s ease-in-out;
 }
 </style>

@@ -1,5 +1,5 @@
 <script lang="ts" setup>
-import AdsPage from '~/components/ads/AdsPage.vue'
+import ComsPage from '~/components/ads/ComsPage.vue'
 
 useHead({
   title: 'Reklamiranje',
@@ -17,6 +17,6 @@ useHead({
 })
 </script>
 
-<template><AdsPage /></template>
+<template><ComsPage /></template>
 
 <style lang="css" scoped></style>

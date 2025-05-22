@@ -97,19 +97,19 @@ export default defineNuxtConfig({
         {
           name: 'Gastarbajter.de',
           content:
-            'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.'
+            'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.'
         },
         {
           name: 'keywords',
           content:
-            'agro, poljoprivreda, inspekcija, papiri, PDF, izvoz podataka, izvoz, export, sjetva, gnojivo, zaštita, leguminoza, eco, eko, proizvodnja, stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo'
+            'platforma, gastrabajtere, gastabajter, gastabajteri, gastrabajter, gastrajabjteri, gastabajtere, poslovi, oglasnik, posao, webshop, trgovina, proizvodi, domaće, domaći'
         },
         { name: 'author', content: 'InnovaTech obrt za informatičke usluge' },
         { property: 'og:title', content: 'Gastarbajter.de' },
         {
           property: 'og:description',
           content:
-            'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.'
+            'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.'
         },
         {
           property: 'og:image',
@@ -121,7 +121,7 @@ export default defineNuxtConfig({
         {
           property: 'twitter:description',
           content:
-            'Najbolja platforma za poljoprivrednike u Hrvatskoj. Upravljanje i vođenje papira i knjiga za servise: stočarstvo, povrtlarstvo, voćarstvo, pčelarstvo, konzultantske usluge, edukacijske usluge, sjemenska proizvodnja, rasadničarstvo, ratarstvo.'
+            'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.'
         },
         {
           property: 'twitter:image',

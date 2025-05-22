@@ -6,47 +6,47 @@ type AdDetailsResponse = {
   ads: Ad[]
 }
 
-export const useAdStore = defineStore('ad', {
+export const useComStore = defineStore('com', {
   state: () => ({
-    adsLoading: true,
-    adSettings: getLocalItem<AdSettings[]>('adSettings') || null,
+    comsLoading: true,
+    comSettings: getLocalItem<AdSettings[]>('comSettings') || null,
     dashboardSide: getLocalItem<DashboardSideAds>('dashboardSide') || null,
     footerSlider: getLocalItem<Ad[]>('footerSlider') || null,
     footerLarge: getLocalItem<Ad>('footerLarge') || null
   }),
   actions: {
-    async setAdDetails() {
-      this.adsLoading = true
-      this.adSettings = getLocalItem('adSettings')
+    async setComDetails() {
+      this.comsLoading = true
+      this.comSettings = getLocalItem('comSettings')
       this.dashboardSide = getLocalItem('dashboardSide')
       this.footerSlider = getLocalItem('footerSlider')
       this.footerLarge = getLocalItem('footerLarge')
 
       if (
-        !this.adSettings ||
-        (this.adSettings[0].show && !this.dashboardSide) ||
-        (this.adSettings[1].show && !this.footerSlider) ||
-        (this.adSettings[2].show && !this.footerLarge)
+        !this.comSettings ||
+        (this.comSettings[0]?.show && !this.dashboardSide) ||
+        (this.comSettings[1]?.show && !this.footerSlider) ||
+        (this.comSettings[2]?.show && !this.footerLarge)
       ) {
         try {
           const response = await useNuxtApp().$axios.get(`/ad`)
 
-          this.adSettings = response.data.adSettings
-          setLocalItem('adSettings', this.adSettings, 600_000) // 10 min
+          this.comSettings = response.data.adSettings
+          setLocalItem('comSettings', this.comSettings, 600_000) // 10 min
 
           // @ts-expect-error
-          if (this.adSettings[0].show) this.setDashboardSide(response.data)
+          if (this.comSettings[0].show) this.setDashboardSide(response.data)
           // @ts-expect-error
-          if (this.adSettings[1].show) this.setFooterSlider(response.data)
+          if (this.comSettings[1].show) this.setFooterSlider(response.data)
           // @ts-expect-error
-          if (this.adSettings[2].show) this.setFooterLarge(response.data)
+          if (this.comSettings[2].show) this.setFooterLarge(response.data)
         } catch (error) {
           console.error('API Error:', error)
         } finally {
-          this.adsLoading = false
+          this.comsLoading = false
         }
       } else {
-        this.adsLoading = false
+        this.comsLoading = false
       }
     },
 
