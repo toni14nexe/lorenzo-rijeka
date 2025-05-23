@@ -6,16 +6,19 @@ import ComWidget from '~/components/shared/ComWidget.vue'
 import MegafoneIcon from '~/assets/icons/megafone.vue'
 import { Shop, OfficeBuilding } from '@element-plus/icons-vue'
 
-const props = defineProps(['propNews', 'propIsLoading'])
+const props = defineProps(['propNews'])
 
 const { $viewport, $axios } = useNuxtApp()
 const comStore = useComStore()
 const { comsLoading, comSettings, dashboardSide } = storeToRefs(comStore)
 const data = ref()
-const isLoading = ref(false)
+const isLoading = ref(true)
 const tab = ref('portal')
 
-onMounted(() => (data.value = props.propNews))
+onMounted(() => {
+  data.value = props.propNews
+  isLoading.value = false
+})
 
 async function getCategorizedData(value: string) {
   isLoading.value = true
@@ -35,114 +38,7 @@ async function getCategorizedData(value: string) {
     <h3 class="color-primary">Najnovije</h3>
   </ElRow>
 
-  <ElSkeleton v-if="isLoading" animated>
-    <template #template>
-      <ElRow
-        :gutter="24"
-        class="mb-24"
-        :style="`${$viewport.match('tablet') ? 'margin-left: -9px; margin-right: -9px' : $viewport.isLessThan('tablet') ? 'margin-left: -6px; margin-right: -18px' : undefined}`"
-      >
-        <ElCol :span="5" v-if="$viewport.isGreaterThan('tablet')">
-          <ComWidget class="side-com" :com="dashboardSide?.left" />
-        </ElCol>
-        <ElCol :span="$viewport.isLessOrEquals('tablet') ? 24 : 14">
-          <ElRow :gutter="12">
-            <ElRow :gutter="12" justify="center" class="w-100">
-              <ElTabs
-                @tab-change="value => getCategorizedData(value as string)"
-                v-model="tab"
-              >
-                <ElTabPane name="portal">
-                  <template #label>
-                    <ElIcon :size="18" class="mr-4">
-                      <MegafoneIcon />
-                    </ElIcon>
-                    Portal
-                  </template>
-                </ElTabPane>
-                <ElTabPane name="jobs">
-                  <template #label>
-                    <ElIcon :size="22" class="mr-4">
-                      <OfficeBuilding />
-                    </ElIcon>
-                    Poslovi
-                  </template>
-                </ElTabPane>
-                <ElTabPane name="webshop">
-                  <template #label>
-                    <ElIcon :size="22" class="mr-4">
-                      <Shop />
-                    </ElIcon>
-                    Webshop
-                  </template>
-                </ElTabPane>
-              </ElTabs>
-            </ElRow>
-            <ElRow
-              class="w-100"
-              :style="`${$viewport.isGreaterOrEquals('tablet') ? 'margin-left: -3px' : undefined}`"
-              :gutter="12"
-              style="height: calc(90dvh + 24px)"
-            >
-              <ElCol
-                :span="$viewport.isLessThan('tablet') ? 24 : 14"
-                :class="{
-                  'large-news-mobile': $viewport.isLessThan('tablet'),
-                  'large-news-desktop': $viewport.isGreaterOrEquals('tablet')
-                }"
-              >
-                <ElSkeletonItem
-                  variant="image"
-                  :style="`border-radius: 4px; ${$viewport.isLessThan('tablet') ? 'height: 30dvh' : 'height: 40dvh'}`"
-                />
-                <ElSkeletonItem
-                  v-if="$viewport.isLessThan('tablet')"
-                  variant="image"
-                  style="border-radius: 4px; height: 30dvh; margin-top: 12px"
-                />
-                <ElSkeletonItem
-                  v-if="$viewport.isLessThan('tablet')"
-                  variant="image"
-                  style="border-radius: 4px; height: 30dvh; margin-top: 12px"
-                />
-              </ElCol>
-              <ElCol
-                v-if="!$viewport.isLessThan('tablet')"
-                :span="$viewport.isLessThan('tablet') ? 24 : 10"
-              >
-                <ElRow class="categorized-news" :gutter="12">
-                  <ElSkeletonItem
-                    variant="image"
-                    style="
-                      border-radius: 4px;
-                      width: 100%;
-                      height: calc(20dvh - 3px);
-                    "
-                  />
-                </ElRow>
-                <ElRow class="categorized-news mt-6" :gutter="12">
-                  <ElSkeletonItem
-                    variant="image"
-                    style="
-                      border-radius: 4px;
-                      height: calc(20dvh - 3px);
-                      width: 100%;
-                    "
-                  />
-                </ElRow>
-              </ElCol>
-            </ElRow>
-          </ElRow>
-        </ElCol>
-        <ElCol :span="5" v-if="$viewport.isGreaterThan('tablet')">
-          <ComWidget class="side-com" :com="dashboardSide?.right" />
-        </ElCol>
-      </ElRow>
-    </template>
-  </ElSkeleton>
-
   <ElRow
-    v-else-if="!isLoading && data"
     :gutter="24"
     class="mb-24"
     :style="`${$viewport.match('tablet') ? 'margin-left: -9px; margin-right: -9px' : $viewport.isLessThan('tablet') ? 'margin-left: -6px; margin-right: -18px' : undefined}`"
@@ -150,7 +46,9 @@ async function getCategorizedData(value: string) {
     <!-- @vue-expect-error -->
     <ElCol
       v-if="
-        !comsLoading && comSettings[0]?.show && $viewport.isGreaterThan('tablet')
+        !comsLoading &&
+        comSettings[0]?.show &&
+        $viewport.isGreaterThan('tablet')
       "
       :span="5"
     >
@@ -196,7 +94,7 @@ async function getCategorizedData(value: string) {
         </ElRow>
         <ElRow
           class="w-100"
-          :style="`${$viewport.isGreaterOrEquals('tablet') ? 'margin-left: -3px' : undefined}`"
+          :style="`${$viewport.isGreaterOrEquals('tablet') ? 'margin-left: -3px;' : 'height: calc(90dvh + 24px)'}`"
           :gutter="12"
         >
           <ElCol
@@ -206,53 +104,107 @@ async function getCategorizedData(value: string) {
               'large-news-desktop': $viewport.isGreaterOrEquals('tablet')
             }"
           >
-            <NewsWidget v-if="tab === 'portal'" :news="data[0]" />
-            <JobWidget v-else-if="tab === 'jobs'" :job="data[0]" />
-            <ProductWidget v-else-if="tab === 'webshop'" :product="data[0]" />
+            <ElSkeleton animated v-if="isLoading">
+              <template #template>
+                <ElSkeletonItem
+                  variant="image"
+                  :style="`border-radius: 4px; ${$viewport.isLessThan('tablet') ? 'height: 30dvh' : 'height: 40dvh'}`"
+                />
+                <ElSkeletonItem
+                  v-if="$viewport.isLessThan('tablet')"
+                  variant="image"
+                  style="border-radius: 4px; height: 30dvh; margin-top: 12px"
+                />
+                <ElSkeletonItem
+                  v-if="$viewport.isLessThan('tablet')"
+                  variant="image"
+                  style="border-radius: 4px; height: 30dvh; margin-top: 12px"
+                />
+              </template>
+            </ElSkeleton>
+            <template v-else>
+              <NewsWidget v-if="tab === 'portal'" :news="data[0]" />
+              <JobWidget v-else-if="tab === 'jobs'" :job="data[0]" />
+              <ProductWidget v-else-if="tab === 'webshop'" :product="data[0]" />
+            </template>
           </ElCol>
           <ElCol
             :span="$viewport.isLessThan('tablet') ? 24 : 10"
             class="small-news-container"
           >
             <ElRow class="small-news-row" :gutter="12">
-              <NewsWidget
-                v-if="tab === 'portal'"
-                :news="data[1]"
-                class="small-news"
-                :class="{ 'mx-6 mt-8': $viewport.isLessThan('tablet') }"
-              />
-              <JobWidget
-                v-else-if="tab === 'jobs'"
-                :job="data[1]"
-                class="small-news"
-                :class="{ 'mx-6 mt-8': $viewport.isLessThan('tablet') }"
-              />
-              <ProductWidget
-                v-else-if="tab === 'webshop'"
-                :product="data[1]"
-                class="small-news"
-                :class="{ 'mx-6 mt-8': $viewport.isLessThan('tablet') }"
-              />
+              <ElSkeleton
+                animated
+                v-if="isLoading && $viewport.isGreaterOrEquals('tablet')"
+              >
+                <template #template>
+                  <ElSkeletonItem
+                    variant="image"
+                    style="
+                      border-radius: 4px;
+                      width: 100%;
+                      height: calc(20dvh - 3px);
+                    "
+                  />
+                </template>
+              </ElSkeleton>
+              <template v-else-if="!isLoading && data">
+                <NewsWidget
+                  v-if="tab === 'portal'"
+                  :news="data[1]"
+                  class="small-news"
+                  :class="{ 'mx-6 mt-8': $viewport.isLessThan('tablet') }"
+                />
+                <JobWidget
+                  v-else-if="tab === 'jobs'"
+                  :job="data[1]"
+                  class="small-news"
+                  :class="{ 'mx-6 mt-8': $viewport.isLessThan('tablet') }"
+                />
+                <ProductWidget
+                  v-else-if="tab === 'webshop'"
+                  :product="data[1]"
+                  class="small-news"
+                  :class="{ 'mx-6 mt-8': $viewport.isLessThan('tablet') }"
+                />
+              </template>
             </ElRow>
             <ElRow class="small-news-row mt-6" :gutter="12">
-              <NewsWidget
-                v-if="tab === 'portal'"
-                :news="data[2]"
-                class="small-news"
-                :class="{ 'mx-6': $viewport.isLessThan('tablet') }"
-              />
-              <JobWidget
-                v-else-if="tab === 'jobs'"
-                :job="data[2]"
-                class="small-news"
-                :class="{ 'mx-6': $viewport.isLessThan('tablet') }"
-              />
-              <ProductWidget
-                v-else-if="tab === 'webshop'"
-                :product="data[2]"
-                class="small-news"
-                :class="{ 'mx-6': $viewport.isLessThan('tablet') }"
-              />
+              <ElSkeleton
+                animated
+                v-if="isLoading && $viewport.isGreaterOrEquals('tablet')"
+              >
+                <template #template>
+                  <ElSkeletonItem
+                    variant="image"
+                    style="
+                      border-radius: 4px;
+                      width: 100%;
+                      height: calc(20dvh - 3px);
+                    "
+                  />
+                </template>
+              </ElSkeleton>
+              <template v-else-if="!isLoading && data">
+                <NewsWidget
+                  v-if="tab === 'portal'"
+                  :news="data[2]"
+                  class="small-news"
+                  :class="{ 'mx-6': $viewport.isLessThan('tablet') }"
+                />
+                <JobWidget
+                  v-else-if="tab === 'jobs'"
+                  :job="data[2]"
+                  class="small-news"
+                  :class="{ 'mx-6': $viewport.isLessThan('tablet') }"
+                />
+                <ProductWidget
+                  v-else-if="tab === 'webshop'"
+                  :product="data[2]"
+                  class="small-news"
+                  :class="{ 'mx-6': $viewport.isLessThan('tablet') }"
+                />
+              </template>
             </ElRow>
           </ElCol>
         </ElRow>
@@ -261,7 +213,9 @@ async function getCategorizedData(value: string) {
     <!-- @vue-expect-error -->
     <ElCol
       v-if="
-        !comsLoading && comSettings[0]?.show && $viewport.isGreaterThan('tablet')
+        !comsLoading &&
+        comSettings[0]?.show &&
+        $viewport.isGreaterThan('tablet')
       "
       :span="5"
     >

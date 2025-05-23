@@ -213,7 +213,6 @@ async function getDashboardNews() {
       <DashboardCategorizedNews
         v-if="comSettings"
         :prop-news="categorizedNews"
-        :prop-is-loading="isLoading"
       />
     </template>
   </div>

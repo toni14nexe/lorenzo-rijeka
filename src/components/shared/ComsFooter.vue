@@ -7,7 +7,9 @@ const { comsLoading, comSettings, footerSlider, footerLarge } =
 </script>
 
 <template>
-  <ClientOnly v-if="comSettings && (comSettings[1]?.show || comSettings[2]?.show)">
+  <ClientOnly
+    v-if="comSettings && (comSettings[1]?.show || comSettings[2]?.show)"
+  >
     <ElDivider />
 
     <div v-if="!comsLoading && comSettings[1]?.show" class="scrollbar mt-24">

@@ -46,8 +46,15 @@ useHead({
     }
   ],
   link: [
-    { rel: 'icon', type: 'image/png', href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342417/favicon-96x96_xfuydm.png' },
-    { rel: 'apple-touch-icon', href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png' }
+    {
+      rel: 'icon',
+      type: 'image/png',
+      href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342417/favicon-96x96_xfuydm.png'
+    },
+    {
+      rel: 'apple-touch-icon',
+      href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
+    }
   ]
 })
 

@@ -8,13 +8,12 @@ function shareOnFacebook() {
 </script>
 
 <template>
-    <ElButton type="primary" plain @click="shareOnFacebook">
-        <ElIcon :size="24" class="mr-8">
-            <FacebookIcon />
-        </ElIcon>
-        Podijeli
-    </ElButton>
+  <ElButton type="primary" plain @click="shareOnFacebook">
+    <ElIcon :size="24" class="mr-8">
+      <FacebookIcon />
+    </ElIcon>
+    Podijeli
+  </ElButton>
 </template>
 
-<style lang="css" scoped>
-</style>
+<style lang="css" scoped></style>

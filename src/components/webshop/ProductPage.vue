@@ -10,7 +10,9 @@ const isLoading = ref(true)
 const product = ref<Product>()
 
 const parsedHtml = computed(() =>
-  product.value?.description ? product.value.description.replace(/&nbsp;/g, ' ') : ''
+  product.value?.description
+    ? product.value.description.replace(/&nbsp;/g, ' ')
+    : ''
 )
 
 onMounted(() => getProduct())
