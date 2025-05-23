@@ -15,6 +15,17 @@ useHead({
     }
   ]
 })
+
+useSeoMeta({
+  description: 'Stanje vaše narudžbe možete provjeriti ovdje.',
+  ogTitle: `Narudžba`,
+  ogDescription: 'Stanje vaše narudžbe možete provjeriti ovdje.',
+  ogImage:
+    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png',
+  twitterCard: 'summary_large_image',
+  twitterImage:
+    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
+})
 </script>
 
 <template><OrderStatePage /></template>

@@ -1,22 +1,76 @@
-<script lang="ts" setup>
+<script setup lang="ts">
+import { useRoute, useRuntimeConfig, useHead } from '#imports'
 import PortalNewsPage from '~/components/portal/PortalNewsPage.vue'
+import { stripHtml } from 'string-strip-html'
+import type { News } from '~/types/portal'
 
-useHead({
-  title: 'Gastabajter.de - Vijesti',
-  meta: [
-    {
-      name: 'description',
-      content: `Ovdje možete pročitati našu vijest.`
-    },
-    { property: 'og:title', content: 'Gastabajter.de - Vijesti' },
-    {
-      property: 'og:description',
-      content: `Ovdje možete pročitati našu vijest.`
-    }
-  ]
-})
+const config = useRuntimeConfig()
+const route = useRoute()
+const newsId = route.params.newsId as string
+const baseUrl = config.public.appBaseUrl.replace(/\/$/, '')
+
+const { data: news, pending: isLoading } = await useAsyncData<News>(
+  `news-${newsId}`,
+  () => $fetch(`${config.public.axiosApiBaseUrl}/portal-news/${newsId}`)
+)
+
+if (news.value) {
+  const description = stripHtml((news.value.text as string) || '')
+    .result.trim()
+    .slice(0, 160)
+  const image =
+    (news.value.images?.[0] as string) ||
+    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/favicon-180x180_we2zi4.png'
+  const url = `${baseUrl}${route.fullPath}`
+
+  useHead({
+    title: news.value.title as string,
+    meta: [
+      {
+        name: 'description',
+        content: description
+      },
+      {
+        property: 'og:title',
+        content: news.value.title as string
+      },
+      {
+        property: 'og:description',
+        content: description
+      },
+      {
+        property: 'og:image',
+        content: image
+      },
+      {
+        property: 'og:url',
+        content: url
+      },
+      {
+        property: 'og:type',
+        content: 'article'
+      },
+      {
+        name: 'twitter:card',
+        content: 'summary_large_image'
+      },
+      {
+        name: 'twitter:title',
+        content: news.value.title as string
+      },
+      {
+        name: 'twitter:description',
+        content: description
+      },
+      {
+        name: 'twitter:image',
+        content: image
+      }
+    ]
+  })
+}
 </script>
 
-<template><PortalNewsPage /></template>
-
-<style lang="css" scoped></style>
+<template>
+  <PortalNewsPage :news="news" :is-loading="isLoading" />
+</template>

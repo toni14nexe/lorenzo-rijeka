@@ -1,6 +1,9 @@
 [build]
+  command = "nuxt build"
   publish = "dist"
-  command = "npm install && npm run build"
+
+[functions]
+  directory = ".output/server/functions"
 
 [build.environment]
   NODE_VERSION = "20.18.0"

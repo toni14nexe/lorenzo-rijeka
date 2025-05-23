@@ -4,7 +4,7 @@
   "type": "module",
   "author": "Toni Kolarić - Innovatech",
   "scripts": {
-    "build": "nuxt build",
+    "build": "nuxt build --preset netlify",
     "dev": "nuxt dev",
     "prisma:generate": "prisma generate",
     "preview": "nuxt preview",
@@ -38,6 +38,7 @@
     "pinia": "^2.2.4",
     "primevue": "^4.3.4",
     "quill": "^2.0.3",
+    "string-strip-html": "^13.4.12",
     "stripe": "^18.0.0",
     "vue": "latest",
     "vue-router": "latest"

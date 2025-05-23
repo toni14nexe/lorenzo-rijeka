@@ -1,33 +1,20 @@
 <script setup lang="ts">
 import Gallery from '~/components/shared/Gallery.vue'
 import FacebookShareButton from '~/components/shared/FacebookShareButton.vue'
+import CopyUrlButton from '~/components/shared/CopyUrlButton.vue'
 import type { Product } from '~/types/webshop'
 import { ShoppingCart } from '@element-plus/icons-vue'
 
-const { $axios } = useNuxtApp()
-const route = useRoute()
-const isLoading = ref(true)
-const product = ref<Product>()
+const props = defineProps<{
+  product: Product | null
+  isLoading: boolean
+}>()
 
 const parsedHtml = computed(() =>
-  product.value?.description
-    ? product.value.description.replace(/&nbsp;/g, ' ')
+  props.product?.description
+    ? props.product.description.replace(/&nbsp;/g, ' ')
     : ''
 )
-
-onMounted(() => getProduct())
-
-async function getProduct() {
-  isLoading.value = true
-  try {
-    const response = await $axios.get(`/product/${route.params.productId}`)
-    product.value = response.data
-  } catch (error) {
-    console.error('API Error:', error)
-  } finally {
-    isLoading.value = false
-  }
-}
 </script>
 
 <template>
@@ -125,7 +112,8 @@ async function getProduct() {
         <b class="ml-4">{{ Number(product.price).toFixed(2) }} €</b>
       </ElRow>
       <ElRow class="mb-12 social-share-buttons">
-        <FacebookShareButton />
+        <FacebookShareButton class="mr-4" />
+        <CopyUrlButton class="ml-4" />
       </ElRow>
       <ElRow justify="center" align="middle" class="mb-24">
         <NuxtLink :to="`/webshop/${product.id}/narudzba`">

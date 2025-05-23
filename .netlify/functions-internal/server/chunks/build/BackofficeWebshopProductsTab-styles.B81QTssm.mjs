@@ -1,0 +1,6 @@
+import { B as BackofficeWebshopProductsTab_vue_vue_type_style_index_0_scoped_3b94e150_lang } from './BackofficeWebshopProductsTab-styles-1.mjs-i3hNbX2g.mjs';
+
+const BackofficeWebshopProductsTabStyles_B81QTssm = [BackofficeWebshopProductsTab_vue_vue_type_style_index_0_scoped_3b94e150_lang, BackofficeWebshopProductsTab_vue_vue_type_style_index_0_scoped_3b94e150_lang];
+
+export { BackofficeWebshopProductsTabStyles_B81QTssm as default };
+//# sourceMappingURL=BackofficeWebshopProductsTab-styles.B81QTssm.mjs.map

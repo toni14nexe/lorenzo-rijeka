@@ -1,29 +1,16 @@
 <script setup lang="ts">
 import FacebookShareButton from '~/components/shared/FacebookShareButton.vue'
+import CopyUrlButton from '~/components/shared/CopyUrlButton.vue'
 import type { Job } from '~/types/jobs'
 
-const { $axios } = useNuxtApp()
-const route = useRoute()
-const isLoading = ref(true)
-const job = ref<Job>()
+const props = defineProps<{
+  job: Job | null
+  isLoading: boolean
+}>()
 
 const parsedHtml = computed(() =>
-  job.value?.description ? job.value.description.replace(/&nbsp;/g, ' ') : ''
+  props.job?.description ? props.job.description.replace(/&nbsp;/g, ' ') : ''
 )
-
-onMounted(() => getJob())
-
-async function getJob() {
-  isLoading.value = true
-  try {
-    const response = await $axios.get(`/job/${route.params.jobId}`)
-    job.value = response.data
-  } catch (error) {
-    console.error('API Error:', error)
-  } finally {
-    isLoading.value = false
-  }
-}
 </script>
 
 <template>
@@ -87,7 +74,8 @@ async function getJob() {
       </ElRow>
       <div v-html="parsedHtml" class="job-content" />
       <ElRow justify="center" class="mb-12 social-share-buttons">
-        <FacebookShareButton />
+        <FacebookShareButton class="mr-4" />
+        <CopyUrlButton class="ml-4" />
       </ElRow>
     </template>
   </div>

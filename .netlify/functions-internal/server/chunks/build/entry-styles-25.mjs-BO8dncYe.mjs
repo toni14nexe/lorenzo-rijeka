@@ -1,0 +1,4 @@
+const Footer_vue_vue_type_style_index_0_scoped_40682579_lang = ".divider[data-v-40682579]{margin-bottom:24px!important}.footer-top[data-v-40682579]{margin-left:auto;margin-right:auto;max-width:1560px;padding:0 20px}.link[data-v-40682579]{color:var(--el-text-color-secondary)}.link[data-v-40682579],.link[data-v-40682579]:hover{text-decoration:none}.link[data-v-40682579]:hover{color:var(--el-color-primary)}.icon-link[data-v-40682579]{color:var(--el-text-color-secondary);transition:.3s ease-in-out}.icon-link[data-v-40682579]:hover{color:var(--el-color-primary)}.bottom-line[data-v-40682579]{background-color:var(--el-text-color-secondary);font-size:small;height:30px}.color-zinc[data-v-40682579]{color:var(--el-text-color-secondary)}.text-align-center[data-v-40682579]{text-align:center}";
+
+export { Footer_vue_vue_type_style_index_0_scoped_40682579_lang as F };
+//# sourceMappingURL=entry-styles-25.mjs-BO8dncYe.mjs.map

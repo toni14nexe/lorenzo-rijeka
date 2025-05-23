@@ -19,6 +19,17 @@ useHead({
     }
   ]
 })
+
+useSeoMeta({
+  description: 'Administratorske stranice',
+  ogTitle: `Backoffice`,
+  ogDescription: 'Administratorske stranice',
+  ogImage:
+    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png',
+  twitterCard: 'summary_large_image',
+  twitterImage:
+    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
+})
 </script>
 
 <template><BackofficePage /></template>

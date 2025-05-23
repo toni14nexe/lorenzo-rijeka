@@ -4,13 +4,8 @@ import hr from 'element-plus/es/locale/lang/hr'
 
 useHead({
   titleTemplate: title =>
-    title ? `${title} - Gastarbajter.de` : 'Gastarbajter.de',
+    title ? `Gastarbajter.de - ${title}` : 'Gastarbajter.de',
   meta: [
-    {
-      name: 'description',
-      content:
-        'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.'
-    },
     {
       name: 'keywords',
       content:
@@ -18,12 +13,6 @@ useHead({
     },
     { name: 'author', content: 'InnovaTech obrt za informatičke usluge' },
     { property: 'og:type', content: 'website' },
-    { property: 'og:title', content: 'Gastarbajter.de' },
-    {
-      property: 'og:description',
-      content:
-        'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.'
-    },
 
     // Image
     {
@@ -33,7 +22,7 @@ useHead({
     },
     { property: 'og:image:width', content: '50' },
     { property: 'og:image:height', content: '50' },
-    { property: 'og:url', content: 'https://gastabajter.de' },
+    { property: 'og:url', content: process.env.APP_BASE_URL },
     { name: 'twitter:card', content: 'summary_large_image' },
     {
       name: 'twitter:image',
@@ -56,19 +45,6 @@ useHead({
       href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
     }
   ]
-})
-
-useSeoMeta({
-  description:
-    'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.',
-  ogTitle: 'Dobrodošli na Gastarbajter.de',
-  ogDescription:
-    'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.',
-  ogImage:
-    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png',
-  twitterCard: 'summary_large_image',
-  twitterImage:
-    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
 })
 </script>
 

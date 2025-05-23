@@ -2,6 +2,10 @@
 import Aura from '@primeuix/themes/aura'
 
 export default defineNuxtConfig({
+  ssr: true,
+  nitro: {
+    preset: 'netlify'
+  },
   compatibilityDate: '2024-04-03',
   devtools: { enabled: true },
   srcDir: 'src/',
@@ -52,7 +56,6 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
-      title: 'Gastarbajter.de',
       script: [
         {
           src: 'https://js.stripe.com/v3/buy-button.js',

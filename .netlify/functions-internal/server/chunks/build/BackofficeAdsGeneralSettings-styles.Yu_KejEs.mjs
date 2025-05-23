@@ -1,0 +1,6 @@
+import { B as BackofficeAdsGeneralSettings_vue_vue_type_style_index_0_scoped_509c6c73_lang } from './BackofficeAdsGeneralSettings-styles-1.mjs-DbtkXNvv.mjs';
+
+const BackofficeAdsGeneralSettingsStyles_Yu_KejEs = [BackofficeAdsGeneralSettings_vue_vue_type_style_index_0_scoped_509c6c73_lang, BackofficeAdsGeneralSettings_vue_vue_type_style_index_0_scoped_509c6c73_lang];
+
+export { BackofficeAdsGeneralSettingsStyles_Yu_KejEs as default };
+//# sourceMappingURL=BackofficeAdsGeneralSettings-styles.Yu_KejEs.mjs.map

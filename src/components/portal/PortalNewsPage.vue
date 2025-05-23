@@ -2,29 +2,18 @@
 import type { News } from '~/types/portal'
 import Gallery from '~/components/shared/Gallery.vue'
 import FacebookShareButton from '~/components/shared/FacebookShareButton.vue'
+import CopyUrlButton from '~/components/shared/CopyUrlButton.vue'
 
-const { $viewport, $axios } = useNuxtApp()
-const route = useRoute()
-const isLoading = ref(true)
-const news = ref<News>()
+const props = defineProps<{
+  news: News | null
+  isLoading: boolean
+}>()
+
+const { $viewport } = useNuxtApp()
 
 const parsedHtml = computed(() =>
-  news.value?.text ? news.value.text.replace(/&nbsp;/g, ' ') : ''
+  props.news?.text ? props.news.text.replace(/&nbsp;/g, ' ') : ''
 )
-
-onMounted(() => getNews())
-
-async function getNews() {
-  isLoading.value = true
-  try {
-    const response = await $axios.get(`/portal-news/${route.params.newsId}`)
-    news.value = response.data
-  } catch (error) {
-    console.error('API Error:', error)
-  } finally {
-    isLoading.value = false
-  }
-}
 </script>
 
 <template>
@@ -95,7 +84,8 @@ async function getNews() {
       <div v-html="parsedHtml" class="news-content" />
 
       <ElRow justify="center" class="mb-12 social-share-buttons">
-        <FacebookShareButton />
+        <FacebookShareButton class="mr-4" />
+        <CopyUrlButton class="ml-4" />
       </ElRow>
     </template>
   </div>

@@ -1,19 +1,24 @@
 <script setup lang="ts">
 import FacebookIcon from '~/assets/icons/facebook.vue'
 
-function shareOnFacebook() {
-  const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(window.location.href)}`
-  window.open(facebookShareUrl, '_blank')
-}
+const route = useRoute()
+const config = useRuntimeConfig()
+const appBaseUrl = config.public.appBaseUrl
+const url = `${appBaseUrl}/${route.fullPath}`
 </script>
 
 <template>
-  <ElButton type="primary" plain @click="shareOnFacebook">
-    <ElIcon :size="24" class="mr-8">
-      <FacebookIcon />
-    </ElIcon>
-    Podijeli
-  </ElButton>
+  <NuxtLink
+    :to="`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`"
+    target="_blank"
+  >
+    <ElButton type="primary" plain>
+      <ElIcon :size="24" class="mr-8">
+        <FacebookIcon />
+      </ElIcon>
+      Podijeli
+    </ElButton>
+  </NuxtLink>
 </template>
 
 <style lang="css" scoped></style>

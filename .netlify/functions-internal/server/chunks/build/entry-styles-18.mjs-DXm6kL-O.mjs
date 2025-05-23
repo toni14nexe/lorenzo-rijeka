@@ -1,0 +1,4 @@
+const HeaderPortalDrawerItem_vue_vue_type_style_index_0_scoped_6cda43cf_lang = ".button[data-v-6cda43cf]{border-radius:8px}.button[data-v-6cda43cf],.button-with-childs[data-v-6cda43cf]{font-weight:500;height:35px;margin:0;text-decoration:none}.button-with-childs[data-v-6cda43cf]{border-radius:8px 0 0 8px}.button-text-wrapper[data-v-6cda43cf]{gap:12px;width:100%}.portal-more-button[data-v-6cda43cf]{border-left:none;border-radius:0 8px 8px 0;height:35px;width:100%}.portal-more-button[data-v-6cda43cf]:hover{background-color:var(--el-color-primary-light-9)!important;color:var(--el-button-hover-text-color)!important}.rotate-90[data-v-6cda43cf]{transform:rotate(90deg)}.rotate-0[data-v-6cda43cf]{transform:rotate(0)}.transition-transform[data-v-6cda43cf]{transition:transform .3s ease}";
+
+export { HeaderPortalDrawerItem_vue_vue_type_style_index_0_scoped_6cda43cf_lang as H };
+//# sourceMappingURL=entry-styles-18.mjs-DXm6kL-O.mjs.map
