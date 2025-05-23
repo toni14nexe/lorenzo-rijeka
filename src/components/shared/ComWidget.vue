@@ -13,7 +13,7 @@ function openUrl(url: string, inNewTab?: boolean) {
     <div
       class="component component-hover-opacity"
       :class="{ 'cursor-pointer': com.url }"
-      :style="`background-image: url(${com.imageUrl})`"
+      :style="`--component-bg: url(${com.imageUrl})`"
       @click="com.url ? openUrl(com.url, true) : undefined"
     />
   </div>
@@ -32,17 +32,31 @@ function openUrl(url: string, inNewTab?: boolean) {
   display: block;
 }
 .component {
+  position: relative;
   height: 100%;
   border: 1px solid var(--el-border-color);
   border-radius: 4px;
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
   box-shadow: var(--el-box-shadow-light);
-  display: block;
+  overflow: hidden;
+}
+.component::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--component-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 0.4s ease;
+  will-change: transform;
+  z-index: 0;
+}
+.component-hover-opacity:hover::before {
+  transform: scale(1.05);
 }
 .component-hover-opacity {
   transition: 0.3s ease-in-out;
+  position: relative;
 }
 .component-hover-opacity:hover {
   opacity: 0.75;

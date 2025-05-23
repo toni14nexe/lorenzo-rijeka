@@ -8,7 +8,7 @@ defineProps(['news'])
   <div
     v-if="news"
     class="news cursor-pointer"
-    :style="`background-image: url(${news.images.length ? news.images[0] : ''})`"
+    :style="`--news-bg: url(${news.images.length ? news.images[0] : ''})`"
   >
     <NuxtLink :to="`/portal/${news.category.name}/${news.id}`">
       <div class="news-opacity-container" />
@@ -30,29 +30,50 @@ defineProps(['news'])
 .news {
   position: relative;
   border: 1px solid var(--el-border-color);
-  background-repeat: no-repeat;
-  background-position: center center;
-  background-size: cover;
   height: 100%;
   border-radius: 4px;
   overflow: hidden;
   box-shadow: var(--el-box-shadow-light);
 }
+.news::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: var(--news-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: transform 0.4s ease;
+  z-index: 0;
+  will-change: transform;
+}
+.news:hover::before {
+  transform: scale(1.1);
+}
 .news-opacity-container {
-  opacity: 0.3333;
-  background-color: black;
+  position: absolute;
+  top: 0;
+  left: 0;
   height: 100%;
-  transition: 0.3s ease-in-out;
+  width: 100%;
+  background-color: black;
+  opacity: 0.3333;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 1;
 }
 .news:hover .news-opacity-container {
   opacity: 0.75;
 }
 .news-text-container {
-  height: 100%;
-  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   justify-content: end;
