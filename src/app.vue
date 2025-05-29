@@ -18,7 +18,7 @@ useHead({
     {
       property: 'og:image',
       content:
-        'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
+        'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png'
     },
     { property: 'og:image:width', content: '50' },
     { property: 'og:image:height', content: '50' },
@@ -27,7 +27,7 @@ useHead({
     {
       name: 'twitter:image',
       content:
-        'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
+        'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png'
     },
     {
       name: 'google-site-verification',
@@ -38,11 +38,11 @@ useHead({
     {
       rel: 'icon',
       type: 'image/png',
-      href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342417/favicon-96x96_xfuydm.png'
+      href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519809/96_oreti5.png'
     },
     {
       rel: 'apple-touch-icon',
-      href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
+      href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png'
     }
   ]
 })
@@ -55,31 +55,31 @@ useHead({
         rel="apple-touch-icon"
         type="image/png"
         sizes="180x180"
-        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png"
+        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png"
       />
       <link
         rel="icon"
         type="image/png"
         sizes="32x32"
-        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342582/favicon-32x32_avu6vh.png"
+        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519905/32_y5b1p2.png"
       />
       <link
         rel="icon"
         type="image/png"
         sizes="16x16"
-        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342581/favicon-16x16_ghbvtz.png"
+        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519887/16_ckfbsd.png"
       />
       <link
         rel="icon"
         type="image/png"
-        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342417/favicon-96x96_xfuydm.png"
+        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519809/96_oreti5.png"
         sizes="96x96"
       />
       <link
         rel="apple-touch-icon"
         type="image/png"
         sizes="180x180"
-        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png"
+        href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png"
       />
       <meta name="apple-mobile-web-app-title" content="Gastarbajter.de" />
     </head>

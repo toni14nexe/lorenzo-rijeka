@@ -72,19 +72,19 @@ export default defineNuxtConfig({
           rel: 'icon',
           type: 'image/png',
           sizes: '32x32',
-          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342582/favicon-32x32_avu6vh.png'
+          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519905/32_y5b1p2.png'
         },
         {
           rel: 'icon',
           type: 'image/png',
           sizes: '16x16',
-          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342581/favicon-16x16_ghbvtz.png'
+          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519887/16_ckfbsd.png'
         },
         {
           rel: 'icon',
           type: 'image/png',
           sizes: '96x96',
-          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342417/favicon-96x96_xfuydm.png'
+          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519809/96_oreti5.png'
         },
         {
           rel: 'apple-touch-icon',
@@ -117,7 +117,7 @@ export default defineNuxtConfig({
         {
           property: 'og:image',
           content:
-            'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
+            'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png'
         },
         { property: 'twitter:card', content: 'summary_large_image' },
         { property: 'twitter:title', content: 'Gastarbajter.de' },
@@ -129,7 +129,7 @@ export default defineNuxtConfig({
         {
           property: 'twitter:image',
           content:
-            'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
+            'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png'
         }
       ]
     }

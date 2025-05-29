@@ -24,10 +24,10 @@ useSeoMeta({
   ogTitle: `Portal - ${title}`,
   ogDescription: `Kategorija vijesti na Portalu sa najnovijim vijestima. ${title}`,
   ogImage:
-    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png',
+    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png',
   twitterCard: 'summary_large_image',
   twitterImage:
-    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png'
+    'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png'
 })
 </script>
 
