@@ -141,3 +141,10 @@ model Ad {
   imageUrl              String
   price                 Decimal?        @db.Decimal(10, 2)
 }
+
+model DashboardCard {
+  id                    String          @id @default(cuid())
+  title                 String
+  position              Int?
+  text                  String
+}

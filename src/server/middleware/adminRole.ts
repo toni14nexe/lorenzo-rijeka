@@ -22,7 +22,8 @@ export default defineEventHandler(async (event: H3Event) => {
       event.req.method !== 'GET') ||
     (url.includes('/api/ad') &&
       event.req.method !== 'POST' &&
-      event.req.method !== 'GET')
+      event.req.method !== 'GET') ||
+    (url.includes('/api/dashboard-card') && event.req.method !== 'GET')
   ) {
     const token = event.req.headers['authorization']?.split(' ')[1]
     try {
