@@ -1,8 +1,8 @@
 <script setup lang="ts">
 export type InfoCardData = {
   title: string
-  infos: string[]
-  icon: Component
+  text: string
+  position?: number
 }
 
 interface Props {
@@ -14,15 +14,10 @@ defineProps<Props>()
 
 <template>
   <ElCard class="info-card">
-    <div class="info-card-header">
-      <ElIcon size="24" class="color-primary">
-        <component :is="cardInfo.icon" />
-      </ElIcon>
-      <span class="info-card-title">
-        {{ cardInfo.title }}
-      </span>
-    </div>
-    <p v-for="info in cardInfo.infos">{{ info }}</p>
+    <span class="info-card-title">
+      {{ cardInfo.title }}
+    </span>
+    <div v-html="cardInfo.text" class="info-text" />
   </ElCard>
 </template>
 
@@ -32,14 +27,16 @@ defineProps<Props>()
   height: 100%;
   margin-bottom: 12px;
 }
-.info-card-header {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
 .info-card-title {
   color: var(--el-color-primary);
   font-weight: 500;
+}
+.info-text {
+  margin-top: 8px;
+  line-height: 1.6;
+  white-space: normal;
+  word-wrap: break-word;
+  text-align: justify;
 }
 @media screen and (min-width: 768px) {
   .info-card {

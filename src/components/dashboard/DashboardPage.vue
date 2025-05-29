@@ -2,6 +2,7 @@
 import DashboardInfoCardContainer from '~/components/dashboard/DashboardInfoCardContainer.vue'
 import NewsWidget from '~/components/shared/NewsWidget.vue'
 import type { News } from '~/types/portal'
+import type { InfoCardData } from '~/components/dashboard/DashboardInfoCard.vue'
 
 const { $viewport, $axios } = useNuxtApp()
 const comStore = useComStore()
@@ -9,6 +10,7 @@ const { comSettings } = storeToRefs(comStore)
 const isLoading = ref(true)
 const newestLargeNews = ref<News[]>()
 const newestSmallNews = ref<News[]>()
+const infoCardsDetails = ref<InfoCardData[]>()
 const categorizedNews = ref<News[]>()
 
 onMounted(() => getDashboardNews())
@@ -18,21 +20,22 @@ async function getDashboardNews() {
   try {
     const response = await $axios.get('/dashboard')
     newestLargeNews.value = [
-      response.data[0],
-      response.data[1],
-      response.data[2]
+      response.data.news[0],
+      response.data.news[1],
+      response.data.news[2]
     ]
     newestSmallNews.value = [
-      response.data[3],
-      response.data[4],
-      response.data[5],
-      response.data[6]
+      response.data.news[3],
+      response.data.news[4],
+      response.data.news[5],
+      response.data.news[6]
     ]
     categorizedNews.value = [
-      response.data[0],
-      response.data[1],
-      response.data[2]
+      response.data.news[0],
+      response.data.news[1],
+      response.data.news[2]
     ]
+    infoCardsDetails.value = response.data.cards
   } catch (error) {
     console.error('API Error:', error)
   } finally {
@@ -66,7 +69,7 @@ async function getDashboardNews() {
           </ElCol>
         </ElRow>
 
-        <DashboardInfoCardContainer />
+        <DashboardInfoCardContainer :cards="infoCardsDetails" />
 
         <ElDivider />
 
@@ -206,7 +209,7 @@ async function getDashboardNews() {
         </ElCol>
       </ElRow>
 
-      <DashboardInfoCardContainer />
+      <DashboardInfoCardContainer :cards="infoCardsDetails" />
 
       <ElDivider />
 
