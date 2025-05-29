@@ -8,6 +8,7 @@ import BackofficeWebshopCategoriesTab from '~/components/backoffice/tabs/Backoff
 import BackofficeWebshopProductsTab from '~/components/backoffice/tabs/BackofficeWebshopProductsTab.vue'
 import BackofficeOrdersTab from '~/components/backoffice/tabs/BackofficeOrdersTab.vue'
 import BackofficeAdsTab from '~/components/backoffice/tabs/Ads/BackofficeAdsTab.vue'
+import BackofficeDashboardInfoCards from '~/components/backoffice/tabs/BackofficeDashboardInfoCards.vue'
 import { SwitchButton } from '@element-plus/icons-vue'
 import '~/assets/styles/backoffice.css'
 
@@ -42,6 +43,11 @@ const activeTab = ref()
 
     <ElRow :gutter="12" justify="center" class="w-100">
       <ElTabs v-model="activeTab">
+        <ElTabPane label="Kartice" name="dashboard-cards">
+          <BackofficeDashboardInfoCards
+            v-if="activeTab === 'dashboard-cards'"
+          />
+        </ElTabPane>
         <ElTabPane label="Portal kategorije" name="portal-categories">
           <BackofficePortalCategoriesTab
             v-if="activeTab === 'portal-categories'"

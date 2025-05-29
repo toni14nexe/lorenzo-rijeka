@@ -1,5 +1,6 @@
 <script setup lang="ts">
 export type InfoCardData = {
+  id: string
   title: string
   text: string
   position?: number
@@ -9,7 +10,11 @@ interface Props {
   cardInfo: InfoCardData
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+
+const parsedHtml = computed(() =>
+  props.cardInfo?.text ? props.cardInfo.text.replace(/&nbsp;/g, ' ') : ''
+)
 </script>
 
 <template>
@@ -17,7 +22,7 @@ defineProps<Props>()
     <span class="info-card-title">
       {{ cardInfo.title }}
     </span>
-    <div v-html="cardInfo.text" class="info-text" />
+    <div v-html="parsedHtml" class="info-text" />
   </ElCard>
 </template>
 
@@ -32,11 +37,10 @@ defineProps<Props>()
   font-weight: 500;
 }
 .info-text {
-  margin-top: 8px;
+  margin-top: 12px;
   line-height: 1.6;
   white-space: normal;
   word-wrap: break-word;
-  text-align: justify;
 }
 @media screen and (min-width: 768px) {
   .info-card {

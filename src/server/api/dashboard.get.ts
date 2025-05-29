@@ -10,7 +10,7 @@ export default defineEventHandler(async event => {
       include: { category: true }
     }),
     prisma.dashboardCard.findMany({
-      orderBy: { position: 'desc' }
+      orderBy: { position: 'asc' }
     })
   ])
 
