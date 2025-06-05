@@ -2,6 +2,7 @@
 import { useRoute, useRuntimeConfig, useHead } from '#imports'
 import ProductPage from '~/components/webshop/ProductPage.vue'
 import { stripHtml } from 'string-strip-html'
+import { decode } from 'html-entities'
 import type { Product } from '~/types/webshop'
 
 const config = useRuntimeConfig()
@@ -15,9 +16,15 @@ const { data: product, pending: isLoading } = await useAsyncData<Product>(
 )
 
 if (product.value) {
-  const description = stripHtml((product.value.description as string) || '')
-    .result.trim()
-    .slice(0, 160)
+  let descriptionRaw = stripHtml((product.value.description as string) || '').result
+
+  // Zamjena non-breaking spaces i višestrukih razmaka
+  descriptionRaw = descriptionRaw
+    .replace(/&nbsp;|\u00A0/g, ' ')
+    .replace(/\s+/g, ' ')
+
+  const description = decode(descriptionRaw).trim().slice(0, 160)
+
   const image =
     (product.value.images?.[0] as string) ||
     'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/favicon-180x180_we2zi4.png'

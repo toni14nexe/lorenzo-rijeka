@@ -20,8 +20,8 @@ useHead({
       content:
         'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png'
     },
-    { property: 'og:image:width', content: '50' },
-    { property: 'og:image:height', content: '50' },
+    { property: 'og:image:width', content: '1200' },
+    { property: 'og:image:height', content: '630' },
     { property: 'og:url', content: process.env.APP_BASE_URL },
     { name: 'twitter:card', content: 'summary_large_image' },
     {

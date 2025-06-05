@@ -2,6 +2,7 @@
 import { useRoute, useRuntimeConfig, useHead } from '#imports'
 import JobPage from '~/components/jobs/JobPage.vue'
 import { stripHtml } from 'string-strip-html'
+import { decode } from 'html-entities'
 import type { Job } from '~/types/jobs'
 
 const config = useRuntimeConfig()
@@ -15,9 +16,15 @@ const { data: job, pending: isLoading } = await useAsyncData<Job>(
 )
 
 if (job.value) {
-  const description = stripHtml((job.value.description as string) || '')
-    .result.trim()
-    .slice(0, 160)
+  let descriptionRaw = stripHtml((job.value.description as string) || '').result
+
+  // Zamjena svih non-breaking space i višestrukih razmaka
+  descriptionRaw = descriptionRaw
+    .replace(/&nbsp;|\u00A0/g, ' ')
+    .replace(/\s+/g, ' ')
+
+  const description = decode(descriptionRaw).trim().slice(0, 160)
+
   const image =
     'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/favicon-180x180_we2zi4.png'
   const url = `${baseUrl}${route.fullPath}`

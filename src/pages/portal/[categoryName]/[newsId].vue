@@ -2,6 +2,7 @@
 import { useRoute, useRuntimeConfig, useHead } from '#imports'
 import PortalNewsPage from '~/components/portal/PortalNewsPage.vue'
 import { stripHtml } from 'string-strip-html'
+import { decode } from 'html-entities'
 import type { News } from '~/types/portal'
 
 const config = useRuntimeConfig()
@@ -15,12 +16,19 @@ const { data: news, pending: isLoading } = await useAsyncData<News>(
 )
 
 if (news.value) {
-  const description = stripHtml((news.value.text as string) || '')
-    .result.trim()
-    .slice(0, 160)
+  let descriptionRaw = stripHtml((news.value.text as string) || '').result
+
+  // Zamjena svih varijacija non-breaking space u obični razmak
+  descriptionRaw = descriptionRaw
+    .replace(/&nbsp;|\u00A0/g, ' ') // HTML i Unicode NBSP
+    .replace(/\s+/g, ' ') // višestruki razmaci -> jedan razmak
+
+  const description = decode(descriptionRaw).trim().slice(0, 160)
+
   const image =
     (news.value.images?.[0] as string) ||
     'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/favicon-180x180_we2zi4.png'
+
   const url = `${baseUrl}${route.fullPath}`
 
   useHead({
