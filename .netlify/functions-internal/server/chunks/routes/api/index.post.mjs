@@ -14,7 +14,6 @@ import '@primeuix/styles/tooltip';
 import '@primeuix/styles/ripple';
 import '@primeuix/styled';
 import 'jsonwebtoken';
-import 'consola';
 import 'unhead/server';
 import 'unhead/plugins';
 import 'unhead/utils';
@@ -24,28 +23,20 @@ import 'vue/server-renderer';
 const index_post = defineEventHandler(async (event) => {
   if (event.req.method === "POST") {
     const body = await readBody(event);
-    if (!body.contactEmail || !body.name || !body.description || !body.salary || !body.location) {
+    if (!body.title || !body.text) {
       throw createError({
         statusCode: 400,
-        statusMessage: "Body parameter is missing, this body should include: 'contactEmail', 'name', 'description', 'salary' and 'location'. 'contactNumber' is optional."
+        statusMessage: "Body parameter is missing, this body should include: 'title' and 'text'. 'position' is optional."
       });
     }
-    const job = await prisma.job.create({
+    const dashboardCard = await prisma.dashboardCard.create({
       data: {
-        name: body.name,
-        description: body.description,
-        salary: body.salary,
-        contactEmail: body.contactEmail,
-        contactNumber: body.contactNumber,
-        location: body.location,
-        jobCategory: {
-          connect: {
-            id: body.jobCategoryId
-          }
-        }
+        title: body.title,
+        text: body.text,
+        position: Number(body.position)
       }
     });
-    return job;
+    return dashboardCard;
   }
 });
 

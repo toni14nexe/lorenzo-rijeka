@@ -30,6 +30,15 @@ export default defineNuxtConfig({
       stripeButtonId: process.env.STRIPE_BUTTON_ID, */
     }
   },
+  site: {
+    url: 'https://gastarbeiter.de.com',
+    name: 'Gastarbajter.de'
+  },
+  sitemap: {
+    sources: [
+      '/api/__sitemap__/urls'
+    ]
+  },
   primevue: {
     options: {
       theme: {

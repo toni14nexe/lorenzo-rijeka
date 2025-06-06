@@ -1,5 +1,5 @@
-import { defineComponent, watch, ref, createElementBlock, openBlock, createElementVNode, shallowRef, watchEffect, readonly, inject, computed, unref, getCurrentInstance, isVNode, nextTick, createVNode, h, renderSlot, hasInjectionContext, toRaw, isRef, isReactive, toRef, resolveComponent, getCurrentScope, onScopeDispose, warn, provide, mergeProps, withCtx, createBlock, toDisplayString, Fragment, renderList, createTextVNode, resolveDirective, withKeys, withDirectives, createCommentVNode, resolveDynamicComponent, vModelText, useAttrs as useAttrs$1, useSlots, normalizeStyle, normalizeClass, withModifiers, reactive, effectScope, onMounted, Teleport as Teleport$1, normalizeProps, Text, toRefs, markRaw, Transition, vShow, cloneVNode, Comment, defineAsyncComponent, Suspense, useSSRContext, createApp, shallowReactive, onErrorCaptured, onServerPrefetch, isReadonly, isShallow, toValue as toValue$1 } from 'vue';
-import { y as destr, z as klona, c as createError$1, A as headSymbol, B as hasProtocol, C as isScriptProtocol, D as joinURL, E as useHead$1, F as parseQuery, G as getRequestHeader, H as withQuery, I as sanitizeStatusCode, J as setCookie, K as getCookie, L as deleteCookie, M as getContext, N as withTrailingSlash, O as withoutTrailingSlash, $ as $fetch, P as baseURL, Q as defu, R as createHooks, S as executeAsync, T as useSeoMeta$1, U as toRouteMatcher, V as createRouter$1 } from '../nitro/nitro.mjs';
+import { defineComponent, watch, ref, createElementBlock, openBlock, createElementVNode, shallowRef, watchEffect, readonly, inject, computed, unref, getCurrentInstance, isVNode, nextTick, createVNode, h, renderSlot, hasInjectionContext, resolveComponent, toRaw, isRef, isReactive, toRef, getCurrentScope, onScopeDispose, warn, mergeProps, withCtx, createBlock, toDisplayString, Fragment, renderList, createTextVNode, resolveDirective, withKeys, withDirectives, createCommentVNode, resolveDynamicComponent, vModelText, useAttrs as useAttrs$1, useSlots, normalizeStyle, normalizeClass, withModifiers, provide, reactive, effectScope, onMounted, Teleport as Teleport$1, normalizeProps, Text, toRefs, markRaw, Transition, vShow, cloneVNode, Comment, defineAsyncComponent, Suspense, useSSRContext, createApp, shallowReactive, onErrorCaptured, onServerPrefetch, isReadonly, isShallow, toValue as toValue$1 } from 'vue';
+import { y as destr, z as klona, c as createError$1, A as headSymbol, B as useHead$1, C as useSeoMeta$1, D as hasProtocol, E as isScriptProtocol, F as joinURL, G as parseQuery, H as getRequestHeader, I as withQuery, J as sanitizeStatusCode, K as setCookie, L as getCookie, M as deleteCookie, N as getContext, O as withTrailingSlash, P as withoutTrailingSlash, $ as $fetch, Q as baseURL, R as defu, S as createHooks, T as executeAsync, U as toRouteMatcher, V as createRouter$1 } from '../nitro/nitro.mjs';
 import { useRoute as useRoute$1, RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
 import { PrismaClient } from '@prisma/client';
 import { Theme, dt, ThemeService } from '@primeuix/styled';
@@ -11,8 +11,8 @@ import { EventBus } from '@primeuix/utils/eventbus';
 import sync, { getFrameData } from 'framesync';
 import { inertia, animate, velocityPerSecond, cubicBezier, bounceOut, bounceInOut, bounceIn, anticipate, backOut, backInOut, backIn, circOut, circInOut, circIn, easeOut, easeInOut, easeIn, linear } from 'popmotion';
 import { number, complex, alpha, filter, px, progressPercentage, degrees, scale, color } from 'style-value-types';
-import { NOOP, isString as isString$1, isObject as isObject$2, hasOwn, camelize, isFunction as isFunction$1, isArray as isArray$1, hyphenate } from '@vue/shared';
-import { fromPairs, isNil, set, get, pick, isUndefined as isUndefined$1 } from 'lodash-unified';
+import { NOOP, isString as isString$1, isObject as isObject$2, hasOwn, isFunction as isFunction$1, camelize, isArray as isArray$1, hyphenate } from '@vue/shared';
+import { isNil, fromPairs, set, get, pick, isUndefined as isUndefined$1 } from 'lodash-unified';
 import axios from 'axios';
 import { ssrRenderComponent, ssrInterpolate, ssrRenderList, ssrRenderAttrs, ssrGetDirectiveProps, ssrRenderVNode, ssrRenderAttr, ssrRenderStyle, ssrRenderSuspense } from 'vue/server-renderer';
 import { TinyColor } from '@ctrl/tinycolor';
@@ -29,7 +29,6 @@ import '@primevue/core/base/style';
 import '@primeuix/styles/tooltip';
 import '@primeuix/styles/ripple';
 import 'jsonwebtoken';
-import 'consola';
 import 'unhead/server';
 import 'unhead/plugins';
 import 'unhead/utils';
@@ -465,73 +464,73 @@ const _routes = [
   {
     name: "index",
     path: "/",
-    component: () => import('./index-CbMK1uLo.mjs')
+    component: () => import('./index-Dy5rps2-.mjs')
   },
   {
     name: "kontakt",
     path: "/kontakt",
-    component: () => import('./kontakt-CBp-EZ3H.mjs')
+    component: () => import('./kontakt-D4cpumll.mjs')
   },
   {
     name: "backoffice",
     path: "/backoffice",
     meta: __nuxt_page_meta || {},
-    component: () => import('./backoffice-I2pOg4CV.mjs')
+    component: () => import('./backoffice-6OxQocvU.mjs')
   },
   {
     name: "portal",
     path: "/portal",
-    component: () => import('./index-2NLqiw0k.mjs')
+    component: () => import('./index-DvKE1aMf.mjs')
   },
   {
     name: "reklamiranje",
     path: "/reklamiranje",
-    component: () => import('./reklamiranje-CCJFveqG.mjs')
+    component: () => import('./reklamiranje-D0UOhzhm.mjs')
   },
   {
     name: "poslovi",
     path: "/poslovi",
-    component: () => import('./index-DrhL-127.mjs')
+    component: () => import('./index-Dj2SJDhg.mjs')
   },
   {
     name: "pretrazivanje",
     path: "/pretrazivanje",
-    component: () => import('./pretrazivanje-DUA7XiN1.mjs')
+    component: () => import('./pretrazivanje-qGTaOAoT.mjs')
   },
   {
     name: "webshop",
     path: "/webshop",
-    component: () => import('./index-BeOWHEz_.mjs')
+    component: () => import('./index-T9ls54Vx.mjs')
   },
   {
     name: "poslovi-jobId",
     path: "/poslovi/:jobId()",
-    component: () => import('./_jobId_-Be-5FJgC.mjs')
+    component: () => import('./_jobId_-DQWZFejh.mjs')
   },
   {
     name: "webshop-productId",
     path: "/webshop/:productId()",
-    component: () => import('./index-DWRqg_kq.mjs')
+    component: () => import('./index-DMG3KwH_.mjs')
   },
   {
     name: "portal-categoryName",
     path: "/portal/:categoryName()",
-    component: () => import('./index-Bq3V9uLe.mjs')
+    component: () => import('./index-BsigiE7d.mjs')
   },
   {
     name: "portal-categoryName-newsId",
     path: "/portal/:categoryName()/:newsId()",
-    component: () => import('./_newsId_-BFOvv-67.mjs')
+    component: () => import('./_newsId_-BnzjgV3e.mjs')
   },
   {
     name: "webshop-productId-narudzba",
     path: "/webshop/:productId()/narudzba",
-    component: () => import('./index-BgRKiRkp.mjs')
+    component: () => import('./index-jATg8l0A.mjs')
   },
   {
     name: "webshop-productId-narudzba-orderId",
     path: "/webshop/:productId()/narudzba/:orderId()",
-    component: () => import('./_orderId_-nVay1JLv.mjs')
+    component: () => import('./_orderId_-CROOG4ao.mjs')
   }
 ];
 const _wrapInTransition = (props, children) => {
@@ -1671,21 +1670,22 @@ const plugin$1 = /* @__PURE__ */ defineNuxtPlugin({
     return { provide: { router } };
   }
 });
-const _0_siteConfig_tU0SxKrPeVRXWcGu2sOnIfhNDbYiKNfDCvYZhRueG0Q = /* @__PURE__ */ defineNuxtPlugin({
+const _0_siteConfig_hxpx9TAykM4St_ybsPIAJmhOKQmae5Yd749dL71wvC8 = /* @__PURE__ */ defineNuxtPlugin({
   name: "nuxt-site-config:init",
   enforce: "pre",
   async setup(nuxtApp) {
-    var _a, _b;
-    const stack = (_b = (_a = useRequestEvent()) == null ? void 0 : _a.context) == null ? void 0 : _b.siteConfig;
+    var _a;
     const state = useState("site-config");
     {
+      const context = (_a = useRequestEvent()) == null ? void 0 : _a.context;
       nuxtApp.hooks.hook("app:rendered", () => {
-        state.value = stack == null ? void 0 : stack.get({
+        state.value = context == null ? void 0 : context.siteConfig.get({
           debug: (/* @__PURE__ */ useRuntimeConfig())["nuxt-site-config"].debug,
           resolveRefs: true
         });
       });
     }
+    let stack = {};
     return {
       provide: {
         nuxtSiteConfig: stack
@@ -5672,9 +5672,9 @@ var close_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineCo
   }
 });
 var close_default = close_vue_vue_type_script_setup_true_lang_default;
-var connection_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
-  name: "Connection",
-  __name: "connection",
+var copy_document_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
+  name: "CopyDocument",
+  __name: "copy-document",
   setup(__props) {
     return (_ctx, _cache) => (openBlock(), createElementBlock("svg", {
       xmlns: "http://www.w3.org/2000/svg",
@@ -5682,16 +5682,16 @@ var connection_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ def
     }, [
       createElementVNode("path", {
         fill: "currentColor",
-        d: "M640 384v64H448a128 128 0 0 0-128 128v128a128 128 0 0 0 128 128h320a128 128 0 0 0 128-128V576a128 128 0 0 0-64-110.848V394.88c74.56 26.368 128 97.472 128 181.056v128a192 192 0 0 1-192 192H448a192 192 0 0 1-192-192V576a192 192 0 0 1 192-192z"
+        d: "M768 832a128 128 0 0 1-128 128H192A128 128 0 0 1 64 832V384a128 128 0 0 1 128-128v64a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64z"
       }),
       createElementVNode("path", {
         fill: "currentColor",
-        d: "M384 640v-64h192a128 128 0 0 0 128-128V320a128 128 0 0 0-128-128H256a128 128 0 0 0-128 128v128a128 128 0 0 0 64 110.848v70.272A192.064 192.064 0 0 1 64 448V320a192 192 0 0 1 192-192h320a192 192 0 0 1 192 192v128a192 192 0 0 1-192 192z"
+        d: "M384 128a64 64 0 0 0-64 64v448a64 64 0 0 0 64 64h448a64 64 0 0 0 64-64V192a64 64 0 0 0-64-64zm0-64h448a128 128 0 0 1 128 128v448a128 128 0 0 1-128 128H384a128 128 0 0 1-128-128V192A128 128 0 0 1 384 64"
       })
     ]));
   }
 });
-var connection_default = connection_vue_vue_type_script_setup_true_lang_default;
+var copy_document_default = copy_document_vue_vue_type_script_setup_true_lang_default;
 var d_arrow_left_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
   name: "DArrowLeft",
   __name: "d-arrow-left",
@@ -5756,22 +5756,6 @@ var delete_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineC
   }
 });
 var delete_default = delete_vue_vue_type_script_setup_true_lang_default;
-var document_checked_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
-  name: "DocumentChecked",
-  __name: "document-checked",
-  setup(__props) {
-    return (_ctx, _cache) => (openBlock(), createElementBlock("svg", {
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 1024 1024"
-    }, [
-      createElementVNode("path", {
-        fill: "currentColor",
-        d: "M805.504 320 640 154.496V320zM832 384H576V128H192v768h640zM160 64h480l256 256v608a32 32 0 0 1-32 32H160a32 32 0 0 1-32-32V96a32 32 0 0 1 32-32m318.4 582.144 180.992-180.992L704.64 510.4 478.4 736.64 320 578.304l45.248-45.312z"
-      })
-    ]));
-  }
-});
-var document_checked_default = document_checked_vue_vue_type_script_setup_true_lang_default;
 var document_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
   name: "Document",
   __name: "document",
@@ -5950,30 +5934,6 @@ var minus_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineCo
   }
 });
 var minus_default = minus_vue_vue_type_script_setup_true_lang_default;
-var money_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
-  name: "Money",
-  __name: "money",
-  setup(__props) {
-    return (_ctx, _cache) => (openBlock(), createElementBlock("svg", {
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 1024 1024"
-    }, [
-      createElementVNode("path", {
-        fill: "currentColor",
-        d: "M256 640v192h640V384H768v-64h150.976c14.272 0 19.456 1.472 24.64 4.288a29.056 29.056 0 0 1 12.16 12.096c2.752 5.184 4.224 10.368 4.224 24.64v493.952c0 14.272-1.472 19.456-4.288 24.64a29.056 29.056 0 0 1-12.096 12.16c-5.184 2.752-10.368 4.224-24.64 4.224H233.024c-14.272 0-19.456-1.472-24.64-4.288a29.056 29.056 0 0 1-12.16-12.096c-2.688-5.184-4.224-10.368-4.224-24.576V640z"
-      }),
-      createElementVNode("path", {
-        fill: "currentColor",
-        d: "M768 192H128v448h640zm64-22.976v493.952c0 14.272-1.472 19.456-4.288 24.64a29.056 29.056 0 0 1-12.096 12.16c-5.184 2.752-10.368 4.224-24.64 4.224H105.024c-14.272 0-19.456-1.472-24.64-4.288a29.056 29.056 0 0 1-12.16-12.096C65.536 682.432 64 677.248 64 663.04V169.024c0-14.272 1.472-19.456 4.288-24.64a29.056 29.056 0 0 1 12.096-12.16C85.568 129.536 90.752 128 104.96 128h685.952c14.272 0 19.456 1.472 24.64 4.288a29.056 29.056 0 0 1 12.16 12.096c2.752 5.184 4.224 10.368 4.224 24.64z"
-      }),
-      createElementVNode("path", {
-        fill: "currentColor",
-        d: "M448 576a160 160 0 1 1 0-320 160 160 0 0 1 0 320m0-64a96 96 0 1 0 0-192 96 96 0 0 0 0 192"
-      })
-    ]));
-  }
-});
-var money_default = money_vue_vue_type_script_setup_true_lang_default;
 var office_building_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
   name: "OfficeBuilding",
   __name: "office-building",
@@ -6014,26 +5974,6 @@ var picture_filled_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */
   }
 });
 var picture_filled_default = picture_filled_vue_vue_type_script_setup_true_lang_default;
-var picture_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
-  name: "Picture",
-  __name: "picture",
-  setup(__props) {
-    return (_ctx, _cache) => (openBlock(), createElementBlock("svg", {
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 1024 1024"
-    }, [
-      createElementVNode("path", {
-        fill: "currentColor",
-        d: "M160 160v704h704V160zm-32-64h768a32 32 0 0 1 32 32v768a32 32 0 0 1-32 32H128a32 32 0 0 1-32-32V128a32 32 0 0 1 32-32"
-      }),
-      createElementVNode("path", {
-        fill: "currentColor",
-        d: "M384 288q64 0 64 64t-64 64q-64 0-64-64t64-64M185.408 876.992l-50.816-38.912L350.72 556.032a96 96 0 0 1 134.592-17.856l1.856 1.472 122.88 99.136a32 32 0 0 0 44.992-4.864l216-269.888 49.92 39.936-215.808 269.824-.256.32a96 96 0 0 1-135.04 14.464l-122.88-99.072-.64-.512a32 32 0 0 0-44.8 5.952z"
-      })
-    ]));
-  }
-});
-var picture_default = picture_vue_vue_type_script_setup_true_lang_default;
 var plus_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
   name: "Plus",
   __name: "plus",
@@ -6090,22 +6030,6 @@ var price_tag_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defi
   }
 });
 var price_tag_default = price_tag_vue_vue_type_script_setup_true_lang_default;
-var promotion_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
-  name: "Promotion",
-  __name: "promotion",
-  setup(__props) {
-    return (_ctx, _cache) => (openBlock(), createElementBlock("svg", {
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 1024 1024"
-    }, [
-      createElementVNode("path", {
-        fill: "currentColor",
-        d: "m64 448 832-320-128 704-446.08-243.328L832 192 242.816 545.472zm256 512V657.024L512 768z"
-      })
-    ]));
-  }
-});
-var promotion_default = promotion_vue_vue_type_script_setup_true_lang_default;
 var refresh_left_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
   name: "RefreshLeft",
   __name: "refresh-left",
@@ -6138,22 +6062,6 @@ var search_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineC
   }
 });
 var search_default = search_vue_vue_type_script_setup_true_lang_default;
-var share_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
-  name: "Share",
-  __name: "share",
-  setup(__props) {
-    return (_ctx, _cache) => (openBlock(), createElementBlock("svg", {
-      xmlns: "http://www.w3.org/2000/svg",
-      viewBox: "0 0 1024 1024"
-    }, [
-      createElementVNode("path", {
-        fill: "currentColor",
-        d: "m679.872 348.8-301.76 188.608a127.808 127.808 0 0 1 5.12 52.16l279.936 104.96a128 128 0 1 1-22.464 59.904l-279.872-104.96a128 128 0 1 1-16.64-166.272l301.696-188.608a128 128 0 1 1 33.92 54.272z"
-      })
-    ]));
-  }
-});
-var share_default = share_vue_vue_type_script_setup_true_lang_default;
 var shop_vue_vue_type_script_setup_true_lang_default = /* @__PURE__ */ defineComponent({
   name: "Shop",
   __name: "shop",
@@ -10841,7 +10749,7 @@ const axios_h2M1FtYjeSFPSH7J5DAjImIp94qVPOHt4ieBS52EkMg = /* @__PURE__ */ define
 const plugins = [
   unhead_k2P3m_ZDyjlr2mMYnoDPwavjsDN8hBlk9cFai0bbopU,
   plugin$1,
-  _0_siteConfig_tU0SxKrPeVRXWcGu2sOnIfhNDbYiKNfDCvYZhRueG0Q,
+  _0_siteConfig_hxpx9TAykM4St_ybsPIAJmhOKQmae5Yd749dL71wvC8,
   plugin_9RP0IG4IZsdQGtc6t7gn_tuFRgHqjDGAVBd8w_WCy6s,
   revive_payload_server_MVtmlZaQpj6ApFmshWfUWl5PehCebzaBf2NuRMiIbms,
   plugin,
@@ -10854,8 +10762,8 @@ const plugins = [
   axios_h2M1FtYjeSFPSH7J5DAjImIp94qVPOHt4ieBS52EkMg
 ];
 const layouts = {
-  backoffice: defineAsyncComponent(() => import('./backoffice-BEaEWL4A.mjs').then((m) => m.default || m)),
-  default: defineAsyncComponent(() => import('./default-W49zPP-l.mjs').then((m) => m.default || m))
+  backoffice: defineAsyncComponent(() => import('./backoffice-NUcfYMeT.mjs').then((m) => m.default || m)),
+  default: defineAsyncComponent(() => import('./default-BDureoLf.mjs').then((m) => m.default || m))
 };
 const LayoutLoader = defineComponent({
   name: "LayoutLoader",
@@ -11184,35 +11092,26 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
   __ssrInlineRender: true,
   setup(__props) {
     useHead({
-      titleTemplate: (title) => title ? `${title} - Gastarbajter.de` : "Gastarbajter.de",
+      titleTemplate: (title) => title ? `Gastarbajter.de - ${title}` : "Gastarbajter.de",
       meta: [
-        {
-          name: "description",
-          content: "Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove."
-        },
         {
           name: "keywords",
           content: "platforma, gastrabajtere, gastabajter, gastabajteri, gastrabajter, gastrajabjteri, gastabajtere, poslovi, oglasnik, posao, webshop, trgovina, proizvodi, domaće, domaći"
         },
         { name: "author", content: "InnovaTech obrt za informatičke usluge" },
         { property: "og:type", content: "website" },
-        { property: "og:title", content: "Gastarbajter.de" },
-        {
-          property: "og:description",
-          content: "Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove."
-        },
         // Image
         {
           property: "og:image",
-          content: "https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png"
+          content: "https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png"
         },
-        { property: "og:image:width", content: "50" },
-        { property: "og:image:height", content: "50" },
-        { property: "og:url", content: "https://gastabajter.de" },
+        { property: "og:image:width", content: "1200" },
+        { property: "og:image:height", content: "630" },
+        { property: "og:url", content: process.env.APP_BASE_URL },
         { name: "twitter:card", content: "summary_large_image" },
         {
           name: "twitter:image",
-          content: "https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png"
+          content: "https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png"
         },
         {
           name: "google-site-verification",
@@ -11223,21 +11122,13 @@ const _sfc_main$d = /* @__PURE__ */ defineComponent({
         {
           rel: "icon",
           type: "image/png",
-          href: "https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342417/favicon-96x96_xfuydm.png"
+          href: "https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519809/96_oreti5.png"
         },
         {
           rel: "apple-touch-icon",
-          href: "https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png"
+          href: "https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png"
         }
       ]
-    });
-    useSeoMeta({
-      description: "Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.",
-      ogTitle: "Dobrodošli na Gastarbajter.de",
-      ogDescription: "Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.",
-      ogImage: "https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png",
-      twitterCard: "summary_large_image",
-      twitterImage: "https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png"
     });
     return (_ctx, _push, _parent, _attrs) => {
       const _component_ClientOnly = __nuxt_component_0;
@@ -16445,5 +16336,5 @@ let entry;
 }
 const entry$1 = (ssrContext) => entry(ssrContext);
 
-export { isBoolean as $, mutable as A, definePropType as B, _export_sfc$1 as C, throwError as D, ElEmpty as E, useNamespace as F, useResizeObserver as G, useDocumentVisibility as H, useWindowFocus as I, arrow_left_default as J, arrow_right_default as K, close_default as L, MegafoneIcon as M, EVENT_CODE as N, isNumber as O, plus_default as P, isUndefined as Q, computedEager as R, withInstall as S, withNoopInstall as T, UPDATE_MODEL_EVENT as U, location_default as V, price_tag_default as W, ElInput as X, ElButton as Y, ElNotification as Z, _export_sfc as _, useComStore as a, useCookie as a$, componentSizes as a0, debugWarn as a1, useFormSize as a2, formContextKey as a3, formItemContextKey as a4, useId as a5, refDebounced as a6, addUnit as a7, getProp as a8, useAriaProps as a9, loading_default as aA, ElTooltip as aB, useTooltipContentProps as aC, arrow_up_default as aD, arrow_down_default as aE, hasClass as aF, removeClass as aG, isElement as aH, addClass as aI, document_default as aJ, zoom_in_default as aK, delete_default as aL, entriesOf as aM, useVModel as aN, circle_plus_filled_default as aO, search_default as aP, vLoading as aQ, edit_default as aR, delete_filled_default as aS, refresh_left_default as aT, BaseStyle as aU, useRuntimeConfig as aV, gold_medal_default as aW, download_default as aX, info_filled_default as aY, useUserStore as aZ, switch_button_default as a_, useSizeProp as aa, useFormDisabled as ab, useFormItem as ac, CHANGE_EVENT as ad, isPropAbsent as ae, useFormItemInputId as af, useDeprecated as ag, getNormalizedProps as ah, dialogContentEmits as ai, dialogContentProps as aj, useLocale as ak, FOCUS_TRAP_INJECTION_KEY as al, CloseComponents as am, dialogEmits as an, dialogProps as ao, useDialog as ap, ElTeleport as aq, ElOverlay as ar, useSameTarget as as, ElFocusTrap as at, warning_filled_default as au, circle_check_default as av, circle_close_default as aw, check_default as ax, INPUT_EVENT as ay, iconPropType as az, ElRow as b, useEventListener as b0, useComposition as b1, useFocusController as b2, useEmptyValues as b3, ValidateComponentsMap as b4, useEmptyValuesProps as b5, useMutationObserver as b6, d_arrow_left_default as b7, d_arrow_right_default as b8, minus_default as b9, useCategoriesStore as ba, FooterMenuCard as bb, useRoute as bc, FacebookIcon as bd, shopping_cart_default as be, close_bold_default as bf, arrow_left_bold_default as bg, arrow_right_bold_default as bh, asyncDataDefaults as bi, circle_close_filled_default as bj, success_filled_default as bk, ElMain as bl, Header as bm, ComsFooter as bn, Footer as bo, createError as c, ElCol as d, entry$1 as default, ElIcon as e, shop_default as f, ElSkeleton as g, ElSkeletonItem as h, injectHead as i, ElDivider as j, ElCard as k, connection_default as l, picture_default as m, navigateTo as n, office_building_default as o, promotion_default as p, share_default as q, document_checked_default as r, storeToRefs as s, money_default as t, useNuxtApp as u, useHead as v, __nuxt_component_6 as w, clock_default as x, flattedChildren as y, buildProps as z };
+export { formItemContextKey as $, useResizeObserver as A, useDocumentVisibility as B, useWindowFocus as C, arrow_left_default as D, ElEmpty as E, arrow_right_default as F, close_default as G, EVENT_CODE as H, isNumber as I, plus_default as J, isUndefined as K, computedEager as L, MegafoneIcon as M, withInstall as N, withNoopInstall as O, location_default as P, price_tag_default as Q, ElInput as R, ElButton as S, ElNotification as T, UPDATE_MODEL_EVENT as U, isBoolean as V, componentSizes as W, debugWarn as X, useFormSize as Y, formContextKey as Z, _export_sfc as _, useComStore as a, ValidateComponentsMap as a$, useId as a0, refDebounced as a1, addUnit as a2, getProp as a3, useAriaProps as a4, useSizeProp as a5, useFormDisabled as a6, useFormItem as a7, CHANGE_EVENT as a8, isPropAbsent as a9, hasClass as aA, removeClass as aB, isElement as aC, addClass as aD, document_default as aE, zoom_in_default as aF, delete_default as aG, entriesOf as aH, useVModel as aI, circle_plus_filled_default as aJ, search_default as aK, vLoading as aL, edit_default as aM, delete_filled_default as aN, refresh_left_default as aO, BaseStyle as aP, useRuntimeConfig as aQ, gold_medal_default as aR, download_default as aS, info_filled_default as aT, useUserStore as aU, switch_button_default as aV, useCookie as aW, useEventListener as aX, useComposition as aY, useFocusController as aZ, useEmptyValues as a_, useFormItemInputId as aa, useDeprecated as ab, getNormalizedProps as ac, dialogContentEmits as ad, dialogContentProps as ae, useLocale as af, FOCUS_TRAP_INJECTION_KEY as ag, CloseComponents as ah, dialogEmits as ai, dialogProps as aj, useDialog as ak, ElTeleport as al, ElOverlay as am, useSameTarget as an, ElFocusTrap as ao, warning_filled_default as ap, circle_check_default as aq, circle_close_default as ar, check_default as as, INPUT_EVENT as at, iconPropType as au, loading_default as av, ElTooltip as aw, useTooltipContentProps as ax, arrow_up_default as ay, arrow_down_default as az, ElRow as b, useEmptyValuesProps as b0, useMutationObserver as b1, d_arrow_left_default as b2, d_arrow_right_default as b3, minus_default as b4, useCategoriesStore as b5, FooterMenuCard as b6, useRoute as b7, asyncDataDefaults as b8, FacebookIcon as b9, copy_document_default as ba, shopping_cart_default as bb, close_bold_default as bc, arrow_left_bold_default as bd, arrow_right_bold_default as be, circle_close_filled_default as bf, success_filled_default as bg, ElMain as bh, Header as bi, ComsFooter as bj, Footer as bk, createError as c, ElCol as d, entry$1 as default, ElIcon as e, shop_default as f, ElSkeleton as g, ElSkeletonItem as h, injectHead as i, ElDivider as j, ElCard as k, useHead as l, useSeoMeta as m, navigateTo as n, office_building_default as o, __nuxt_component_6 as p, clock_default as q, flattedChildren as r, storeToRefs as s, buildProps as t, useNuxtApp as u, mutable as v, definePropType as w, _export_sfc$1 as x, throwError as y, useNamespace as z };
 //# sourceMappingURL=server.mjs.map

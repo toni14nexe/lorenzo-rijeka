@@ -13,7 +13,6 @@ import { style } from '@primeuix/styles/tooltip';
 import { style as style$1 } from '@primeuix/styles/ripple';
 import { Theme } from '@primeuix/styled';
 import jwt from 'jsonwebtoken';
-import { createConsola } from 'consola';
 import { createHead as createHead$1, propsToString } from 'unhead/server';
 import { FlatMetaPlugin, DeprecationsPlugin, PromisesPlugin, TemplateParamsPlugin, AliasSortingPlugin } from 'unhead/plugins';
 import { walkResolver } from 'unhead/utils';
@@ -24,13 +23,11 @@ const HASH_RE = /#/g;
 const AMPERSAND_RE = /&/g;
 const SLASH_RE = /\//g;
 const EQUAL_RE = /=/g;
-const IM_RE = /\?/g;
 const PLUS_RE = /\+/g;
 const ENC_CARET_RE = /%5e/gi;
 const ENC_BACKTICK_RE = /%60/gi;
 const ENC_PIPE_RE = /%7c/gi;
 const ENC_SPACE_RE = /%20/gi;
-const ENC_ENC_SLASH_RE = /%252f/gi;
 function encode(text) {
   return encodeURI("" + text).replace(ENC_PIPE_RE, "|");
 }
@@ -39,9 +36,6 @@ function encodeQueryValue(input) {
 }
 function encodeQueryKey(text) {
   return encodeQueryValue(text).replace(EQUAL_RE, "%3D");
-}
-function encodePath(text) {
-  return encode(text).replace(HASH_RE, "%23").replace(IM_RE, "%3F").replace(ENC_ENC_SLASH_RE, "%2F").replace(AMPERSAND_RE, "%26").replace(PLUS_RE, "%2B");
 }
 function decode$1(text = "") {
   try {
@@ -4300,7 +4294,7 @@ function _expandFromEnv(value) {
 const _inlineRuntimeConfig = {
   "app": {
     "baseURL": "/",
-    "buildId": "0c5a7e8a-5ede-483d-bb12-627a40174625",
+    "buildId": "5ec5b21b-8563-4ce1-b2af-0ece2514ff17",
     "buildAssetsDir": "/_nuxt/",
     "cdnURL": ""
   },
@@ -4311,7 +4305,7 @@ const _inlineRuntimeConfig = {
         "cache": false,
         "isr": false
       },
-      "/__sitemap__/style.xsl": {
+      "/sitemap.xsl": {
         "headers": {
           "Content-Type": "application/xslt+xml"
         }
@@ -4319,13 +4313,13 @@ const _inlineRuntimeConfig = {
       "/sitemap.xml": {
         "swr": 600,
         "cache": {
-          "swr": true,
-          "maxAge": 600,
           "varies": [
             "X-Forwarded-Host",
             "X-Forwarded-Proto",
             "Host"
-          ]
+          ],
+          "swr": true,
+          "maxAge": 600
         },
         "isr": true
       },
@@ -9763,20 +9757,16 @@ const _inlineRuntimeConfig = {
     }
   },
   "siteUrl": "http://localhost:3000",
-  "sitemap": {
+  "nuxt-simple-sitemap": {
     "isI18nMapped": false,
     "sitemapName": "sitemap.xml",
     "isMultiSitemap": false,
     "excludeAppSources": [],
-    "cacheMaxAgeSeconds": 600,
     "autoLastmod": false,
     "defaultSitemapsChunkSize": 1000,
-    "minify": false,
     "sortEntries": true,
     "debug": false,
     "discoverImages": true,
-    "discoverVideos": true,
-    "sitemapsPathPrefix": "/__sitemap__/",
     "isNuxtContentDocumentDriven": false,
     "xsl": "/__sitemap__/style.xsl",
     "xslTips": true,
@@ -9797,7 +9787,7 @@ const _inlineRuntimeConfig = {
       }
     ],
     "credits": true,
-    "version": "7.2.10",
+    "version": "4.4.0",
     "sitemaps": {
       "sitemap.xml": {
         "sitemapName": "sitemap.xml",
@@ -9805,8 +9795,8 @@ const _inlineRuntimeConfig = {
         "defaults": {},
         "include": [],
         "exclude": [
-          "/_**",
-          "/_nuxt/**"
+          "/_nuxt/**",
+          "/api/**"
         ],
         "includeAppSources": true
       }
@@ -9826,9 +9816,8 @@ const _inlineRuntimeConfig = {
         "name": "gastarbajter.de"
       }
     ],
-    "version": "3.1.9",
-    "debug": false,
-    "multiTenancy": []
+    "version": "2.2.21",
+    "debug": false
   }
 };
 const envOptions = {
@@ -9851,7 +9840,18 @@ function useRuntimeConfig(event) {
   event.context.nitro.runtimeConfig = runtimeConfig;
   return runtimeConfig;
 }
-_deepFreeze(klona(appConfig));
+const _sharedAppConfig = _deepFreeze(klona(appConfig));
+function useAppConfig(event) {
+  if (!event) {
+    return _sharedAppConfig;
+  }
+  if (event.context.nitro.appConfig) {
+    return event.context.nitro.appConfig;
+  }
+  const appConfig$1 = klona(appConfig);
+  event.context.nitro.appConfig = appConfig$1;
+  return appConfig$1;
+}
 function _deepFreeze(object) {
   const propNames = Object.getOwnPropertyNames(object);
   for (const name of propNames) {
@@ -10237,6 +10237,180 @@ async function errorHandler(error, event) {
   // H3 will handle fallback
 }
 
+function baseURL() {
+  return useRuntimeConfig().app.baseURL;
+}
+function buildAssetsDir() {
+  return useRuntimeConfig().app.buildAssetsDir;
+}
+function buildAssetsURL(...path) {
+  return joinRelativeURL(publicAssetsURL(), buildAssetsDir(), ...path);
+}
+function publicAssetsURL(...path) {
+  const app = useRuntimeConfig().app;
+  const publicBase = app.cdnURL || app.baseURL;
+  return path.length ? joinRelativeURL(publicBase, ...path) : publicBase;
+}
+
+function normalizeSiteConfig(config) {
+  if (typeof config.indexable !== "undefined")
+    config.indexable = String(config.indexable) !== "false";
+  if (typeof config.trailingSlash !== "undefined" && !config.trailingSlash)
+    config.trailingSlash = String(config.trailingSlash) !== "false";
+  if (config.url && !hasProtocol(config.url, { acceptRelative: true, strict: false }))
+    config.url = withHttps(config.url);
+  const keys = Object.keys(config).sort((a, b) => a.localeCompare(b));
+  const newConfig = {};
+  for (const k of keys)
+    newConfig[k] = config[k];
+  return newConfig;
+}
+function createSiteConfigStack(options) {
+  const debug = options?.debug || false;
+  const stack = [];
+  function push(input) {
+    if (!input || typeof input !== "object" || Object.keys(input).length === 0)
+      return;
+    if (!input._context && debug) {
+      let lastFunctionName = new Error("tmp").stack?.split("\n")[2].split(" ")[5];
+      if (lastFunctionName?.includes("/"))
+        lastFunctionName = "anonymous";
+      input._context = lastFunctionName;
+    }
+    const entry = {};
+    for (const k in input) {
+      const val = input[k];
+      if (typeof val !== "undefined" && val !== "")
+        entry[k] = val;
+    }
+    if (Object.keys(entry).filter((k) => !k.startsWith("_")).length > 0)
+      stack.push(entry);
+  }
+  function get(options2) {
+    const siteConfig = {};
+    if (options2?.debug)
+      siteConfig._context = {};
+    for (const o in stack.sort((a, b) => (a._priority || 0) - (b._priority || 0))) {
+      for (const k in stack[o]) {
+        const key = k;
+        const val = options2?.resolveRefs ? toValue(stack[o][k]) : stack[o][k];
+        if (!k.startsWith("_") && typeof val !== "undefined") {
+          siteConfig[k] = val;
+          if (options2?.debug)
+            siteConfig._context[key] = stack[o]._context?.[key] || stack[o]._context || "anonymous";
+        }
+      }
+    }
+    return options2?.skipNormalize ? siteConfig : normalizeSiteConfig(siteConfig);
+  }
+  return {
+    stack,
+    push,
+    get
+  };
+}
+
+function envSiteConfig(env) {
+  return Object.fromEntries(Object.entries(env).filter(([k]) => k.startsWith("NUXT_SITE_") || k.startsWith("NUXT_PUBLIC_SITE_")).map(([k, v]) => [
+    k.replace(/^NUXT_(PUBLIC_)?SITE_/, "").split("_").map((s, i) => i === 0 ? s.toLowerCase() : s[0].toUpperCase() + s.slice(1).toLowerCase()).join(""),
+    v
+  ]));
+}
+
+function useNitroOrigin(e) {
+  process.env.NITRO_SSL_CERT;
+  process.env.NITRO_SSL_KEY;
+  let host = process.env.NITRO_HOST || process.env.HOST || false;
+  let port = false;
+  let protocol = "https" ;
+  {
+    host = getRequestHost(e, { xForwardedHost: true }) || host;
+    protocol = getRequestProtocol(e, { xForwardedProto: true }) || protocol;
+  }
+  if (typeof host === "string" && host.includes(":")) {
+    port = host.split(":").pop();
+    host = host.split(":")[0];
+  }
+  port = port ? `:${port}` : "";
+  return withTrailingSlash(`${protocol}://${host}${port}`);
+}
+
+function useSiteConfig(e, _options) {
+  e.context.siteConfig = e.context.siteConfig || createSiteConfigStack();
+  const options = defu(_options, useRuntimeConfig(e)["nuxt-site-config"], { debug: false });
+  return e.context.siteConfig.get(options);
+}
+
+function resolveSitePath(pathOrUrl, options) {
+  let path = pathOrUrl;
+  if (hasProtocol(pathOrUrl, { strict: false, acceptRelative: true })) {
+    const parsed = parseURL(pathOrUrl);
+    path = parsed.pathname;
+  }
+  const base = withLeadingSlash(options.base || "/");
+  if (base !== "/" && path.startsWith(base)) {
+    path = path.slice(base.length);
+  }
+  let origin = withoutTrailingSlash(options.absolute ? options.siteUrl : "");
+  if (base !== "/" && origin.endsWith(base)) {
+    origin = origin.slice(0, origin.indexOf(base));
+  }
+  const baseWithOrigin = options.withBase ? withBase(base, origin || "/") : origin;
+  const resolvedUrl = withBase(path, baseWithOrigin);
+  return path === "/" && !options.withBase ? withTrailingSlash(resolvedUrl) : fixSlashes(options.trailingSlash, resolvedUrl);
+}
+function isPathFile(path) {
+  const lastSegment = path.split("/").pop();
+  return !!(lastSegment || path).match(/\.[0-9a-z]+$/i)?.[0];
+}
+function fixSlashes(trailingSlash, pathOrUrl) {
+  const $url = parseURL(pathOrUrl);
+  if (isPathFile($url.pathname))
+    return pathOrUrl;
+  const fixedPath = trailingSlash ? withTrailingSlash($url.pathname) : withoutTrailingSlash($url.pathname);
+  return `${$url.protocol ? `${$url.protocol}//` : ""}${$url.host || ""}${fixedPath}${$url.search || ""}${$url.hash || ""}`;
+}
+
+function createSitePathResolver(e, options = {}) {
+  const siteConfig = useSiteConfig(e);
+  const nitroOrigin = useNitroOrigin(e);
+  const nuxtBase = useRuntimeConfig(e).app.baseURL || "/";
+  return (path) => {
+    return resolveSitePath(path, {
+      ...options,
+      siteUrl: options.canonical !== false || false ? siteConfig.url : nitroOrigin,
+      trailingSlash: siteConfig.trailingSlash,
+      base: nuxtBase
+    });
+  };
+}
+
+function formatToDatetime(dateString) {
+  const date = new Date(dateString);
+  const optionsDate = {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric"
+  };
+  const optionsTime = {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: "Europe/Zagreb"
+  };
+  const formattedDate = new Intl.DateTimeFormat("hr-HR", optionsDate).format(
+    date
+  );
+  const formattedTime = new Intl.DateTimeFormat("hr-HR", optionsTime).format(
+    date
+  );
+  return `${formattedDate.replaceAll(" ", "")} u ${formattedTime} sati`;
+}
+
+const globalForPrisma = global;
+const prisma = globalForPrisma.prisma || new PrismaClient().$extends(withAccelerate());
+Prisma.QueryMode;
+
 const chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_$";
 const unsafeChars = /[<>\b\f\n\r\t\0\u2028\u2029]/g;
 const reserved = /^(?:do|if|in|for|int|let|new|try|var|byte|case|char|else|enum|goto|long|this|void|with|await|break|catch|class|const|final|float|short|super|throw|while|yield|delete|double|export|import|native|return|switch|throws|typeof|boolean|default|extends|finally|package|private|abstract|continue|debugger|function|volatile|interface|protected|transient|implements|instanceof|synchronized)$/;
@@ -10470,90 +10644,7 @@ function stringifyString(str) {
   return result;
 }
 
-function normalizeSiteConfig(config) {
-  if (typeof config.indexable !== "undefined")
-    config.indexable = String(config.indexable) !== "false";
-  if (typeof config.trailingSlash !== "undefined" && !config.trailingSlash)
-    config.trailingSlash = String(config.trailingSlash) !== "false";
-  if (config.url && !hasProtocol(String(config.url), { acceptRelative: true, strict: false }))
-    config.url = withHttps(String(config.url));
-  const keys = Object.keys(config).sort((a, b) => a.localeCompare(b));
-  const newConfig = {};
-  for (const k of keys)
-    newConfig[k] = config[k];
-  return newConfig;
-}
-function createSiteConfigStack(options) {
-  const debug = options?.debug || false;
-  const stack = [];
-  function push(input) {
-    if (!input || typeof input !== "object" || Object.keys(input).length === 0) {
-      return () => {
-      };
-    }
-    if (!input._context && debug) {
-      let lastFunctionName = new Error("tmp").stack?.split("\n")[2].split(" ")[5];
-      if (lastFunctionName?.includes("/"))
-        lastFunctionName = "anonymous";
-      input._context = lastFunctionName;
-    }
-    const entry = {};
-    for (const k in input) {
-      const val = input[k];
-      if (typeof val !== "undefined" && val !== "")
-        entry[k] = val;
-    }
-    let idx;
-    if (Object.keys(entry).filter((k) => !k.startsWith("_")).length > 0)
-      idx = stack.push(entry);
-    return () => {
-      if (typeof idx !== "undefined") {
-        stack.splice(idx - 1, 1);
-      }
-    };
-  }
-  function get(options2) {
-    const siteConfig = {};
-    if (options2?.debug)
-      siteConfig._context = {};
-    siteConfig._priority = {};
-    for (const o in stack.sort((a, b) => (a._priority || 0) - (b._priority || 0))) {
-      for (const k in stack[o]) {
-        const key = k;
-        const val = options2?.resolveRefs ? toValue(stack[o][k]) : stack[o][k];
-        if (!k.startsWith("_") && typeof val !== "undefined" && val !== "") {
-          siteConfig[k] = val;
-          if (typeof stack[o]._priority !== "undefined" && stack[o]._priority !== -1) {
-            siteConfig._priority[key] = stack[o]._priority;
-          }
-          if (options2?.debug)
-            siteConfig._context[key] = stack[o]._context?.[key] || stack[o]._context || "anonymous";
-        }
-      }
-    }
-    return options2?.skipNormalize ? siteConfig : normalizeSiteConfig(siteConfig);
-  }
-  return {
-    stack,
-    push,
-    get
-  };
-}
-
-function envSiteConfig(env) {
-  return Object.fromEntries(Object.entries(env).filter(([k]) => k.startsWith("NUXT_SITE_") || k.startsWith("NUXT_PUBLIC_SITE_")).map(([k, v]) => [
-    k.replace(/^NUXT_(PUBLIC_)?SITE_/, "").split("_").map((s, i) => i === 0 ? s.toLowerCase() : s[0].toUpperCase() + s.slice(1).toLowerCase()).join(""),
-    v
-  ]));
-}
-
-function useSiteConfig(e, _options) {
-  e.context.siteConfig = e.context.siteConfig || createSiteConfigStack();
-  const options = defu(_options, useRuntimeConfig(e)["nuxt-site-config"], { debug: false });
-  return e.context.siteConfig.get(options);
-}
-
-const _cstScNghUV9QcxV_8T64pNVal0UJaei2noXq3CgdFPo = defineNitroPlugin$1(async (nitroApp) => {
+const _4Fg1M9s70cA4g73aTRl36pLcsut0_g_nSGAV7UuyTWI = defineNitroPlugin$1(async (nitroApp) => {
   nitroApp.hooks.hook("render:html", async (ctx, { event }) => {
     const routeOptions = getRouteRules(event);
     const isIsland = process.env.NUXT_COMPONENT_ISLANDS && event.path.startsWith("/__nuxt_island");
@@ -10567,222 +10658,6 @@ const _cstScNghUV9QcxV_8T64pNVal0UJaei2noXq3CgdFPo = defineNitroPlugin$1(async (
     }
   });
 });
-
-function baseURL() {
-  return useRuntimeConfig().app.baseURL;
-}
-function buildAssetsDir() {
-  return useRuntimeConfig().app.buildAssetsDir;
-}
-function buildAssetsURL(...path) {
-  return joinRelativeURL(publicAssetsURL(), buildAssetsDir(), ...path);
-}
-function publicAssetsURL(...path) {
-  const app = useRuntimeConfig().app;
-  const publicBase = app.cdnURL || app.baseURL;
-  return path.length ? joinRelativeURL(publicBase, ...path) : publicBase;
-}
-
-function useNitroOrigin(e) {
-  process.env.NITRO_SSL_CERT;
-  process.env.NITRO_SSL_KEY;
-  let host = process.env.NITRO_HOST || process.env.HOST || false;
-  let port = false;
-  let protocol = "https" ;
-  if (e) {
-    host = getRequestHost(e, { xForwardedHost: true }) || host;
-    protocol = getRequestProtocol(e, { xForwardedProto: true }) || protocol;
-  }
-  if (typeof host === "string" && host.includes(":")) {
-    port = host.split(":").pop();
-    host = host.split(":")[0];
-  }
-  port = port ? `:${port}` : "";
-  return withTrailingSlash(`${protocol}://${host}${port}`);
-}
-
-function resolveSitePath(pathOrUrl, options) {
-  let path = pathOrUrl;
-  if (hasProtocol(pathOrUrl, { strict: false, acceptRelative: true })) {
-    const parsed = parseURL(pathOrUrl);
-    path = parsed.pathname;
-  }
-  const base = withLeadingSlash(options.base || "/");
-  if (base !== "/" && path.startsWith(base)) {
-    path = path.slice(base.length);
-  }
-  let origin = withoutTrailingSlash(options.absolute ? options.siteUrl : "");
-  if (base !== "/" && origin.endsWith(base)) {
-    origin = origin.slice(0, origin.indexOf(base));
-  }
-  const baseWithOrigin = options.withBase ? withBase(base, origin || "/") : origin;
-  const resolvedUrl = withBase(path, baseWithOrigin);
-  return path === "/" && !options.withBase ? withTrailingSlash(resolvedUrl) : fixSlashes(options.trailingSlash, resolvedUrl);
-}
-const fileExtensions = [
-  // Images
-  "jpg",
-  "jpeg",
-  "png",
-  "gif",
-  "bmp",
-  "webp",
-  "svg",
-  "ico",
-  // Documents
-  "pdf",
-  "doc",
-  "docx",
-  "xls",
-  "xlsx",
-  "ppt",
-  "pptx",
-  "txt",
-  "md",
-  "markdown",
-  // Archives
-  "zip",
-  "rar",
-  "7z",
-  "tar",
-  "gz",
-  // Audio
-  "mp3",
-  "wav",
-  "flac",
-  "ogg",
-  "opus",
-  "m4a",
-  "aac",
-  "midi",
-  "mid",
-  // Video
-  "mp4",
-  "avi",
-  "mkv",
-  "mov",
-  "wmv",
-  "flv",
-  "webm",
-  // Web
-  "html",
-  "css",
-  "js",
-  "json",
-  "xml",
-  "tsx",
-  "jsx",
-  "ts",
-  "vue",
-  "svelte",
-  "xsl",
-  "rss",
-  "atom",
-  // Programming
-  "php",
-  "py",
-  "rb",
-  "java",
-  "c",
-  "cpp",
-  "h",
-  "go",
-  // Data formats
-  "csv",
-  "tsv",
-  "sql",
-  "yaml",
-  "yml",
-  // Fonts
-  "woff",
-  "woff2",
-  "ttf",
-  "otf",
-  "eot",
-  // Executables/Binaries
-  "exe",
-  "msi",
-  "apk",
-  "ipa",
-  "dmg",
-  "iso",
-  "bin",
-  // Scripts/Config
-  "bat",
-  "cmd",
-  "sh",
-  "env",
-  "htaccess",
-  "conf",
-  "toml",
-  "ini",
-  // Package formats
-  "deb",
-  "rpm",
-  "jar",
-  "war",
-  // E-books
-  "epub",
-  "mobi",
-  // Common temporary/backup files
-  "log",
-  "tmp",
-  "bak",
-  "old",
-  "sav"
-];
-function isPathFile(path) {
-  const lastSegment = path.split("/").pop();
-  const ext = (lastSegment || path).match(/\.[0-9a-z]+$/i)?.[0];
-  return ext && fileExtensions.includes(ext.replace(".", ""));
-}
-function fixSlashes(trailingSlash, pathOrUrl) {
-  const $url = parseURL(pathOrUrl);
-  if (isPathFile($url.pathname))
-    return pathOrUrl;
-  const fixedPath = trailingSlash ? withTrailingSlash($url.pathname) : withoutTrailingSlash($url.pathname);
-  return `${$url.protocol ? `${$url.protocol}//` : ""}${$url.host || ""}${fixedPath}${$url.search || ""}${$url.hash || ""}`;
-}
-
-function createSitePathResolver(e, options = {}) {
-  const siteConfig = useSiteConfig(e);
-  const nitroOrigin = useNitroOrigin(e);
-  const nuxtBase = useRuntimeConfig(e).app.baseURL || "/";
-  return (path) => {
-    return resolveSitePath(path, {
-      ...options,
-      siteUrl: options.canonical !== false || false ? siteConfig.url : nitroOrigin,
-      trailingSlash: siteConfig.trailingSlash,
-      base: nuxtBase
-    });
-  };
-}
-
-function formatToDatetime(dateString) {
-  const date = new Date(dateString);
-  const optionsDate = {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric"
-  };
-  const optionsTime = {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-    timeZone: "Europe/Zagreb"
-  };
-  const formattedDate = new Intl.DateTimeFormat("hr-HR", optionsDate).format(
-    date
-  );
-  const formattedTime = new Intl.DateTimeFormat("hr-HR", optionsTime).format(
-    date
-  );
-  return `${formattedDate.replaceAll(" ", "")} u ${formattedTime} sati`;
-}
-
-const globalForPrisma = global;
-const prisma = globalForPrisma.prisma || new PrismaClient().$extends(withAccelerate());
-Prisma.QueryMode;
 
 var classes$2 = {
   root: 'p-badge p-component'
@@ -10859,7 +10734,7 @@ const _29LJpW0B6e7EBnvJYv322GkXGEIQ9ZAV_XcprfMYMhg = defineNitroPlugin(async (ni
 });
 
 const plugins = [
-  _cstScNghUV9QcxV_8T64pNVal0UJaei2noXq3CgdFPo,
+  _4Fg1M9s70cA4g73aTRl36pLcsut0_g_nSGAV7UuyTWI,
 _29LJpW0B6e7EBnvJYv322GkXGEIQ9ZAV_XcprfMYMhg
 ];
 
@@ -10867,7 +10742,7 @@ const secretKey$1 = process.env.JWT_SECRET || "";
 const _vHMMoM = defineEventHandler(async (event) => {
   var _a;
   const url = String(event.req.url);
-  if (url.includes("/api/portal-category") && event.req.method !== "GET" || url.includes("/api/portal-news") && event.req.method !== "GET" || url.includes("/api/jobs-category") && event.req.method !== "GET" || url.includes("/api/job") && event.req.method !== "GET" || url.includes("/api/product-category") && event.req.method !== "GET" || url.includes("/api/product") && event.req.method !== "GET" || url.includes("/api/order") && event.req.method !== "POST" && event.req.method !== "GET" || url.includes("/api/ad") && event.req.method !== "POST" && event.req.method !== "GET") {
+  if (url.includes("/api/portal-category") && event.req.method !== "GET" || url.includes("/api/portal-news") && event.req.method !== "GET" || url.includes("/api/jobs-category") && event.req.method !== "GET" || url.includes("/api/job") && event.req.method !== "GET" || url.includes("/api/product-category") && event.req.method !== "GET" || url.includes("/api/product") && event.req.method !== "GET" || url.includes("/api/order") && event.req.method !== "POST" && event.req.method !== "GET" || url.includes("/api/ad") && event.req.method !== "POST" && event.req.method !== "GET" || url.includes("/api/dashboard-card") && event.req.method !== "GET") {
     const token = (_a = event.req.headers["authorization"]) == null ? void 0 : _a.split(" ")[1];
     try {
       const decoded = jwt.verify(String(token), secretKey$1);
@@ -10921,15 +10796,16 @@ const _3h01ov = eventHandler(async (event) => {
   }
 });
 
-const _hRKkVP = defineEventHandler(async (e) => {
-  if (e.context._initedSiteConfig)
+const _cZhKGz = defineEventHandler(async (e) => {
+  if (e.context.siteConfig)
     return;
   const runtimeConfig = useRuntimeConfig(e);
   const config = runtimeConfig["nuxt-site-config"];
   const nitroApp = useNitroApp();
-  const siteConfig = e.context.siteConfig || createSiteConfigStack({
+  const siteConfig = createSiteConfigStack({
     debug: config.debug
   });
+  const appConfig = useAppConfig(e);
   const nitroOrigin = useNitroOrigin(e);
   e.context.siteConfigNitroOrigin = nitroOrigin;
   {
@@ -10950,34 +10826,24 @@ const _hRKkVP = defineEventHandler(async (e) => {
   });
   const buildStack = config.stack || [];
   buildStack.forEach((c) => siteConfig.push(c));
+  if (appConfig.site) {
+    siteConfig.push({
+      _priority: -2,
+      _context: "app:config",
+      ...appConfig.site
+    });
+  }
   if (e.context._nitro.routeRules.site) {
     siteConfig.push({
       _context: "route-rules",
       ...e.context._nitro.routeRules.site
     });
   }
-  if (config.multiTenancy) {
-    const host = parseURL(nitroOrigin).host;
-    const tenant = config.multiTenancy?.find((t) => t.hosts.includes(host));
-    if (tenant) {
-      siteConfig.push({
-        _context: `multi-tenancy:${host}`,
-        _priority: 0,
-        ...tenant.config
-      });
-    }
-  }
   const ctx = { siteConfig, event: e };
   await nitroApp.hooks.callHook("site-config:init", ctx);
   e.context.siteConfig = ctx.siteConfig;
-  e.context._initedSiteConfig = true;
 });
 
-createConsola({
-  defaults: {
-    tag: "@nuxt/sitemap"
-  }
-});
 const merger = createDefu((obj, key, value) => {
   if (Array.isArray(obj[key]) && Array.isArray(value))
     obj[key] = Array.from(/* @__PURE__ */ new Set([...obj[key], ...value]));
@@ -10997,6 +10863,7 @@ function splitForLocales(path, locales) {
     return [prefix, path.replace(`/${prefix}`, "")];
   return [null, path];
 }
+
 const StringifiedRegExpPattern = /\/(.*?)\/([gimsuy]*)$/;
 function normalizeRuntimeFilters(input) {
   return (input || []).map((rule) => {
@@ -11008,47 +10875,8 @@ function normalizeRuntimeFilters(input) {
     return false;
   }).filter(Boolean);
 }
-function createPathFilter(options = {}) {
-  const urlFilter = createFilter(options);
-  return (loc) => {
-    let path = loc;
-    try {
-      path = parseURL(loc).pathname;
-    } catch {
-      return false;
-    }
-    return urlFilter(path);
-  };
-}
-function createFilter(options = {}) {
-  const include = options.include || [];
-  const exclude = options.exclude || [];
-  if (include.length === 0 && exclude.length === 0)
-    return () => true;
-  return function(path) {
-    for (const v of [{ rules: exclude, result: false }, { rules: include, result: true }]) {
-      const regexRules = v.rules.filter((r) => r instanceof RegExp);
-      if (regexRules.some((r) => r.test(path)))
-        return v.result;
-      const stringRules = v.rules.filter((r) => typeof r === "string");
-      if (stringRules.length > 0) {
-        const routes = {};
-        for (const r of stringRules) {
-          if (r === path)
-            return v.result;
-          routes[r] = true;
-        }
-        const routeRulesMatcher = toRouteMatcher(createRouter$1({ routes, strictTrailingSlash: false }));
-        if (routeRulesMatcher.matchAll(path).length > 0)
-          return Boolean(v.result);
-      }
-    }
-    return include.length === 0;
-  };
-}
-
-function useSitemapRuntimeConfig(e) {
-  const clone = JSON.parse(JSON.stringify(useRuntimeConfig(e).sitemap));
+function useSimpleSitemapRuntimeConfig() {
+  const clone = JSON.parse(JSON.stringify(useRuntimeConfig()["nuxt-simple-sitemap"]));
   for (const k in clone.sitemaps) {
     const sitemap = clone.sitemaps[k];
     sitemap.include = normalizeRuntimeFilters(sitemap.include);
@@ -11058,18 +10886,14 @@ function useSitemapRuntimeConfig(e) {
   return Object.freeze(clone);
 }
 
-const _AQRgbx = defineEventHandler(async (e) => {
-  const fixPath = createSitePathResolver(e, { absolute: false, withBase: true });
-  const { sitemapName: fallbackSitemapName, cacheMaxAgeSeconds, version, xslColumns, xslTips } = useSitemapRuntimeConfig();
+const _6_vjrJ = defineEventHandler(async (e) => {
   setHeader(e, "Content-Type", "application/xslt+xml");
-  if (cacheMaxAgeSeconds)
-    setHeader(e, "Cache-Control", `public, max-age=${cacheMaxAgeSeconds}, must-revalidate`);
-  else
-    setHeader(e, "Cache-Control", `no-cache, no-store`);
+  setHeader(e, "Cache-Control", "max-age=600, must-revalidate");
+  const fixPath = createSitePathResolver(e, { absolute: false, withBase: true });
+  const { sitemapName: fallbackSitemapName, version, xslColumns, xslTips } = useSimpleSitemapRuntimeConfig();
   const { name: siteName, url: siteUrl } = useSiteConfig(e);
   const referrer = getHeader(e, "Referer") || "/";
-  const referrerPath = parseURL(referrer).pathname;
-  const isNotIndexButHasIndex = referrerPath !== "/sitemap.xml" && referrerPath !== "/sitemap_index.xml" && referrerPath.endsWith(".xml");
+  const isNotIndexButHasIndex = referrer !== fixPath("/sitemap.xml") && parseURL(referrer).pathname.endsWith("-sitemap.xml");
   const sitemapName = parseURL(referrer).pathname.split("/").pop()?.split("-sitemap")[0] || fallbackSitemapName;
   const title = `${siteName}${sitemapName !== "sitemap.xml" ? ` - ${sitemapName === "sitemap_index.xml" ? "index" : sitemapName}` : ""}`.replace(/&/g, "&amp;");
   const canonicalQuery = getQuery$1(referrer).canonical;
@@ -11281,228 +11105,82 @@ const _AQRgbx = defineEventHandler(async (e) => {
 `;
 });
 
-function withoutQuery(path) {
-  return path.split("?")[0];
-}
-function createNitroRouteRuleMatcher() {
-  const { nitro, app } = useRuntimeConfig();
-  const _routeRulesMatcher = toRouteMatcher(
-    createRouter$1({
-      routes: Object.fromEntries(
-        Object.entries(nitro?.routeRules || {}).map(([path, rules]) => [path === "/" ? path : withoutTrailingSlash(path), rules])
-      )
-    })
-  );
-  return (pathOrUrl) => {
-    const path = pathOrUrl[0] === "/" ? pathOrUrl : parseURL(pathOrUrl, app.baseURL).pathname;
-    const pathWithoutQuery = withoutQuery(path);
-    return defu({}, ..._routeRulesMatcher.matchAll(
-      // radix3 does not support trailing slashes
-      withoutBase(pathWithoutQuery === "/" ? pathWithoutQuery : withoutTrailingSlash(pathWithoutQuery), app.baseURL)
-    ).reverse());
-  };
-}
-
 function resolve(s, resolvers) {
-  if (typeof s === "undefined" || !resolvers)
+  if (typeof s === "undefined")
     return s;
   s = typeof s === "string" ? s : s.toString();
   if (hasProtocol(s, { acceptRelative: true, strict: false }))
     return resolvers.fixSlashes(s);
   return resolvers.canonicalUrlResolver(s);
 }
-function removeTrailingSlash(s) {
-  return s.replace(/\/(\?|#|$)/, "$1");
-}
-function preNormalizeEntry(_e, resolvers) {
-  const e = typeof _e === "string" ? { loc: _e } : { ..._e };
-  if (e.url && !e.loc) {
-    e.loc = e.url;
-    delete e.url;
-  }
-  if (typeof e.loc !== "string") {
-    e.loc = "";
-  }
-  e.loc = removeTrailingSlash(e.loc);
-  e._abs = hasProtocol(e.loc, { acceptRelative: false, strict: false });
-  try {
-    e._path = e._abs ? parseURL(e.loc) : parsePath(e.loc);
-  } catch (e2) {
-    e2._path = null;
-  }
-  if (e._path) {
-    const query = parseQuery(e._path.search);
-    const qs = stringifyQuery(query);
-    e._relativeLoc = `${encodePath(e._path?.pathname)}${qs.length ? `?${qs}` : ""}`;
-    if (e._path.host) {
-      e.loc = stringifyParsedURL(e._path);
-    } else {
-      e.loc = e._relativeLoc;
+function normaliseSitemapUrls(data, resolvers) {
+  const entries = data.map((e) => typeof e === "string" ? { loc: e } : e).map((e) => {
+    e = { ...e };
+    if (e.url) {
+      e.loc = e.url;
+      delete e.url;
     }
-  } else if (!isEncoded(e.loc)) {
-    e.loc = encodeURI(e.loc);
-  }
-  if (e.loc === "")
-    e.loc = `/`;
-  e.loc = resolve(e.loc, resolvers);
-  e._key = `${e._sitemap || ""}${withoutTrailingSlash(e.loc)}`;
-  return e;
-}
-function isEncoded(url) {
-  try {
-    return url !== decodeURIComponent(url);
-  } catch {
-    return false;
-  }
-}
-function normaliseEntry(_e, defaults, resolvers) {
-  const e = defu(_e, defaults);
-  if (e.lastmod) {
-    const date = normaliseDate(e.lastmod);
-    if (date)
-      e.lastmod = date;
-    else
+    e.loc = fixSlashes(false, e.loc);
+    return e;
+  }).filter(Boolean);
+  function normaliseEntry(e) {
+    if (e.lastmod) {
+      const date = normaliseDate(e.lastmod);
+      if (date)
+        e.lastmod = date;
+      else
+        delete e.lastmod;
+    }
+    if (!e.lastmod)
       delete e.lastmod;
+    e.loc = resolve(e.loc, resolvers);
+    if (e.alternatives) {
+      e.alternatives = mergeOnKey(e.alternatives.map((e2) => {
+        const a = { ...e2 };
+        if (typeof a.href === "string")
+          a.href = resolve(a.href, resolvers);
+        else if (typeof a.href === "object" && a.href)
+          a.href = resolve(a.href.href, resolvers);
+        return a;
+      }), "hreflang");
+    }
+    if (e.images) {
+      e.images = mergeOnKey(e.images.map((i) => {
+        i = { ...i };
+        i.loc = resolve(i.loc, resolvers);
+        return i;
+      }), "loc");
+    }
+    if (e.videos) {
+      e.videos = e.videos.map((v) => {
+        v = { ...v };
+        if (v.content_loc)
+          v.content_loc = resolve(v.content_loc, resolvers);
+        return v;
+      });
+    }
+    return e;
   }
-  if (!e.lastmod)
-    delete e.lastmod;
-  e.loc = resolve(e.loc, resolvers);
-  if (e.alternatives) {
-    e.alternatives = mergeOnKey(e.alternatives.map((e2) => {
-      const a = { ...e2 };
-      if (typeof a.href === "string")
-        a.href = resolve(a.href, resolvers);
-      else if (typeof a.href === "object" && a.href)
-        a.href = resolve(a.href.href, resolvers);
-      return a;
-    }), "hreflang");
-  }
-  if (e.images) {
-    e.images = mergeOnKey(e.images.map((i) => {
-      i = { ...i };
-      i.loc = resolve(i.loc, resolvers);
-      return i;
-    }), "loc");
-  }
-  if (e.videos) {
-    e.videos = e.videos.map((v) => {
-      v = { ...v };
-      if (v.content_loc)
-        v.content_loc = resolve(v.content_loc, resolvers);
-      return v;
-    });
-  }
-  return e;
-}
-const IS_VALID_W3C_DATE = [
-  /(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d\.\d+([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))|(\d{4}-[01]\d-[0-3]\dT[0-2]\d:[0-5]\d([+-][0-2]\d:[0-5]\d|Z))/,
-  /^\d{4}-[01]\d-[0-3]\d$/,
-  /^\d{4}-[01]\d$/,
-  /^\d{4}$/
-];
-function isValidW3CDate(d) {
-  return IS_VALID_W3C_DATE.some((r) => r.test(d));
+  return mergeOnKey(
+    entries.map(normaliseEntry).map((e) => ({ ...e, _key: `${e._sitemap || ""}${e.loc}` })),
+    "_key"
+  );
 }
 function normaliseDate(d) {
   if (typeof d === "string") {
-    if (d.includes("T")) {
-      const t = d.split("T")[1];
-      if (!t.includes("+") && !t.includes("-") && !t.includes("Z")) {
-        d += "Z";
-      }
-    }
-    if (!isValidW3CDate(d))
-      return false;
+    d = d.replace("Z", "");
+    d = d.replace(/\.\d+$/, "");
+    if (d.match(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}$/) || d.match(/^\d{4}-\d{2}-\d{2}$/))
+      return d;
     d = new Date(d);
-    d.setMilliseconds(0);
     if (Number.isNaN(d.getTime()))
       return false;
   }
   const z = (n) => `0${n}`.slice(-2);
-  const date = `${d.getUTCFullYear()}-${z(d.getUTCMonth() + 1)}-${z(d.getUTCDate())}`;
-  if (d.getUTCHours() > 0 || d.getUTCMinutes() > 0 || d.getUTCSeconds() > 0) {
-    return `${date}T${z(d.getUTCHours())}:${z(d.getUTCMinutes())}:${z(d.getUTCSeconds())}Z`;
-  }
-  return date;
+  return `${d.getUTCFullYear()}-${z(d.getUTCMonth() + 1)}-${z(d.getUTCDate())}T${z(d.getUTCHours())}:${z(d.getUTCMinutes())}:${z(d.getUTCSeconds())}+00:00`;
 }
 
-function extractSitemapXML(xml) {
-  const urls = xml.match(/<url>[\s\S]*?<\/url>/g) || [];
-  return urls.map((url) => {
-    const loc = url.match(/<loc>([^<]+)<\/loc>/)?.[1];
-    if (!loc) return null;
-    const lastmod = url.match(/<lastmod>([^<]+)<\/lastmod>/)?.[1];
-    const changefreq = url.match(/<changefreq>([^<]+)<\/changefreq>/)?.[1];
-    const priority = url.match(/<priority>([^<]+)<\/priority>/) ? Number.parseFloat(url.match(/<priority>([^<]+)<\/priority>/)[1]) : void 0;
-    const images = (url.match(/<image:image>[\s\S]*?<\/image:image>/g) || []).map((image) => {
-      const imageLoc = image.match(/<image:loc>([^<]+)<\/image:loc>/)?.[1];
-      return imageLoc ? { loc: imageLoc } : null;
-    }).filter(Boolean);
-    const videos = (url.match(/<video:video>[\s\S]*?<\/video:video>/g) || []).map((video) => {
-      const videoObj = {};
-      const title = video.match(/<video:title>([^<]+)<\/video:title>/)?.[1];
-      const thumbnail_loc = video.match(/<video:thumbnail_loc>([^<]+)<\/video:thumbnail_loc>/)?.[1];
-      const description = video.match(/<video:description>([^<]+)<\/video:description>/)?.[1];
-      const content_loc = video.match(/<video:content_loc>([^<]+)<\/video:content_loc>/)?.[1];
-      if (!title || !thumbnail_loc || !description || !content_loc) return null;
-      videoObj.title = title;
-      videoObj.thumbnail_loc = thumbnail_loc;
-      videoObj.description = description;
-      videoObj.content_loc = content_loc;
-      const player_loc = video.match(/<video:player_loc>([^<]+)<\/video:player_loc>/)?.[1];
-      if (player_loc) videoObj.player_loc = player_loc;
-      const duration = video.match(/<video:duration>([^<]+)<\/video:duration>/) ? Number.parseInt(video.match(/<video:duration>([^<]+)<\/video:duration>/)[1], 10) : void 0;
-      if (duration) videoObj.duration = duration;
-      const expiration_date = video.match(/<video:expiration_date>([^<]+)<\/video:expiration_date>/)?.[1];
-      if (expiration_date) videoObj.expiration_date = expiration_date;
-      const rating = video.match(/<video:rating>([^<]+)<\/video:rating>/) ? Number.parseFloat(video.match(/<video:rating>([^<]+)<\/video:rating>/)[1]) : void 0;
-      if (rating) videoObj.rating = rating;
-      const view_count = video.match(/<video:view_count>([^<]+)<\/video:view_count>/) ? Number.parseInt(video.match(/<video:view_count>([^<]+)<\/video:view_count>/)[1], 10) : void 0;
-      if (view_count) videoObj.view_count = view_count;
-      const publication_date = video.match(/<video:publication_date>([^<]+)<\/video:publication_date>/)?.[1];
-      if (publication_date) videoObj.publication_date = publication_date;
-      const family_friendly = video.match(/<video:family_friendly>([^<]+)<\/video:family_friendly>/)?.[1];
-      if (family_friendly) videoObj.family_friendly = family_friendly;
-      const restriction = video.match(/<video:restriction relationship="([^"]+)">([^<]+)<\/video:restriction>/);
-      if (restriction) videoObj.restriction = { relationship: restriction[1], restriction: restriction[2] };
-      const platform = video.match(/<video:platform relationship="([^"]+)">([^<]+)<\/video:platform>/);
-      if (platform) videoObj.platform = { relationship: platform[1], platform: platform[2] };
-      const price = (video.match(/<video:price [^>]+>([^<]+)<\/video:price>/g) || []).map((price2) => {
-        const priceValue = price2.match(/<video:price [^>]+>([^<]+)<\/video:price>/)?.[1];
-        const currency = price2.match(/currency="([^"]+)"/)?.[1];
-        const type = price2.match(/type="([^"]+)"/)?.[1];
-        return priceValue ? { price: priceValue, currency, type } : null;
-      }).filter(Boolean);
-      if (price.length) videoObj.price = price;
-      const requires_subscription = video.match(/<video:requires_subscription>([^<]+)<\/video:requires_subscription>/)?.[1];
-      if (requires_subscription) videoObj.requires_subscription = requires_subscription;
-      const uploader = video.match(/<video:uploader info="([^"]+)">([^<]+)<\/video:uploader>/);
-      if (uploader) videoObj.uploader = { uploader: uploader[2], info: uploader[1] };
-      const live = video.match(/<video:live>([^<]+)<\/video:live>/)?.[1];
-      if (live) videoObj.live = live;
-      const tag = (video.match(/<video:tag>([^<]+)<\/video:tag>/g) || []).map((tag2) => tag2.match(/<video:tag>([^<]+)<\/video:tag>/)?.[1]).filter(Boolean);
-      if (tag.length) videoObj.tag = tag;
-      return videoObj;
-    }).filter(Boolean);
-    const alternatives = (url.match(/<xhtml:link[\s\S]*?\/>/g) || []).map((link) => {
-      const hreflang = link.match(/hreflang="([^"]+)"/)?.[1];
-      const href = link.match(/href="([^"]+)"/)?.[1];
-      return hreflang && href ? { hreflang, href } : null;
-    }).filter(Boolean);
-    const news = url.match(/<news:news>[\s\S]*?<\/news:news>/) ? {
-      title: url.match(/<news:title>([^<]+)<\/news:title>/)?.[1],
-      publication_date: url.match(/<news:publication_date>([^<]+)<\/news:publication_date>/)?.[1],
-      publication: {
-        name: url.match(/<news:name>([^<]+)<\/news:name>/)?.[1],
-        language: url.match(/<news:language>([^<]+)<\/news:language>/)?.[1]
-      }
-    } : void 0;
-    const urlObj = { loc, lastmod, changefreq, priority, images, videos, alternatives, news };
-    return Object.fromEntries(Object.entries(urlObj).filter(([_, v]) => v != null && v.length !== 0));
-  }).filter(Boolean);
-}
-
-async function fetchDataSource(input, event) {
+async function fetchDataSource(input) {
   const context = typeof input.context === "string" ? { name: input.context } : input.context || { name: "fetch" };
   context.tips = context.tips || [];
   const url = typeof input.fetch === "string" ? input.fetch : input.fetch[0];
@@ -11511,25 +11189,22 @@ async function fetchDataSource(input, event) {
   const timeout = options.timeout || 5e3;
   const timeoutController = new AbortController();
   const abortRequestTimeout = setTimeout(() => timeoutController.abort(), timeout);
-  let isMaybeErrorResponse = false;
-  const isXmlRequest = parseURL(url).pathname.endsWith(".xml");
-  const fetchContainer = url.startsWith("/") && event ? event : globalThis;
+  let isHtmlResponse = false;
   try {
-    const res = await fetchContainer.$fetch(url, {
-      ...options,
-      responseType: isXmlRequest ? "text" : "json",
+    const urls = await globalThis.$fetch(url, {
+      responseType: "json",
       signal: timeoutController.signal,
-      headers: defu(options?.headers, {
-        Accept: isXmlRequest ? "text/xml" : "application/json"
-      }, event ? { host: getRequestHost(event, { xForwardedHost: true }) } : {}),
+      headers: {
+        Accept: "application/json"
+      },
       // @ts-expect-error untyped
       onResponse({ response }) {
         if (typeof response._data === "string" && response._data.startsWith("<!DOCTYPE html>"))
-          isMaybeErrorResponse = true;
+          isHtmlResponse = true;
       }
     });
     const timeTakenMs = Date.now() - start;
-    if (isMaybeErrorResponse) {
+    if (isHtmlResponse) {
       context.tips.push("This is usually because the URL isn't correct or is throwing an error. Please check the URL");
       return {
         ...input,
@@ -11538,12 +11213,6 @@ async function fetchDataSource(input, event) {
         timeTakenMs,
         error: "Received HTML response instead of JSON"
       };
-    }
-    let urls = [];
-    if (typeof res === "object") {
-      urls = res.urls || res;
-    } else if (typeof res === "string" && parseURL(url).pathname.endsWith(".xml")) {
-      urls = extractSitemapXML(res);
     }
     return {
       ...input,
@@ -11557,7 +11226,7 @@ async function fetchDataSource(input, event) {
       context.tips.push("The request has taken too long. Make sure app sources respond within 5 seconds or adjust the timeout fetch option.");
     else
       context.tips.push(`Response returned a status of ${error.response?.status || "unknown"}.`);
-    console.error("[@nuxtjs/sitemap] Failed to fetch source.", { url, error });
+    console.error("[nuxt-simple-sitemap] Failed to fetch source.", { url, error });
     return {
       ...input,
       context,
@@ -11565,9 +11234,7 @@ async function fetchDataSource(input, event) {
       error: error.message
     };
   } finally {
-    if (abortRequestTimeout) {
-      clearTimeout(abortRequestTimeout);
-    }
+    abortRequestTimeout && clearTimeout(abortRequestTimeout);
   }
 }
 function globalSitemapSources() {
@@ -11576,7 +11243,7 @@ function globalSitemapSources() {
 function childSitemapSources(definition) {
   return definition?._hasSourceChunk ? import('../virtual/child-sources.mjs').then((m) => m.sources[definition.sitemapName] || []) : Promise.resolve([]);
 }
-async function resolveSitemapSources(sources, event) {
+async function resolveSitemapSources(sources) {
   return (await Promise.all(
     sources.map((source) => {
       if (typeof source === "object" && "urls" in source) {
@@ -11587,13 +11254,181 @@ async function resolveSitemapSources(sources, event) {
         };
       }
       if (source.fetch)
-        return fetchDataSource(source, event);
+        return fetchDataSource(source);
       return {
         ...source,
         error: "Invalid source"
       };
     })
   )).flat();
+}
+
+function createFilter(options = {}) {
+  const include = options.include || [];
+  const exclude = options.exclude || [];
+  if (include.length === 0 && exclude.length === 0)
+    return () => true;
+  return function(path) {
+    for (const v of [{ rules: exclude, result: false }, { rules: include, result: true }]) {
+      const regexRules = v.rules.filter((r) => r instanceof RegExp);
+      if (regexRules.some((r) => r.test(path)))
+        return v.result;
+      const stringRules = v.rules.filter((r) => typeof r === "string");
+      if (stringRules.length > 0) {
+        const routes = {};
+        for (const r of stringRules) {
+          if (r === path)
+            return v.result;
+          routes[r] = true;
+        }
+        const routeRulesMatcher = toRouteMatcher(createRouter$1({ routes, strictTrailingSlash: false }));
+        if (routeRulesMatcher.matchAll(path).length > 0)
+          return Boolean(v.result);
+      }
+    }
+    return include.length === 0;
+  };
+}
+function filterSitemapUrls(_urls, options) {
+  const urlFilter = createFilter({
+    include: options.include,
+    exclude: options.exclude
+  });
+  return _urls.filter((e) => {
+    let path = e.loc;
+    try {
+      path = parseURL(e.loc).pathname;
+    } catch {
+      return false;
+    }
+    if (!urlFilter(path))
+      return false;
+    if (options.isMultiSitemap && e._sitemap && options.sitemapName)
+      return e._sitemap === options.sitemapName;
+    return true;
+  });
+}
+
+function normaliseI18nSources(sources, { autoI18n, isI18nMapped }) {
+  if (autoI18n && isI18nMapped) {
+    return sources.map((s) => {
+      const urls = (s.urls || []).map((_url) => {
+        const url = typeof _url === "string" ? { loc: _url } : _url;
+        url.loc = url.loc || url.url;
+        url.loc = withLeadingSlash(url.loc);
+        return url;
+      });
+      s.urls = urls.map((url) => {
+        if (url._sitemap || url._i18nTransform)
+          return url;
+        if (url.loc) {
+          const match = splitForLocales(url.loc, autoI18n.locales.map((l) => l.code));
+          const localeCode = match[0] || autoI18n.defaultLocale;
+          const pathWithoutPrefix = match[1];
+          const locale = autoI18n.locales.find((e) => e.code === localeCode);
+          if (locale) {
+            if (!url.alternatives) {
+              const alternatives = urls.map((u) => {
+                if (u._sitemap || u._i18nTransform)
+                  return false;
+                if (u?.loc) {
+                  const [_localeCode, _pathWithoutPrefix] = splitForLocales(u.loc, autoI18n.locales.map((l) => l.code));
+                  if (pathWithoutPrefix === _pathWithoutPrefix) {
+                    const entries = [];
+                    if (_localeCode === autoI18n.defaultLocale) {
+                      entries.push({
+                        href: u.loc,
+                        hreflang: "x-default"
+                      });
+                    }
+                    entries.push({
+                      href: u.loc,
+                      hreflang: _localeCode || autoI18n.defaultLocale
+                    });
+                    return entries;
+                  }
+                }
+                return false;
+              }).flat().filter(Boolean);
+              if (alternatives.length)
+                url.alternatives = alternatives;
+            }
+            return {
+              _sitemap: locale.iso || locale.code,
+              ...url
+            };
+          }
+        }
+        return url;
+      });
+      return s;
+    });
+  }
+  return sources;
+}
+function applyI18nEnhancements(_urls, options) {
+  const { autoI18n } = options;
+  return _urls.map((e) => {
+    if (!e._i18nTransform)
+      return e;
+    delete e._i18nTransform;
+    const path = withLeadingSlash(parseURL(e.loc).pathname);
+    const match = splitForLocales(path, autoI18n.locales.map((l) => l.code));
+    let pathWithoutLocale = path;
+    if (match[0]) {
+      pathWithoutLocale = match[1] || "/";
+      match[0];
+    }
+    if (autoI18n.differentDomains) {
+      return {
+        // will force it to pass filter
+        _sitemap: options.sitemapName,
+        ...e,
+        alternatives: [
+          {
+            // apply default locale domain
+            ...autoI18n.locales.find((l) => [l.code, l.iso].includes(autoI18n.defaultLocale)),
+            code: "x-default"
+          },
+          ...autoI18n.locales.filter((l) => !!l.domain)
+        ].map((locale2) => {
+          return {
+            hreflang: locale2.iso || locale2.code,
+            href: joinURL(withHttps(locale2.domain), pathWithoutLocale)
+          };
+        })
+      };
+    }
+    return autoI18n.locales.map((l) => {
+      let loc = joinURL(`/${l.code}`, pathWithoutLocale);
+      if (autoI18n.differentDomains || ["prefix_and_default", "prefix_except_default"].includes(autoI18n.strategy) && l.code === autoI18n.defaultLocale)
+        loc = pathWithoutLocale;
+      return {
+        _sitemap: options.isI18nMapped ? l.iso || l.code : void 0,
+        ...e,
+        loc,
+        alternatives: [{ code: "x-default" }, ...autoI18n.locales].map((locale2) => {
+          const code = locale2.code === "x-default" ? autoI18n.defaultLocale : locale2.code;
+          const isDefault = locale2.code === "x-default" || locale2.code === autoI18n.defaultLocale;
+          let href = "";
+          if (autoI18n.strategy === "prefix") {
+            href = joinURL("/", code, pathWithoutLocale);
+          } else if (["prefix_and_default", "prefix_except_default"].includes(autoI18n.strategy)) {
+            if (isDefault) {
+              href = pathWithoutLocale;
+            } else {
+              href = joinURL("/", code, pathWithoutLocale);
+            }
+          }
+          const hreflang = locale2.iso || locale2.code;
+          return {
+            hreflang,
+            href
+          };
+        })
+      };
+    });
+  }).flat();
 }
 
 function sortSitemapUrls(urls) {
@@ -11616,13 +11451,32 @@ function sortSitemapUrls(urls) {
   });
 }
 
+function withoutQuery(path) {
+  return path.split("?")[0];
+}
+function createNitroRouteRuleMatcher() {
+  const { nitro, app } = useRuntimeConfig();
+  const _routeRulesMatcher = toRouteMatcher(
+    createRouter$1({
+      routes: Object.fromEntries(
+        Object.entries(nitro?.routeRules || {}).map(([path, rules]) => [withoutTrailingSlash(path), rules])
+      )
+    })
+  );
+  return (path) => {
+    return defu({}, ..._routeRulesMatcher.matchAll(
+      // radix3 does not support trailing slashes
+      withoutBase(withoutTrailingSlash(withoutQuery(path)), app.baseURL)
+    ).reverse());
+  };
+}
+
 function resolveKey(k) {
   switch (k) {
     case "images":
       return "image";
     case "videos":
       return "video";
-    // news & others?
     case "news":
       return "news";
     default:
@@ -11687,14 +11541,12 @@ function handleArray(key, arr) {
 function handleEntry(k, e) {
   return Array.isArray(e[k]) ? handleArray(k, e[k]) : typeof e[k] === "object" ? handleObject(k, e[k]) : `        <${k}>${escapeValueForXml(e[k])}</${k}>`;
 }
-function wrapSitemapXml(input, resolvers, options) {
-  const xsl = options.xsl ? resolvers.relativeBaseUrlResolver(options.xsl) : false;
-  const credits = options.credits;
+function wrapSitemapXml(input, resolvers, wrapSitemapXmlOptions) {
+  const xsl = wrapSitemapXmlOptions.xsl ? resolvers.relativeBaseUrlResolver(wrapSitemapXmlOptions.xsl) : false;
+  const credits = wrapSitemapXmlOptions.credits;
   input.unshift(`<?xml version="1.0" encoding="UTF-8"?>${xsl ? `<?xml-stylesheet type="text/xsl" href="${xsl}"?>` : ""}`);
   if (credits)
-    input.push(`<!-- XML Sitemap generated by @nuxtjs/sitemap v${options.version} at ${(/* @__PURE__ */ new Date()).toISOString()} -->`);
-  if (options.minify)
-    return input.join("").replace(/(?<!<[^>]*)\s(?![^<]*>)/g, "");
+    input.push(`<!-- XML Sitemap generated by Nuxt Simple Sitemap v${wrapSitemapXmlOptions.version} -->`);
   return input.join("\n");
 }
 function escapeValueForXml(value) {
@@ -11703,189 +11555,85 @@ function escapeValueForXml(value) {
   return String(value).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 }
 
-function resolveSitemapEntries(sitemap, urls, runtimeConfig, resolvers) {
-  const {
-    autoI18n,
-    isI18nMapped
-  } = runtimeConfig;
-  const filterPath = createPathFilter({
-    include: sitemap.include,
-    exclude: sitemap.exclude
-  });
-  const _urls = urls.map((_e) => {
-    const e = preNormalizeEntry(_e, resolvers);
-    if (!e.loc || !filterPath(e.loc))
-      return false;
-    return e;
-  }).filter(Boolean);
-  let validI18nUrlsForTransform = [];
-  const withoutPrefixPaths = {};
-  if (autoI18n && autoI18n.strategy !== "no_prefix") {
-    const localeCodes = autoI18n.locales.map((l) => l.code);
-    validI18nUrlsForTransform = _urls.map((_e, i) => {
-      if (_e._abs)
-        return false;
-      const split = splitForLocales(_e._relativeLoc, localeCodes);
-      let localeCode = split[0];
-      const pathWithoutPrefix = split[1];
-      if (!localeCode)
-        localeCode = autoI18n.defaultLocale;
-      const e = _e;
-      e._pathWithoutPrefix = pathWithoutPrefix;
-      const locale = autoI18n.locales.find((l) => l.code === localeCode);
-      if (!locale)
-        return false;
-      e._locale = locale;
-      e._index = i;
-      e._key = `${e._sitemap || ""}${e._path?.pathname || "/"}${e._path.search}`;
-      withoutPrefixPaths[pathWithoutPrefix] = withoutPrefixPaths[pathWithoutPrefix] || [];
-      if (!withoutPrefixPaths[pathWithoutPrefix].some((e2) => e2._locale.code === locale.code))
-        withoutPrefixPaths[pathWithoutPrefix].push(e);
-      return e;
-    }).filter(Boolean);
-    for (const e of validI18nUrlsForTransform) {
-      if (!e._i18nTransform && !e.alternatives?.length) {
-        const alternatives = withoutPrefixPaths[e._pathWithoutPrefix].map((u) => {
-          const entries = [];
-          if (u._locale.code === autoI18n.defaultLocale) {
-            entries.push({
-              href: u.loc,
-              hreflang: "x-default"
-            });
-          }
-          entries.push({
-            href: u.loc,
-            hreflang: u._locale._hreflang || autoI18n.defaultLocale
-          });
-          return entries;
-        }).flat().filter(Boolean);
-        if (alternatives.length)
-          e.alternatives = alternatives;
-      } else if (e._i18nTransform) {
-        delete e._i18nTransform;
-        if (autoI18n.strategy === "no_prefix") ;
-        if (autoI18n.differentDomains) {
-          e.alternatives = [
-            {
-              // apply default locale domain
-              ...autoI18n.locales.find((l) => [l.code, l.language].includes(autoI18n.defaultLocale)),
-              code: "x-default"
-            },
-            ...autoI18n.locales.filter((l) => !!l.domain)
-          ].map((locale) => {
-            return {
-              hreflang: locale._hreflang,
-              href: joinURL(withHttps(locale.domain), e._pathWithoutPrefix)
-            };
-          });
-        } else {
-          for (const l of autoI18n.locales) {
-            let loc = joinURL(`/${l.code}`, e._pathWithoutPrefix);
-            if (autoI18n.differentDomains || ["prefix_and_default", "prefix_except_default"].includes(autoI18n.strategy) && l.code === autoI18n.defaultLocale)
-              loc = e._pathWithoutPrefix;
-            const _sitemap = isI18nMapped ? l._sitemap : void 0;
-            const newEntry = preNormalizeEntry({
-              _sitemap,
-              ...e,
-              _index: void 0,
-              _key: `${_sitemap || ""}${loc || "/"}${e._path.search}`,
-              _locale: l,
-              loc,
-              alternatives: [{ code: "x-default", _hreflang: "x-default" }, ...autoI18n.locales].map((locale) => {
-                const code = locale.code === "x-default" ? autoI18n.defaultLocale : locale.code;
-                const isDefault = locale.code === "x-default" || locale.code === autoI18n.defaultLocale;
-                let href = "";
-                if (autoI18n.strategy === "prefix") {
-                  href = joinURL("/", code, e._pathWithoutPrefix);
-                } else if (["prefix_and_default", "prefix_except_default"].includes(autoI18n.strategy)) {
-                  if (isDefault) {
-                    href = e._pathWithoutPrefix;
-                  } else {
-                    href = joinURL("/", code, e._pathWithoutPrefix);
-                  }
-                }
-                if (!filterPath(href))
-                  return false;
-                return {
-                  hreflang: locale._hreflang,
-                  href
-                };
-              }).filter(Boolean)
-            }, resolvers);
-            if (e._locale.code === newEntry._locale.code) {
-              _urls[e._index] = newEntry;
-              e._index = void 0;
-            } else {
-              _urls.push(newEntry);
-            }
-          }
-        }
-      }
-      if (isI18nMapped) {
-        e._sitemap = e._sitemap || e._locale._sitemap;
-        e._key = `${e._sitemap || ""}${e.loc || "/"}${e._path.search}`;
-      }
-      if (e._index)
-        _urls[e._index] = e;
-    }
-  }
-  return _urls;
-}
-async function buildSitemapUrls(sitemap, resolvers, runtimeConfig, nitro) {
+async function buildSitemap(sitemap, resolvers) {
   const {
     sitemaps,
     // enhancing
+    autoLastmod,
     autoI18n,
     isI18nMapped,
     isMultiSitemap,
     // sorting
     sortEntries,
     // chunking
-    defaultSitemapsChunkSize
-  } = runtimeConfig;
+    defaultSitemapsChunkSize,
+    // xls
+    version,
+    xsl,
+    credits
+  } = useSimpleSitemapRuntimeConfig();
   const isChunking = typeof sitemaps.chunks !== "undefined" && !Number.isNaN(Number(sitemap.sitemapName));
-  function maybeSort(urls) {
-    return sortEntries ? sortSitemapUrls(urls) : urls;
+  function maybeSort(urls2) {
+    return sortEntries ? sortSitemapUrls(urls2) : urls2;
   }
-  function maybeSlice(urls) {
+  function maybeSlice(urls2) {
     if (isChunking && defaultSitemapsChunkSize) {
       const chunk = Number(sitemap.sitemapName);
-      return urls.slice(chunk * defaultSitemapsChunkSize, (chunk + 1) * defaultSitemapsChunkSize);
+      return urls2.slice(chunk * defaultSitemapsChunkSize, (chunk + 1) * defaultSitemapsChunkSize);
     }
-    return urls;
+    return urls2;
   }
   if (autoI18n?.differentDomains) {
-    const domain = autoI18n.locales.find((e) => [e.language, e.code].includes(sitemap.sitemapName))?.domain;
+    const domain = autoI18n.locales.find((e) => [e.iso, e.code].includes(sitemap.sitemapName))?.domain;
     if (domain) {
       const _tester = resolvers.canonicalUrlResolver;
       resolvers.canonicalUrlResolver = (path) => resolveSitePath(path, {
         absolute: true,
         withBase: false,
         siteUrl: withHttps(domain),
-        trailingSlash: _tester("/test/").endsWith("/"),
+        trailingSlash: !_tester("/test/").endsWith("/"),
         base: "/"
       });
     }
   }
-  const sourcesInput = sitemap.includeAppSources ? await globalSitemapSources() : [];
-  sourcesInput.push(...await childSitemapSources(sitemap));
-  const sources = await resolveSitemapSources(sourcesInput, resolvers.event);
-  const resolvedCtx = {
-    urls: sources.flatMap((s) => s.urls),
-    sitemapName: sitemap.sitemapName,
-    event: resolvers.event
-  };
-  await nitro?.hooks.callHook("sitemap:input", resolvedCtx);
-  const enhancedUrls = resolveSitemapEntries(sitemap, resolvedCtx.urls, { autoI18n, isI18nMapped }, resolvers);
-  const filteredUrls = enhancedUrls.filter((e) => {
-    if (isMultiSitemap && e._sitemap && sitemap.sitemapName)
-      return e._sitemap === sitemap.sitemapName;
-    return true;
-  });
+  const sources = sitemap.includeAppSources ? await globalSitemapSources() : [];
+  sources.push(...await childSitemapSources(sitemap));
+  let resolvedSources = await resolveSitemapSources(sources);
+  if (autoI18n)
+    resolvedSources = normaliseI18nSources(resolvedSources, { autoI18n, isI18nMapped });
+  const normalisedUrls = normaliseSitemapUrls(resolvedSources.map((e) => e.urls).flat(), resolvers);
+  ({ ...sitemap.defaults || {} });
+  const routeRuleMatcher = createNitroRouteRuleMatcher();
+  let enhancedUrls = normalisedUrls.map((e) => defu(e, sitemap.defaults)).map((e) => {
+    const path = parseURL(e.loc).pathname;
+    let routeRules = routeRuleMatcher(path);
+    if (autoI18n?.locales && autoI18n?.strategy !== "no_prefix") {
+      const match = splitForLocales(path, autoI18n.locales.map((l) => l.code));
+      const pathWithoutPrefix = match[1];
+      if (pathWithoutPrefix && pathWithoutPrefix !== path)
+        routeRules = defu(routeRules, routeRuleMatcher(pathWithoutPrefix));
+    }
+    if (routeRules.sitemap === false)
+      return false;
+    if (typeof routeRules.index !== "undefined" && !routeRules.index)
+      return false;
+    const hasRobotsDisabled = Object.entries(routeRules.headers || {}).some(([name, value]) => name.toLowerCase() === "x-robots-tag" && value.toLowerCase() === "noindex");
+    if (routeRules.redirect || hasRobotsDisabled)
+      return false;
+    return routeRules.sitemap ? defu(e, routeRules.sitemap) : e;
+  }).filter(Boolean);
+  if (autoI18n?.locales)
+    enhancedUrls = applyI18nEnhancements(enhancedUrls, { isI18nMapped, autoI18n, sitemapName: sitemap.sitemapName });
+  const filteredUrls = filterSitemapUrls(enhancedUrls, { event: resolvers.event, isMultiSitemap, ...sitemap });
   const sortedUrls = maybeSort(filteredUrls);
-  return maybeSlice(sortedUrls);
-}
-function urlsToXml(urls, resolvers, { version, xsl, credits, minify }) {
+  const slicedUrls = maybeSlice(sortedUrls);
+  const nitro = useNitroApp();
+  const ctx = {
+    urls: slicedUrls,
+    sitemapName: sitemap.sitemapName
+  };
+  await nitro.hooks.callHook("sitemap:resolved", ctx);
+  const urls = maybeSort(normaliseSitemapUrls(ctx.urls, resolvers));
   const urlset = urls.map((e) => {
     const keys = Object.keys(e).filter((k) => !k.startsWith("_"));
     return [
@@ -11898,7 +11646,79 @@ function urlsToXml(urls, resolvers, { version, xsl, credits, minify }) {
     '<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd http://www.google.com/schemas/sitemap-image/1.1 http://www.google.com/schemas/sitemap-image/1.1/sitemap-image.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     urlset.join("\n"),
     "</urlset>"
-  ], resolvers, { version, xsl, credits, minify });
+  ], resolvers, { version, xsl, credits });
+}
+
+async function buildSitemapIndex(resolvers) {
+  const {
+    sitemaps,
+    // enhancing
+    autoLastmod,
+    // chunking
+    defaultSitemapsChunkSize,
+    autoI18n,
+    isI18nMapped,
+    sortEntries,
+    // xls
+    version,
+    xsl,
+    credits
+  } = useSimpleSitemapRuntimeConfig();
+  if (!sitemaps)
+    throw new Error("Attempting to build a sitemap index without required `sitemaps` configuration.");
+  function maybeSort(urls) {
+    return sortEntries ? sortSitemapUrls(urls) : urls;
+  }
+  const isChunking = typeof sitemaps.chunks !== "undefined";
+  const chunks = {};
+  if (isChunking) {
+    const sitemap = sitemaps.chunks;
+    const sources = await resolveSitemapSources(await globalSitemapSources());
+    const normalisedUrls = normaliseSitemapUrls(sources.map((e) => e.urls).flat(), resolvers);
+    let enhancedUrls = normalisedUrls.map((e) => defu(e, sitemap.defaults));
+    if (autoI18n?.locales)
+      enhancedUrls = applyI18nEnhancements(enhancedUrls, { isI18nMapped, autoI18n, sitemapName: sitemap.sitemapName });
+    const filteredUrls = filterSitemapUrls(enhancedUrls, { ...sitemap, isMultiSitemap: true });
+    const sortedUrls = maybeSort(filteredUrls);
+    sortedUrls.forEach((url, i) => {
+      const chunkIndex = Math.floor(i / defaultSitemapsChunkSize);
+      chunks[chunkIndex] = chunks[chunkIndex] || { urls: [] };
+      chunks[chunkIndex].urls.push(url);
+    });
+  } else {
+    for (const sitemap in sitemaps) {
+      if (sitemap !== "index") {
+        chunks[sitemap] = chunks[sitemap] || { urls: [] };
+      }
+    }
+  }
+  const entries = [];
+  for (const name in chunks) {
+    const sitemap = chunks[name];
+    const entry = {
+      sitemap: resolvers.canonicalUrlResolver(`${name}-sitemap.xml`)
+    };
+    let lastmod = sitemap.urls.filter((a) => !!a?.lastmod).map((a) => typeof a.lastmod === "string" ? new Date(a.lastmod) : a.lastmod).sort((a, b) => (b?.getTime() || 0) - (a?.getTime() || 0))?.[0];
+    if (!lastmod && autoLastmod)
+      lastmod = /* @__PURE__ */ new Date();
+    if (lastmod)
+      entry.lastmod = normaliseDate(lastmod);
+    entries.push(entry);
+  }
+  if (sitemaps.index)
+    entries.push(...sitemaps.index.sitemaps);
+  const sitemapXml = entries.map((e) => [
+    "    <sitemap>",
+    `        <loc>${escapeValueForXml(e.sitemap)}</loc>`,
+    // lastmod is optional
+    e.lastmod ? `        <lastmod>${escapeValueForXml(e.lastmod)}</lastmod>` : false,
+    "    </sitemap>"
+  ].filter(Boolean).join("\n")).join("\n");
+  return wrapSitemapXml([
+    '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    sitemapXml,
+    "</sitemapindex>"
+  ], resolvers, { version, xsl, credits });
 }
 
 function useNitroUrlResolvers(e) {
@@ -11917,64 +11737,25 @@ function useNitroUrlResolvers(e) {
     relativeBaseUrlResolver: createSitePathResolver(e, { absolute: false, withBase: true })
   };
 }
-async function createSitemap(event, definition, runtimeConfig) {
+async function createSitemap(e, definition) {
   const { sitemapName } = definition;
   const nitro = useNitroApp();
-  const resolvers = useNitroUrlResolvers(event);
-  let sitemapUrls = await buildSitemapUrls(definition, resolvers, runtimeConfig, nitro);
-  const routeRuleMatcher = createNitroRouteRuleMatcher();
-  const { autoI18n } = runtimeConfig;
-  sitemapUrls = sitemapUrls.map((u) => {
-    const path = u._path?.pathname || u.loc;
-    let routeRules = routeRuleMatcher(path);
-    if (autoI18n?.locales && autoI18n?.strategy !== "no_prefix") {
-      const match = splitForLocales(path, autoI18n.locales.map((l) => l.code));
-      const pathWithoutPrefix = match[1];
-      if (pathWithoutPrefix && pathWithoutPrefix !== path)
-        routeRules = defu(routeRules, routeRuleMatcher(pathWithoutPrefix));
-    }
-    if (routeRules.sitemap === false)
-      return false;
-    if (typeof routeRules.robots !== "undefined" && !routeRules.robots) {
-      return false;
-    }
-    const hasRobotsDisabled = Object.entries(routeRules.headers || {}).some(([name, value]) => name.toLowerCase() === "x-robots-tag" && value.toLowerCase().includes("noindex"));
-    if (routeRules.redirect || hasRobotsDisabled)
-      return false;
-    return routeRules.sitemap ? defu(u, routeRules.sitemap) : u;
-  }).filter(Boolean);
-  const locSize = sitemapUrls.length;
-  const resolvedCtx = {
-    urls: sitemapUrls,
-    sitemapName,
-    event
-  };
-  await nitro.hooks.callHook("sitemap:resolved", resolvedCtx);
-  if (resolvedCtx.urls.length !== locSize) {
-    resolvedCtx.urls = resolvedCtx.urls.map((e) => preNormalizeEntry(e, resolvers));
-  }
-  const maybeSort = (urls2) => runtimeConfig.sortEntries ? sortSitemapUrls(urls2) : urls2;
-  const normalizedPreDedupe = resolvedCtx.urls.map((e) => normaliseEntry(e, definition.defaults, resolvers));
-  const urls = maybeSort(mergeOnKey(normalizedPreDedupe, "_key").map((e) => normaliseEntry(e, definition.defaults, resolvers)));
-  const sitemap = urlsToXml(urls, resolvers, runtimeConfig);
-  const ctx = { sitemap, sitemapName, event };
+  let sitemap = await (definition.sitemapName === "index" ? buildSitemapIndex(useNitroUrlResolvers(e)) : buildSitemap(definition, useNitroUrlResolvers(e)));
+  const ctx = { sitemap, sitemapName };
   await nitro.hooks.callHook("sitemap:output", ctx);
-  setHeader(event, "Content-Type", "text/xml; charset=UTF-8");
-  if (runtimeConfig.cacheMaxAgeSeconds)
-    setHeader(event, "Cache-Control", `public, max-age=${runtimeConfig.cacheMaxAgeSeconds}, must-revalidate`);
-  else
-    setHeader(event, "Cache-Control", `no-cache, no-store`);
-  event.context._isSitemap = true;
-  return ctx.sitemap;
+  sitemap = ctx.sitemap;
+  setHeader(e, "Content-Type", "text/xml; charset=UTF-8");
+  setHeader(e, "Cache-Control", "max-age=600, must-revalidate");
+  e.context._isSitemap = true;
+  return sitemap;
 }
 
-const _q6v142 = defineEventHandler(async (e) => {
-  const runtimeConfig = useSitemapRuntimeConfig();
-  const { sitemaps } = runtimeConfig;
+const _jswFsw = defineEventHandler(async (e) => {
+  const { sitemaps } = useSimpleSitemapRuntimeConfig();
   if ("index" in sitemaps) {
     return sendRedirect(e, withBase("/sitemap_index.xml", useRuntimeConfig().app.baseURL), 301);
   }
-  return createSitemap(e, Object.values(sitemaps)[0], runtimeConfig);
+  return createSitemap(e, Object.values(sitemaps)[0]);
 });
 
 const VueResolver = (_, value) => {
@@ -12084,7 +11865,7 @@ function setSSRError(ssrContext, error) {
   ssrContext.url = error.url;
 }
 
-const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"},{"name":"Gastarbajter.de","content":"Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove."},{"name":"keywords","content":"platforma, gastrabajtere, gastabajter, gastabajteri, gastrabajter, gastrajabjteri, gastabajtere, poslovi, oglasnik, posao, webshop, trgovina, proizvodi, domaće, domaći"},{"name":"author","content":"InnovaTech obrt za informatičke usluge"},{"property":"og:title","content":"Gastarbajter.de"},{"property":"og:description","content":"Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove."},{"property":"og:image","content":"https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png"},{"property":"twitter:card","content":"summary_large_image"},{"property":"twitter:title","content":"Gastarbajter.de"},{"property":"twitter:description","content":"Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove."},{"property":"twitter:image","content":"https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/apple-touch-icon_di9mgd.png"}],"link":[{"rel":"apple-touch-icon","sizes":"180x180","href":"https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/favicon-180x180_we2zi4.png"},{"rel":"icon","type":"image/png","sizes":"32x32","href":"https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342582/favicon-32x32_avu6vh.png"},{"rel":"icon","type":"image/png","sizes":"16x16","href":"https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342581/favicon-16x16_ghbvtz.png"},{"rel":"icon","type":"image/png","sizes":"96x96","href":"https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342417/favicon-96x96_xfuydm.png"}],"style":[],"script":[{"src":"https://js.stripe.com/v3/buy-button.js","async":true}],"noscript":[],"charset":"utf-8","viewport":"width=device-width, initial-scale=1","title":"Gastarbajter.de"};
+const appHead = {"meta":[{"name":"viewport","content":"width=device-width, initial-scale=1"},{"charset":"utf-8"},{"name":"Gastarbajter.de","content":"Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove."},{"name":"keywords","content":"platforma, gastrabajtere, gastabajter, gastabajteri, gastrabajter, gastrajabjteri, gastabajtere, poslovi, oglasnik, posao, webshop, trgovina, proizvodi, domaće, domaći"},{"name":"author","content":"InnovaTech obrt za informatičke usluge"},{"property":"og:title","content":"Gastarbajter.de"},{"property":"og:description","content":"Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove."},{"property":"og:image","content":"https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png"},{"property":"twitter:card","content":"summary_large_image"},{"property":"twitter:title","content":"Gastarbajter.de"},{"property":"twitter:description","content":"Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove."},{"property":"twitter:image","content":"https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png"}],"link":[{"rel":"apple-touch-icon","sizes":"180x180","href":"https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/favicon-180x180_we2zi4.png"},{"rel":"icon","type":"image/png","sizes":"32x32","href":"https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519905/32_y5b1p2.png"},{"rel":"icon","type":"image/png","sizes":"16x16","href":"https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519887/16_ckfbsd.png"},{"rel":"icon","type":"image/png","sizes":"96x96","href":"https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519809/96_oreti5.png"}],"style":[],"script":[{"src":"https://js.stripe.com/v3/buy-button.js","async":true}],"noscript":[],"charset":"utf-8","viewport":"width=device-width, initial-scale=1"};
 
 const appRootTag = "div";
 
@@ -12346,53 +12127,58 @@ const _lazy_weZtk2 = () => import('../routes/api/auth/resend-verification.put.mj
 const _lazy_kXkjaB = () => import('../routes/api/auth/reset-password.put.mjs');
 const _lazy_XmftCR = () => import('../routes/api/categories.get.mjs');
 const _lazy__AsMnv = () => import('../routes/api/contact/email.post.mjs');
+const _lazy_U4Vss6 = () => import('../routes/api/dashboard-card/index.delete.mjs');
+const _lazy_f2V3cV = () => import('../routes/api/dashboard-card/index.get.mjs');
+const _lazy_8ENiVn = () => import('../routes/api/dashboard-card/index.put.mjs');
+const _lazy_EWEbhP = () => import('../routes/api/index.get2.mjs');
+const _lazy_14WXa6 = () => import('../routes/api/index.post.mjs');
 const _lazy_t7ryGT = () => import('../routes/api/dashboard-categorized.get.mjs');
 const _lazy_Z1HFoy = () => import('../routes/api/dashboard.get.mjs');
 const _lazy_TG14F_ = () => import('../routes/api/job/index.delete.mjs');
 const _lazy_UJTrzi = () => import('../routes/api/job/index.get.mjs');
 const _lazy_I26cu_ = () => import('../routes/api/job/index.put.mjs');
 const _lazy_v3S1Dn = () => import('../routes/api/job/_id/unarchive.patch.mjs');
-const _lazy_AXLG1P = () => import('../routes/api/index.get2.mjs');
-const _lazy_QUi3gL = () => import('../routes/api/index.post.mjs');
+const _lazy_AXLG1P = () => import('../routes/api/index.get3.mjs');
+const _lazy_QUi3gL = () => import('../routes/api/index.post2.mjs');
 const _lazy_V4pAV1 = () => import('../routes/api/jobs-category/index.delete.mjs');
 const _lazy_AzmozD = () => import('../routes/api/jobs-category/index.get.mjs');
 const _lazy_6GPRyi = () => import('../routes/api/jobs-category/index.put.mjs');
 const _lazy_WSwPGQ = () => import('../routes/api/jobs-category/_id/unarchive.patch.mjs');
-const _lazy_eJvDKy = () => import('../routes/api/index.get3.mjs');
-const _lazy_Behqnp = () => import('../routes/api/index.post2.mjs');
+const _lazy_eJvDKy = () => import('../routes/api/index.get4.mjs');
+const _lazy_Behqnp = () => import('../routes/api/index.post3.mjs');
 const _lazy_Ag3dtu = () => import('../routes/api/order/index.delete.mjs');
 const _lazy_F7rIeQ = () => import('../routes/api/order/index.get.mjs');
-const _lazy_EOwiyX = () => import('../routes/api/index.get4.mjs');
-const _lazy_wgTOAE = () => import('../routes/api/index.post3.mjs');
+const _lazy_EOwiyX = () => import('../routes/api/index.get5.mjs');
+const _lazy_wgTOAE = () => import('../routes/api/index.post4.mjs');
 const _lazy_v4nvFL = () => import('../routes/api/portal-category/index.delete.mjs');
 const _lazy_pIJ17p = () => import('../routes/api/portal-category/index.get.mjs');
 const _lazy_NfgFb2 = () => import('../routes/api/portal-category/index.put.mjs');
 const _lazy_JLQEf7 = () => import('../routes/api/portal-category/_id/unarchive.patch.mjs');
-const _lazy_6xiheG = () => import('../routes/api/index.get5.mjs');
-const _lazy_JYHnQC = () => import('../routes/api/index.post4.mjs');
+const _lazy_6xiheG = () => import('../routes/api/index.get6.mjs');
+const _lazy_JYHnQC = () => import('../routes/api/index.post5.mjs');
 const _lazy_FtTGjT = () => import('../routes/api/portal-news/index.delete.mjs');
 const _lazy_rOadCo = () => import('../routes/api/portal-news/index.get.mjs');
 const _lazy_iHWJvQ = () => import('../routes/api/portal-news/index.put.mjs');
 const _lazy_4D03g0 = () => import('../routes/api/portal-news/_id/unarchive.patch.mjs');
-const _lazy_bVJyHv = () => import('../routes/api/index.get6.mjs');
-const _lazy_YWcKw3 = () => import('../routes/api/index.post5.mjs');
+const _lazy_bVJyHv = () => import('../routes/api/index.get7.mjs');
+const _lazy_YWcKw3 = () => import('../routes/api/index.post6.mjs');
 const _lazy_45QI_O = () => import('../routes/api/product-category/index.delete.mjs');
 const _lazy_3evzb5 = () => import('../routes/api/product-category/index.get.mjs');
 const _lazy_RVORXc = () => import('../routes/api/product-category/index.put.mjs');
 const _lazy_RACUne = () => import('../routes/api/product-category/_id/unarchive.patch.mjs');
-const _lazy_XAajFg = () => import('../routes/api/index.get7.mjs');
-const _lazy_3YhysW = () => import('../routes/api/index.post6.mjs');
+const _lazy_XAajFg = () => import('../routes/api/index.get8.mjs');
+const _lazy_3YhysW = () => import('../routes/api/index.post7.mjs');
 const _lazy_4xHxcr = () => import('../routes/api/product/index.delete.mjs');
 const _lazy_noVhmL = () => import('../routes/api/product/index.get.mjs');
 const _lazy_MiE65u = () => import('../routes/api/product/index.put.mjs');
 const _lazy_B48ijy = () => import('../routes/api/product/_id/unarchive.patch.mjs');
-const _lazy_9xsNRJ = () => import('../routes/api/index.get8.mjs');
-const _lazy_lKBpOo = () => import('../routes/api/index.post7.mjs');
+const _lazy_9xsNRJ = () => import('../routes/api/index.get9.mjs');
+const _lazy_lKBpOo = () => import('../routes/api/index.post8.mjs');
 const _lazy_frEoTG = () => import('../routes/api/search.get.mjs');
 const _lazy_G4hOSU = () => import('../routes/api/users/_id/change-password.put.mjs');
 const _lazy_7OsTj7 = () => import('../routes/api/users/index.delete.mjs');
-const _lazy_YObyPA = () => import('../routes/api/index.get9.mjs');
-const _lazy_EMM7wj = () => import('../routes/api/index.post8.mjs');
+const _lazy_YObyPA = () => import('../routes/api/index.get10.mjs');
+const _lazy_EMM7wj = () => import('../routes/api/index.post9.mjs');
 const _lazy_BhM9oQ = () => import('../routes/api/users/user.get.mjs');
 const _lazy_J4USMN = () => import('../routes/api/users/user.put.mjs');
 const _lazy_Bt8VAw = () => import('../routes/renderer.mjs');
@@ -12413,6 +12199,11 @@ const handlers = [
   { route: '/api/auth/reset-password', handler: _lazy_kXkjaB, lazy: true, middleware: false, method: "put" },
   { route: '/api/categories', handler: _lazy_XmftCR, lazy: true, middleware: false, method: "get" },
   { route: '/api/contact/email', handler: _lazy__AsMnv, lazy: true, middleware: false, method: "post" },
+  { route: '/api/dashboard-card/:id', handler: _lazy_U4Vss6, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/dashboard-card/:id', handler: _lazy_f2V3cV, lazy: true, middleware: false, method: "get" },
+  { route: '/api/dashboard-card/:id', handler: _lazy_8ENiVn, lazy: true, middleware: false, method: "put" },
+  { route: '/api/dashboard-card', handler: _lazy_EWEbhP, lazy: true, middleware: false, method: "get" },
+  { route: '/api/dashboard-card', handler: _lazy_14WXa6, lazy: true, middleware: false, method: "post" },
   { route: '/api/dashboard-categorized', handler: _lazy_t7ryGT, lazy: true, middleware: false, method: "get" },
   { route: '/api/dashboard', handler: _lazy_Z1HFoy, lazy: true, middleware: false, method: "get" },
   { route: '/api/job/:id', handler: _lazy_TG14F_, lazy: true, middleware: false, method: "delete" },
@@ -12463,9 +12254,9 @@ const handlers = [
   { route: '/api/users/user', handler: _lazy_BhM9oQ, lazy: true, middleware: false, method: "get" },
   { route: '/api/users/user', handler: _lazy_J4USMN, lazy: true, middleware: false, method: "put" },
   { route: '/__nuxt_error', handler: _lazy_Bt8VAw, lazy: true, middleware: false, method: undefined },
-  { route: '', handler: _hRKkVP, lazy: false, middleware: true, method: undefined },
-  { route: '/__sitemap__/style.xsl', handler: _AQRgbx, lazy: false, middleware: false, method: undefined },
-  { route: '/sitemap.xml', handler: _q6v142, lazy: false, middleware: false, method: undefined },
+  { route: '', handler: _cZhKGz, lazy: false, middleware: true, method: undefined },
+  { route: '/__sitemap__/style.xsl', handler: _6_vjrJ, lazy: false, middleware: false, method: undefined },
+  { route: '/sitemap.xml', handler: _jswFsw, lazy: false, middleware: false, method: undefined },
   { route: '/__nuxt_island/**', handler: _SxA8c9, lazy: false, middleware: false, method: undefined },
   { route: '/**', handler: _lazy_Bt8VAw, lazy: true, middleware: false, method: undefined }
 ];
@@ -12747,5 +12538,5 @@ const handler = async function handler2(event, context) {
   return lambda(event, context);
 };
 
-export { $fetch as $, headSymbol as A, hasProtocol as B, isScriptProtocol as C, joinURL as D, useHead as E, parseQuery as F, getRequestHeader as G, withQuery as H, sanitizeStatusCode as I, setCookie as J, getCookie as K, deleteCookie as L, getContext as M, withTrailingSlash as N, withoutTrailingSlash as O, baseURL as P, defu as Q, createHooks as R, executeAsync as S, useSeoMeta as T, toRouteMatcher as U, createRouter$1 as V, handler as W, getQuery as a, getResponseStatusText as b, createError$1 as c, defineEventHandler as d, getResponseStatus as e, formatToDatetime as f, getHeader as g, appId as h, defineRenderHandler as i, buildAssetsURL as j, publicAssetsURL as k, appTeleportTag as l, appTeleportAttrs as m, createSSRContext as n, appHead as o, prisma as p, getRouteRules as q, readBody as r, setSSRError as s, getRenderer as t, getEntryIds as u, renderInlineStyles as v, replaceIslandTeleports as w, useNitroApp as x, destr as y, klona as z };
+export { $fetch as $, headSymbol as A, useHead as B, useSeoMeta as C, hasProtocol as D, isScriptProtocol as E, joinURL as F, parseQuery as G, getRequestHeader as H, withQuery as I, sanitizeStatusCode as J, setCookie as K, getCookie as L, deleteCookie as M, getContext as N, withTrailingSlash as O, withoutTrailingSlash as P, baseURL as Q, defu as R, createHooks as S, executeAsync as T, toRouteMatcher as U, createRouter$1 as V, handler as W, getQuery as a, getResponseStatusText as b, createError$1 as c, defineEventHandler as d, getResponseStatus as e, formatToDatetime as f, getHeader as g, appId as h, defineRenderHandler as i, buildAssetsURL as j, publicAssetsURL as k, appTeleportTag as l, appTeleportAttrs as m, createSSRContext as n, appHead as o, prisma as p, getRouteRules as q, readBody as r, setSSRError as s, getRenderer as t, getEntryIds as u, renderInlineStyles as v, replaceIslandTeleports as w, useNitroApp as x, destr as y, klona as z };
 //# sourceMappingURL=nitro.mjs.map

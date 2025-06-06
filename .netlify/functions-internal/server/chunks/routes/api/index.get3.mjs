@@ -14,7 +14,6 @@ import '@primeuix/styles/tooltip';
 import '@primeuix/styles/ripple';
 import '@primeuix/styled';
 import 'jsonwebtoken';
-import 'consola';
 import 'unhead/server';
 import 'unhead/plugins';
 import 'unhead/utils';
@@ -23,20 +22,32 @@ import 'vue/server-renderer';
 
 const index_get = defineEventHandler(async (event) => {
   const query = getQuery(event);
+  const perPage = Number(query.perPage) || 10;
+  const page = Number(query.page) || 1;
+  const skip = (page - 1) * perPage;
   const deletedOnly = query.deletedOnly === "true";
   const search = query.search || "";
-  if (deletedOnly) var where = { deletedAt: { not: null } };
-  else where = { deletedAt: null };
+  const categoryIds = query.categoryIds ? String(query.categoryIds).split(",").map((id) => id.trim()) : void 0;
+  const where = query.categoryIds ? {
+    deletedAt: deletedOnly ? { not: null } : null,
+    jobCategoryId: { in: categoryIds }
+  } : { deletedAt: deletedOnly ? { not: null } : null };
   if (search)
     where.name = {
       contains: search,
       mode: "insensitive"
     };
-  const categories = await prisma.jobsCategory.findMany({
-    where,
-    orderBy: { name: "asc" }
-  });
-  return categories;
+  const [jobs, total] = await Promise.all([
+    prisma.job.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      skip,
+      take: perPage,
+      include: { jobCategory: true }
+    }),
+    prisma.job.count({ where })
+  ]);
+  return { jobs, total };
 });
 
 export { index_get as default };

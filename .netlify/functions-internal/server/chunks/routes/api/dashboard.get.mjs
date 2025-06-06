@@ -14,7 +14,6 @@ import '@primeuix/styles/tooltip';
 import '@primeuix/styles/ripple';
 import '@primeuix/styled';
 import 'jsonwebtoken';
-import 'consola';
 import 'unhead/server';
 import 'unhead/plugins';
 import 'unhead/utils';
@@ -22,13 +21,18 @@ import 'vue-bundle-renderer/runtime';
 import 'vue/server-renderer';
 
 const dashboard_get = defineEventHandler(async (event) => {
-  const news = await prisma.news.findMany({
-    where: { deletedAt: null },
-    orderBy: { createdAt: "desc" },
-    take: 7,
-    include: { category: true }
-  });
-  return { ...news };
+  const [news, cards] = await Promise.all([
+    prisma.news.findMany({
+      where: { deletedAt: null },
+      orderBy: { createdAt: "desc" },
+      take: 7,
+      include: { category: true }
+    }),
+    prisma.dashboardCard.findMany({
+      orderBy: { position: "asc" }
+    })
+  ]);
+  return { news, cards };
 });
 
 export { dashboard_get as default };

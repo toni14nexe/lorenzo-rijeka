@@ -1,4 +1,4 @@
-import { d as defineEventHandler, r as readBody, p as prisma } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, r as readBody, c as createError, p as prisma } from '../../nitro/nitro.mjs';
 import '@prisma/client';
 import '@prisma/extension-accelerate';
 import 'node:http';
@@ -14,7 +14,6 @@ import '@primeuix/styles/tooltip';
 import '@primeuix/styles/ripple';
 import '@primeuix/styled';
 import 'jsonwebtoken';
-import 'consola';
 import 'unhead/server';
 import 'unhead/plugins';
 import 'unhead/utils';
@@ -24,10 +23,28 @@ import 'vue/server-renderer';
 const index_post = defineEventHandler(async (event) => {
   if (event.req.method === "POST") {
     const body = await readBody(event);
-    const category = await prisma.jobsCategory.create({
-      data: { name: body.name }
+    if (!body.contactEmail || !body.name || !body.description || !body.salary || !body.location) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: "Body parameter is missing, this body should include: 'contactEmail', 'name', 'description', 'salary' and 'location'. 'contactNumber' is optional."
+      });
+    }
+    const job = await prisma.job.create({
+      data: {
+        name: body.name,
+        description: body.description,
+        salary: body.salary,
+        contactEmail: body.contactEmail,
+        contactNumber: body.contactNumber,
+        location: body.location,
+        jobCategory: {
+          connect: {
+            id: body.jobCategoryId
+          }
+        }
+      }
     });
-    return category;
+    return job;
   }
 });
 

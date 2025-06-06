@@ -14,7 +14,6 @@ import '@primeuix/styles/tooltip';
 import '@primeuix/styles/ripple';
 import '@primeuix/styled';
 import 'jsonwebtoken';
-import 'consola';
 import 'unhead/server';
 import 'unhead/plugins';
 import 'unhead/utils';
@@ -23,30 +22,20 @@ import 'vue/server-renderer';
 
 const index_get = defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const perPage = Number(query.perPage) || 10;
-  const page = Number(query.page) || 1;
-  const skip = (page - 1) * perPage;
-  const search = String(query.search || "");
-  const [orders, total] = await Promise.all([
-    prisma.order.findMany({
-      where: {
-        deletedAt: null,
-        ...search && {
-          OR: [
-            { id: { contains: search, mode: "insensitive" } },
-            { buyerFullname: { contains: search, mode: "insensitive" } },
-            { product: { name: { contains: search, mode: "insensitive" } } }
-          ]
-        }
-      },
-      orderBy: { createdAt: "desc" },
-      skip,
-      take: perPage,
-      include: { product: true }
-    }),
-    prisma.order.count({ where: { deletedAt: null } })
-  ]);
-  return { orders, total };
+  const deletedOnly = query.deletedOnly === "true";
+  const search = query.search || "";
+  if (deletedOnly) var where = { deletedAt: { not: null } };
+  else where = { deletedAt: null };
+  if (search)
+    where.name = {
+      contains: search,
+      mode: "insensitive"
+    };
+  const categories = await prisma.jobsCategory.findMany({
+    where,
+    orderBy: { name: "asc" }
+  });
+  return categories;
 });
 
 export { index_get as default };

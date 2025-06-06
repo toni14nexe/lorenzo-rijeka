@@ -1,4 +1,4 @@
-import { d as defineEventHandler, a as getQuery, p as prisma, c as createError } from '../../nitro/nitro.mjs';
+import { d as defineEventHandler, a as getQuery, p as prisma } from '../../nitro/nitro.mjs';
 import '@prisma/client';
 import '@prisma/extension-accelerate';
 import 'node:http';
@@ -14,78 +14,58 @@ import '@primeuix/styles/tooltip';
 import '@primeuix/styles/ripple';
 import '@primeuix/styled';
 import 'jsonwebtoken';
-import 'consola';
 import 'unhead/server';
 import 'unhead/plugins';
 import 'unhead/utils';
 import 'vue-bundle-renderer/runtime';
 import 'vue/server-renderer';
 
-async function getAllDescendantCategoryIds(parentId) {
-  const children = await prisma.portalCategory.findMany({
-    where: { parentId },
-    select: { id: true }
+const getAllCategories = async (deletedOnly, search) => {
+  if (deletedOnly) var where = { deletedAt: { not: null } };
+  else where = { deletedAt: null };
+  if (search)
+    where.name = {
+      contains: search,
+      mode: "insensitive"
+    };
+  return await prisma.portalCategory.findMany({
+    where,
+    orderBy: { name: "asc" },
+    include: { parent: true }
   });
-  const childIds = children.map((c) => c.id);
-  const descendantIds = await Promise.all(
-    childIds.map((childId) => getAllDescendantCategoryIds(childId))
-  );
-  return [parentId, ...descendantIds.flat()];
-}
+};
+const buildHierarchy = (categories) => {
+  const categoryMap = /* @__PURE__ */ new Map();
+  const rootCategories = [];
+  categories.forEach((category) => {
+    categoryMap.set(category.id, { ...category, children: [] });
+  });
+  categories.forEach((category) => {
+    if (category.parentId) {
+      const parentCategory = categoryMap.get(category.parentId);
+      if (parentCategory)
+        parentCategory.children.push(categoryMap.get(category.id));
+    } else rootCategories.push(categoryMap.get(category.id));
+  });
+  return rootCategories;
+};
 const index_get = defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const categoryName = String(query.categoryName || "");
-  const perPage = Number(query.perPage) || 10;
-  const page = Number(query.page) || 1;
-  const skip = (page - 1) * perPage;
   const deletedOnly = query.deletedOnly === "true";
+  const withoutHierarchy = query.withoutHierarchy === "true";
   const search = query.search || "";
-  if (!categoryName) {
-    if (deletedOnly) var where = { deletedAt: { not: null } };
-    else where = { deletedAt: null };
-    if (search)
-      where.title = {
-        contains: search,
-        mode: "insensitive"
-      };
-    const [news, total] = await Promise.all([
-      prisma.news.findMany({
-        where,
-        orderBy: { createdAt: "desc" },
-        skip,
-        take: perPage,
-        include: { category: true }
-      }),
-      prisma.news.count({ where })
-    ]);
-    return { news, total };
-  } else {
-    const rootCategory = await prisma.portalCategory.findUnique({
-      where: { name: categoryName },
-      select: { id: true }
-    });
-    if (!rootCategory)
-      throw createError({
-        statusCode: 404,
-        message: "Category does not exist or it is deleted"
-      });
-    const categoryIds = await getAllDescendantCategoryIds(rootCategory.id);
-    const whereCondition = {
-      deletedAt: deletedOnly ? { not: null } : null,
-      categoryId: { in: categoryIds }
-    };
-    const [news, total] = await Promise.all([
-      prisma.news.findMany({
-        where: whereCondition,
-        orderBy: { createdAt: "desc" },
-        skip,
-        take: perPage,
-        include: { category: true }
-      }),
-      prisma.news.count({ where: whereCondition })
-    ]);
-    return { news, total };
+  let portalCategories = void 0;
+  if (deletedOnly)
+    portalCategories = await getAllCategories(deletedOnly, search);
+  else {
+    if (withoutHierarchy)
+      portalCategories = await getAllCategories(deletedOnly, search);
+    else {
+      const categories = await getAllCategories(deletedOnly, search);
+      if (withoutHierarchy) portalCategories = buildHierarchy(categories);
+    }
   }
+  return portalCategories;
 });
 
 export { index_get as default };

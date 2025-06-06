@@ -1,4 +1,0 @@
-const ComWidget_vue_vue_type_style_index_0_scoped_2234d93f_lang = ".active-component-wrapper[data-v-2234d93f]{background-color:#000;border-radius:6px;display:block}.component[data-v-2234d93f]{background-position:50%;background-repeat:no-repeat;background-size:cover;border:1px solid var(--el-border-color);border-radius:4px;box-shadow:var(--el-box-shadow-light);display:block;height:100%}.component-hover-opacity[data-v-2234d93f]{transition:.3s ease-in-out}.component-hover-opacity[data-v-2234d93f]:hover{opacity:.75}.empty-component[data-v-2234d93f]{border:1px solid var(--el-border-color);border-radius:4px;box-shadow:var(--el-box-shadow-light);cursor:pointer;transition:.3s ease-in-out}.empty-component[data-v-2234d93f]:hover{background-color:#0000001a}.no-decoration[data-v-2234d93f]{text-decoration:none}";
-
-export { ComWidget_vue_vue_type_style_index_0_scoped_2234d93f_lang as C };
-//# sourceMappingURL=entry-styles-26.mjs-DfE6ry7s.mjs.map

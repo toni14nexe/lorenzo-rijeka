@@ -14,7 +14,6 @@ import '@primeuix/styles/tooltip';
 import '@primeuix/styles/ripple';
 import '@primeuix/styled';
 import 'jsonwebtoken';
-import 'consola';
 import 'unhead/server';
 import 'unhead/plugins';
 import 'unhead/utils';
@@ -24,25 +23,10 @@ import 'vue/server-renderer';
 const index_post = defineEventHandler(async (event) => {
   if (event.req.method === "POST") {
     const body = await readBody(event);
-    const product = await prisma.product.create({
-      data: {
-        name: body.name,
-        description: body.description,
-        price: body.price,
-        images: body.images || [],
-        videos: body.videos || [],
-        contactEmail: body.contactEmail,
-        contactNumber: body.contactNumber,
-        locationCountry: body.locationCountry,
-        locationPlace: body.locationPlace,
-        productCategory: {
-          connect: {
-            id: body.productCategoryId
-          }
-        }
-      }
+    const category = await prisma.productCategory.create({
+      data: { name: body.name }
     });
-    return product;
+    return category;
   }
 });
 

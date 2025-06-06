@@ -17,7 +17,6 @@ import '@primeuix/styles/tooltip';
 import '@primeuix/styles/ripple';
 import '@primeuix/styled';
 import 'jsonwebtoken';
-import 'consola';
 import 'unhead/plugins';
 import 'unhead/utils';
 import 'vue/server-renderer';
