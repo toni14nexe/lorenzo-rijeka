@@ -21,6 +21,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     siteUrl: process.env.APP_BASE_URL,
     public: {
+      enviroment: process.env.ENVIROMENT,
       appBaseUrl: process.env.APP_BASE_URL,
       axiosApiBaseUrl: process.env.AXIOS_API_BASE_URL,
       cloudinaryPreset: process.env.CLOUDINARY_PRESET,
