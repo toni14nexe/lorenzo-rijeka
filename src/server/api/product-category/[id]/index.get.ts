@@ -20,7 +20,7 @@ export default defineEventHandler(async event => {
   if (!category) {
     throw createError({
       statusCode: 404,
-      statusMessage: 'Product category not found or deleted'
+      statusMessage: 'Webshop category not found or deleted'
     })
   }
 

@@ -99,25 +99,37 @@ async function getOrder() {
               <SuccessFilled />
             </ElIcon>
           </ElRow>
+
           <ElRow class="text-underline"> Narudžba </ElRow>
           <ElRow> ID: {{ orderId }} </ElRow>
           <ElRow class="mb-12">
             Vrijeme: {{ formatISOToDatetime(order?.createdAt) }}
           </ElRow>
-          <ElRow class="text-underline"> Proizvod </ElRow>
-          <ElRow>ID: {{ order?.product.id }}</ElRow>
-          <ElRow>Naziv: {{ order?.product.name }}</ElRow>
-          <ElRow class="mb-12">Price: {{ order?.product.price }} €</ElRow>
+          <ElRow>Ukupna cijena: {{ order?.totalPrice }}</ElRow>
+          <ElRow>Dostava: {{ order?.shipping }}</ElRow>
+          <ElRow class="mb-12">Plaćanje: {{ order?.payment }}</ElRow>
+
           <ElRow class="text-underline"> Kupac </ElRow>
           <ElRow>Ime i prezime: {{ order?.buyerFullname }}</ElRow>
           <ElRow>Mjesto: {{ order?.buyerPlace }}</ElRow>
           <ElRow class="mb-12">Država: {{ order?.buyerCountry }}</ElRow>
+
           <ElRow class="text-underline"> Prodavač </ElRow>
-          <ElRow>Mjesto: {{ order?.product.locationPlace }}</ElRow>
-          <ElRow class="mb-12">
-            Država: {{ order?.product.locationCountry }}
+          <ElRow>s.art, obrt za umjetničko stvaralaštvo</ElRow>
+          <ElRow>Email: TODO email</ElRow>
+          <ElRow>Mobitel: +385 99 7900 257</ElRow>
+          <ElRow>Adresa: Baćina 2</ElRow>
+          <ElRow>Mjesto: 51219 Čavle</ElRow>
+          <ElRow class="mb-12">Država: Hrvatska</ElRow>
+
+          <ElRow class="text-underline"> Proizvodi </ElRow>
+          <ElRow v-for="product in order?.list">
+            {{
+              `${product.name} - ${product.quantity} x ${product.price.toFixed(2)} = ${product.totalPrice.toFixed(2)}`
+            }}
           </ElRow>
-          <ElRow justify="center">
+
+          <ElRow justify="center" class="mt-16">
             <NuxtLink to="/webshop" class="link-fix">
               <ElButton type="primary" plain>Natrag na Webshop</ElButton>
             </NuxtLink>

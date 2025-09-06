@@ -2,7 +2,6 @@
 import { useRoute } from 'vue-router'
 import Header from '~/components/layout/Header.vue'
 import Footer from '~/components/layout/Footer.vue'
-import ComsFooter from '~/components/shared/ComsFooter.vue'
 
 const route = useRoute()
 const errorCode = route.params?.code || 404
@@ -31,7 +30,6 @@ onMounted(() => setTimeout(() => (show.value = true), 1000))
         </NuxtLink>
       </ElCol>
     </ElRow>
-    <ComsFooter />
   </div>
   <Footer :divider-margin-top="24" />
 </template>

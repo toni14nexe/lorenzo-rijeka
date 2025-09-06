@@ -4,6 +4,7 @@ export default defineEventHandler(event => {
   const origin = getHeader(event, 'origin') || ''
   const isProduction = process.env.ENVIROMENT === 'production'
 
+  // TODO origins
   const allowedOrigins = [
     'https://gastarbeiter.de.com',
     'https://gastabajter.de'

@@ -81,7 +81,7 @@ function handleOpenDialog(order: Order) {
       <ElTableColumn label="Količina" prop="quantity" />
       <ElTableColumn label="Cijena" prop="totalPrice">
         <template #default="items">
-          {{ Number(items.row.totalPrice).toFixed(2) }} €
+          {{ Number(items.row.totalPrice).toFixed(2) }}
         </template>
       </ElTableColumn>
       <ElTableColumn label="Više" align="center" width="80">
@@ -180,7 +180,7 @@ function handleOpenDialog(order: Order) {
           {{ dialog.order?.product.name }}
         </ElDescriptionsItem>
         <ElDescriptionsItem label="Cijena po jedinici">
-          {{ dialog.order?.product.price }} €
+          {{ dialog.order?.product.price }}
         </ElDescriptionsItem>
         <ElDescriptionsItem label="ID proizvoda">
           {{ dialog.order?.id }}
@@ -195,7 +195,7 @@ function handleOpenDialog(order: Order) {
           {{ dialog.order?.quantity }}
         </ElDescriptionsItem>
         <ElDescriptionsItem label="Ukupna cijena">
-          {{ dialog.order?.totalPrice }} €
+          {{ dialog.order?.totalPrice }}
         </ElDescriptionsItem>
         <ElDescriptionsItem label="Vrijeme narudžbe">
           {{ formatISOToDatetime(dialog.order?.createdAt) }}

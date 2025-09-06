@@ -10,7 +10,7 @@ defineProps(['product'])
     class="product cursor-pointer"
     :style="`--product-bg: url(${product.images.length ? product.images[0] : ''})`"
   >
-    <NuxtLink :to="`/webshop/${product.id}`">
+    <NuxtLink :to="`/webshop/${product.productCategory.name}/${product.id}`">
       <div class="product-opacity-container" />
       <div class="product-text-container">
         <h3>{{ truncateText(product.name, 105) }}</h3>
@@ -18,7 +18,7 @@ defineProps(['product'])
           <ElIcon :size="18" class="mr-8">
             <PriceTag />
           </ElIcon>
-          {{ Number(product.price).toFixed(2) }} €
+          {{ Number(product.price).toFixed(2) }}
         </ElRow>
       </div>
     </NuxtLink>
@@ -81,14 +81,15 @@ defineProps(['product'])
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
 }
 .datetime {
-  font-weight: 400;
+  font-size: 28px;
+  font-weight: 600;
 }
 @media screen and (max-width: 1025px) {
   h3 {
-    font-size: medium;
+    font-size: 22px;
   }
   .datetime {
-    font-size: small;
+    font-size: 24px;
   }
 }
 </style>

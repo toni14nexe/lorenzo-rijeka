@@ -8,143 +8,68 @@ datasource db {
 }
 
 model User {
-  id                    String                 @id @default(cuid())
-  email                 String                 @unique
-  firstname             String?
-  lastname              String?
-  mobile                String?
-  country               String?
-  place                 String?
-  address               String?
-  createdAt             DateTime               @default(now())
-  password              String
-  role                  String?                @default("user")
-  updatedAt             DateTime?
-  deletedAt             DateTime?
-  forgetPassHash        String?
-  verified              Boolean?               @default(false)
-  verificationToken     String?
-  firstLogin            DateTime?
-  lastLogin             DateTime?
-}
-
-model PortalCategory {
-  id         String             @id @default(cuid())
-  name       String             @unique
-  parentId   String?
-  parent     PortalCategory?    @relation("CategoryHierarchy", fields: [parentId], references: [id])
-  children   PortalCategory[]   @relation("CategoryHierarchy")
-  createdAt  DateTime           @default(now())
-  updatedAt       DateTime?
-  deletedAt  DateTime?
-  news       News[]             @relation("CategoryNews")
-}
-
-model News {
-  id              String          @id @default(cuid())
-  categoryId      String
-  title           String
-  author          String
-  text            String
-  images          String[]
-  videos          String[]
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime?
-  deletedAt       DateTime?
-  category        PortalCategory  @relation("CategoryNews", fields: [categoryId], references: [id])
-}
-
-model JobsCategory {
-  id          String            @id @default(cuid())
-  name        String            @unique
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime?
-  deletedAt   DateTime?
-  jobs        Job[]             @relation("JobsCategoryJob")
-}
-
-model Job {
-  id            String            @id @default(cuid())
-  name          String
-  description   String
-  location      String            @default("")
-  salary        Decimal           @db.Decimal(10, 2)
-  contactEmail  String            @default("")
-  contactNumber String?
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime?
-  deletedAt     DateTime?
-  jobCategoryId String
-  jobCategory   JobsCategory      @relation("JobsCategoryJob", fields: [jobCategoryId], references: [id])
+  id                String    @id @default(cuid())
+  email             String    @unique
+  firstname         String?
+  lastname          String?
+  mobile            String?
+  country           String?
+  place             String?
+  address           String?
+  createdAt         DateTime  @default(now())
+  password          String
+  role              String?   @default("user")
+  updatedAt         DateTime?
+  deletedAt         DateTime?
+  forgetPassHash    String?
+  verified          Boolean?  @default(false)
+  verificationToken String?
+  firstLogin        DateTime?
+  lastLogin         DateTime?
 }
 
 model ProductCategory {
-  id          String            @id @default(cuid())
-  name        String            @unique
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime?
-  deletedAt   DateTime?
-  products    Product[]         @relation("ProductCategoryProduct")
+  id        String            @id @default(cuid())
+  name      String            @unique
+  parentId  String?
+  image     String?
+  parent    ProductCategory?  @relation("CategoryHierarchy", fields: [parentId], references: [id])
+  children  ProductCategory[] @relation("CategoryHierarchy")
+  createdAt DateTime          @default(now())
+  updatedAt DateTime?
+  deletedAt DateTime?
+  products  Product[]         @relation("CategoryProduct")
 }
 
 model Product {
-  id                  String            @id @default(cuid())
-  name                String
-  description         String
-  price               Decimal           @db.Decimal(10, 2)
-  locationPlace       String            @default("")
-  locationCountry     String            @default("")
-  contactEmail        String            @default("")
-  contactNumber       String?
-  sold                Int               @default(0)
-  images              String[]
-  videos              String[]
-  createdAt           DateTime          @default(now())
-  updatedAt           DateTime?
-  deletedAt           DateTime?
-  productCategoryId   String
-  productCategory     ProductCategory   @relation("ProductCategoryProduct", fields: [productCategoryId], references: [id])
-  orders              Order[]           @relation("ProductOrder")
+  id                String          @id @default(cuid())
+  name              String
+  description       String
+  price             Decimal         @db.Decimal(10, 2)
+  sold              Int             @default(0)
+  images            String[]
+  videos            String[]
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime?
+  deletedAt         DateTime?
+  productCategoryId String
+  productCategory   ProductCategory @relation("CategoryProduct", fields: [productCategoryId], references: [id])
 }
 
 model Order {
-  id                  String            @id @default(cuid())
-  quantity            String
-  totalPrice          Decimal           @db.Decimal(10, 2)
-  buyerFullname       String
-  buyerAddress        String
-  buyerPlace          String
-  buyerZipCode        String
-  buyerCountry        String
-  buyerEmail          String
-  buyerNumber         String?
-  description         String?
-  payment             String            @default("Pouzećem")
-  createdAt           DateTime          @default(now())
-  deletedAt           DateTime?
-  productId           String
-  product             Product           @relation("ProductOrder", fields: [productId], references: [id])
-}
-
-model AdSettings {
-  id                    String          @id @default(cuid())
-  position              String
-  show                  Boolean
-}
-
-
-model Ad {
-  id                    String          @id @default(cuid())
-  position              String
-  positionDescription   String?
-  url                   String?
-  imageUrl              String
-  price                 Decimal?        @db.Decimal(10, 2)
-}
-
-model DashboardCard {
-  id                    String          @id @default(cuid())
-  title                 String
-  position              Int?
-  text                  String
+  id            String    @id @default(cuid())
+  list          Json
+  totalPrice    Decimal   @db.Decimal(10, 2)
+  buyerFullname String
+  buyerAddress  String
+  buyerPlace    String
+  buyerZipCode  String
+  buyerCountry  String
+  buyerEmail    String
+  buyerNumber   String?
+  description   String?
+  payment       String
+  shipping      String
+  createdAt     DateTime  @default(now())
+  deletedAt     DateTime?
 }

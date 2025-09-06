@@ -11,67 +11,26 @@ export default defineEventHandler(async event => {
       statusMessage: 'Search value should be between 3 and 100 chars.'
     })
 
-  const [news, totalNews, jobs, totalJobs, products, totalProducts] =
-    await Promise.all([
-      prisma.news.findMany({
-        where: {
-          deletedAt: null,
-          ...(searchValue && {
-            OR: [
-              { title: { contains: searchValue, mode: 'insensitive' } },
-              { text: { contains: searchValue, mode: 'insensitive' } }
-            ]
-          })
-        },
-        include: { category: true },
-        orderBy: { createdAt: 'desc' }
-      }),
-      prisma.news.count({
-        where: {
-          deletedAt: null,
-          ...(searchValue && {
-            OR: [
-              { title: { contains: searchValue, mode: 'insensitive' } },
-              { text: { contains: searchValue, mode: 'insensitive' } }
-            ]
-          })
-        }
-      }),
-      prisma.job.findMany({
-        where: {
-          deletedAt: null,
-          ...(searchValue && {
-            OR: [{ name: { contains: searchValue, mode: 'insensitive' } }]
-          })
-        },
-        orderBy: { createdAt: 'desc' }
-      }),
-      prisma.job.count({
-        where: {
-          deletedAt: null,
-          ...(searchValue && {
-            OR: [{ name: { contains: searchValue, mode: 'insensitive' } }]
-          })
-        }
-      }),
-      prisma.product.findMany({
-        where: {
-          deletedAt: null,
-          ...(searchValue && {
-            OR: [{ name: { contains: searchValue, mode: 'insensitive' } }]
-          })
-        },
-        orderBy: { createdAt: 'desc' }
-      }),
-      prisma.product.count({
-        where: {
-          deletedAt: null,
-          ...(searchValue && {
-            OR: [{ name: { contains: searchValue, mode: 'insensitive' } }]
-          })
-        }
-      })
-    ])
+  const [products, totalProducts] = await Promise.all([
+    prisma.product.findMany({
+      where: {
+        deletedAt: null,
+        ...(searchValue && {
+          OR: [{ name: { contains: searchValue, mode: 'insensitive' } }]
+        })
+      },
+      orderBy: { createdAt: 'desc' },
+      include: { productCategory: true }
+    }),
+    prisma.product.count({
+      where: {
+        deletedAt: null,
+        ...(searchValue && {
+          OR: [{ name: { contains: searchValue, mode: 'insensitive' } }]
+        })
+      }
+    })
+  ])
 
-  return { news, totalNews, jobs, totalJobs, products, totalProducts }
+  return { products, totalProducts }
 })

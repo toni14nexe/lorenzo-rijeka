@@ -1,6 +1,5 @@
 export type Order = {
   id: String
-  quantity: String
   totalPrice: Decimal
   buyerFullname: String
   buyerAddress: String
@@ -11,10 +10,17 @@ export type Order = {
   buyerNumber?: String
   description?: String
   payment: String
+  shipping: String
+  list: {
+    id: string
+    name: string
+    image: string
+    price: number
+    quantity: number
+    totalPrice: number
+  }[]
   createdAt: DateTime
   deletedAt?: DateTime
-  productId: String
-  product: Product
 }
 
 export type Product = {
@@ -39,6 +45,10 @@ export type Product = {
 export type ProductCategory = {
   id: String
   name: String
+  parentId: String | null
+  image: String | null
+  parent: PortalCategory | null
+  children: PortalCategory[]
   createdAt: DateTime
   updatedAt: DateTime | null
   deletedAt: DateTime | null

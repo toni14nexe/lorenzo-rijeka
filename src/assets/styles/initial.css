@@ -1,7 +1,15 @@
+@font-face {
+  font-family: 'Amatic';
+  src: url('./amatic.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 html {
   padding: 0;
   margin: 0;
   font-family:
+    'Amatic',
     system-ui,
     -apple-system,
     BlinkMacSystemFont,
@@ -15,11 +23,25 @@ html {
     sans-serif;
 }
 
+:root {
+  --el-color-primary: #d9d950 !important;
+  --el-color-primary-light-1: #e0df66 !important;
+  --el-color-primary-light-3: #e8e58c !important;
+  --el-color-primary-light-5: #f0eba8 !important;
+  --el-color-primary-light-7: #f7f2c6 !important;
+  --el-color-primary-light-9: #fcfbe8 !important;
+}
+
+.el-button--primary {
+  --el-button-hover-bg-color: var(--el-color-primary-light-3) !important;
+}
+
 body {
   padding: 0;
   margin: 0;
   margin-left: auto;
   margin-right: auto;
+  font-size: 24px;
 }
 
 header,

@@ -71,7 +71,7 @@ async function handleEdit(formEl: FormInstance | undefined) {
     </ElRow>
 
     <ElRow justify="center">
-      <span class="color-primary"><b>Promijeni lozinku</b></span>
+      <span class="color-primary"><b>Promijena lozinke</b></span>
     </ElRow>
     <ElForm
       :label-position="$viewport.isLessThan('tablet') ? 'top' : 'left'"

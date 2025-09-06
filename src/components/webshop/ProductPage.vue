@@ -4,6 +4,7 @@ import FacebookShareButton from '~/components/shared/FacebookShareButton.vue'
 import CopyUrlButton from '~/components/shared/CopyUrlButton.vue'
 import type { Product } from '~/types/webshop'
 import { ShoppingCart } from '@element-plus/icons-vue'
+import { ElNotification } from 'element-plus'
 
 const props = defineProps<{
   product: Product | null
@@ -15,6 +16,20 @@ const parsedHtml = computed(() =>
     ? props.product.description.replace(/&nbsp;/g, ' ')
     : ''
 )
+
+function handleAddToCart(viewport: any) {
+  addToCart({
+    id: props.product?.id as string,
+    name: props.product?.name as string,
+    price: props.product?.price,
+    images: props.product?.images as string[]
+  })
+  ElNotification({
+    message: 'Proizvod dodan u košaricu!',
+    type: 'success',
+    offset: viewport.isGreaterOrEquals('tablet') ? 100 : 50
+  })
+}
 </script>
 
 <template>
@@ -61,7 +76,7 @@ const parsedHtml = computed(() =>
               <ElIcon :size="20" class="mr-8">
                 <ShoppingCart />
               </ElIcon>
-              Kupi
+              Dodaj u košaricu
             </ElButton>
           </ElRow>
         </template>
@@ -88,10 +103,6 @@ const parsedHtml = computed(() =>
         Kategorija:
         {{ product.productCategory.name }}
       </ElRow>
-      <ElRow align="middle" class="font-weight-500">
-        Lokacija:
-        {{ `${product.locationPlace}, ${product.locationCountry}` }}
-      </ElRow>
       <ElRow v-if="product.contactEmail" align="middle" class="font-weight-500">
         Email:
         <a :href="`mailto:${product.contactEmail}`" class="ml-4">
@@ -109,19 +120,22 @@ const parsedHtml = computed(() =>
       <div v-html="parsedHtml" class="product-content mb-24" />
       <ElRow align="middle" class="mb-24 product-price">
         Cijena:
-        <b class="ml-4">{{ Number(product.price).toFixed(2) }} €</b>
+        <b class="ml-4">{{ Number(product.price).toFixed(2) }}</b>
       </ElRow>
       <ElRow class="mb-12 social-share-buttons">
         <FacebookShareButton class="mr-4" />
         <CopyUrlButton class="ml-4" />
       </ElRow>
       <ElRow justify="center" align="middle" class="mb-24">
-        <NuxtLink :to="`/webshop/${product.id}/narudzba`">
-          <ElButton type="primary" plain size="large">
-            <ElIcon :size="20" class="mr-8"><ShoppingCart /></ElIcon>
-            Kupi
-          </ElButton>
-        </NuxtLink>
+        <ElButton
+          type="primary"
+          plain
+          size="large"
+          @click="handleAddToCart($viewport)"
+        >
+          <ElIcon :size="20" class="mr-8"><ShoppingCart /></ElIcon>
+          Dodaj u košaricu
+        </ElButton>
       </ElRow>
     </template>
   </div>

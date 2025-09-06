@@ -6,7 +6,11 @@ export default defineEventHandler(async event => {
     const body = await readBody(event)
 
     const category = await prisma.productCategory.create({
-      data: { name: body.name }
+      data: {
+        name: body.name,
+        parentId: body.parentId,
+        image: body.image
+      }
     })
 
     return category

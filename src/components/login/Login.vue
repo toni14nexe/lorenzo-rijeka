@@ -125,7 +125,7 @@ async function handleLogin(formEl: FormInstance | undefined) {
                   onClick: sendNewVerificationEmail,
                   style: {
                     color: 'white',
-                    backgroundColor: '#409EFF',
+                    backgroundColor: '#F3EF88',
                     padding: '8px 12px',
                     border: 'none',
                     cursor: 'pointer',

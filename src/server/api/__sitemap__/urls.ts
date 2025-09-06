@@ -1,3 +1,5 @@
+// TODO at the end
+
 import type { SitemapUrlInput } from '#sitemap/types'
 
 export default defineEventHandler(async () => {
@@ -49,7 +51,6 @@ export default defineEventHandler(async () => {
     { loc: '/poslovi', changefreq: 'weekly', priority: 0.8 },
     { loc: '/webshop', changefreq: 'weekly', priority: 0.8 },
     { loc: '/kontakt', changefreq: 'monthly', priority: 0.5 },
-    { loc: '/reklamiranje', changefreq: 'monthly', priority: 0.5 },
     { loc: '/pretrazivanje', changefreq: 'monthly', priority: 0.5 }
   ]
 

@@ -11,6 +11,7 @@ export function validatePassword(password: string) {
 
 export function validateMobileNumber(mobile: string) {
   if (mobile) {
+    mobile = mobile.trim()
     const mobileRegex =
       /^\+?\d{1,3}[- ]?\(?\d{1,4}?\)?[- ]?\d{1,4}[- ]?\d{1,4}[- ]?\d{1,9}$/
     return mobileRegex.test(mobile)

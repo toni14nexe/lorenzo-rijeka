@@ -18,6 +18,7 @@ useHead({
   ]
 })
 
+// TODO
 useSeoMeta({
   description: 'Rezultati pretraživanja.',
   ogTitle: `Pretraživanje: ${route.query.value}`,

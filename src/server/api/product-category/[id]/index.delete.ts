@@ -15,5 +15,5 @@ export default defineEventHandler(async event => {
     data: { deletedAt: new Date() }
   })
 
-  return { message: 'Product category deleted successfully' }
+  return { message: 'Webshop category deleted successfully' }
 })

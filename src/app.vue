@@ -3,8 +3,7 @@ import 'element-plus/theme-chalk/display.css'
 import hr from 'element-plus/es/locale/lang/hr'
 
 useHead({
-  titleTemplate: title =>
-    title ? `Gastarbajter.de - ${title}` : 'Gastarbajter.de',
+  titleTemplate: title => (title ? `s.art - ${title}` : 's.art'),
   meta: [
     {
       name: 'keywords',
@@ -81,7 +80,7 @@ useHead({
         sizes="180x180"
         href="https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png"
       />
-      <meta name="apple-mobile-web-app-title" content="Gastarbajter.de" />
+      <meta name="apple-mobile-web-app-title" content="s.art" />
     </head>
   </ClientOnly>
 

@@ -8,15 +8,12 @@ import FooterMenuCard from '~/components/layout/FooterMenuCard.vue'
 defineProps(['dividerMarginTop'])
 
 const categoriesStore = useCategoriesStore()
-const { categoriesLoading, portalCategories } = storeToRefs(categoriesStore)
-const facebookLinks = getFacebookLinks()
+const { categoriesLoading, webshopCategories } = storeToRefs(categoriesStore)
 const mainCategories = ref([
-  { id: 1, name: 'Naslovnica' },
-  { id: 2, name: 'Portal' },
-  { id: 3, name: 'Poslovi' },
-  { id: 4, name: 'Webshop' },
-  { id: 5, name: 'Kontakt' },
-  { id: 6, name: 'Reklamiranje' }
+  { id: 1, name: 'Naslovnica', url: '' },
+  { id: 2, name: 'Webshop', url: 'webshop' },
+  { id: 3, name: 'O nama', url: 'o-nama' },
+  { id: 5, name: 'Kontakt', url: 'kontakt' }
 ])
 </script>
 
@@ -27,12 +24,12 @@ const mainCategories = ref([
       :style="`margin-top: ${dividerMarginTop ? `${dividerMarginTop}px` : '4px'} !important`"
     />
 
-    <FooterMenuCard :categories="mainCategories" title="Glavni izbornik" />
+    <FooterMenuCard :categories="mainCategories" title="Izbornik" />
 
     <FooterMenuCard
-      :categories="portalCategories"
-      title="Portal"
-      urlPrefix="/portal/"
+      :categories="webshopCategories"
+      title="Webshop"
+      urlPrefix="/webshop/"
       :loading="categoriesLoading"
     />
 
@@ -41,31 +38,23 @@ const mainCategories = ref([
       align="middle"
       class="w-100 color-zinc text-align-center"
     >
-      <NuxtLink to="/kontakt" class="icon-link mr-4">
-        <ElIcon :size="44.45">
+      <NuxtLink to="/kontakt" class="icon-link">
+        <ElIcon :size="46">
           <MessageIcon />
         </ElIcon>
       </NuxtLink>
-      <ElPopover placement="top" trigger="click" width="300">
-        <template #reference>
-          <ElIcon :size="40" class="icon-link cursor-pointer mb-4">
-            <FacebookIcon />
-          </ElIcon>
-        </template>
-        <template #default>
-          <ElRow justify="center">
-            <p style="font-size: larger">Facebook grupe</p>
-          </ElRow>
-          <div v-for="item in facebookLinks" class="mb-4">
-            -
-            <NuxtLink :to="item.url" target="_blank">
-              {{ item.name }}
-            </NuxtLink>
-          </div>
-        </template>
-      </ElPopover>
       <NuxtLink
-        to="https://www.instagram.com/promotim_augsburg/?utm_source=qr&igsh=MXNrenN6aDNlNGI3eQ%3D%3D#"
+        to="https://web.facebook.com/people/sart/61566776001032"
+        class="icon-link"
+        style="margin-left: 2px"
+        target="_blank"
+      >
+        <ElIcon :size="40">
+          <FacebookIcon />
+        </ElIcon>
+      </NuxtLink>
+      <NuxtLink
+        to="https://www.instagram.com/svjetlana_art"
         class="icon-link ml-4"
         target="_blank"
       >
@@ -74,7 +63,7 @@ const mainCategories = ref([
         </ElIcon>
       </NuxtLink>
       <NuxtLink
-        to="https://www.tiktok.com/@gastarbajteri_augsburg?_t=ZN-8vwIsWxNLok&_r=1"
+        to="https://www.tiktok.com/@svjetlanaart"
         class="icon-link ml-4"
         target="_blank"
       >
@@ -83,12 +72,30 @@ const mainCategories = ref([
         </ElIcon>
       </NuxtLink>
     </ElRow>
-    <ElRow
-      justify="center"
-      align="middle"
-      class="w-100 color-zinc mt-8 text-align-center"
-    >
-      Sva prava pridržana, Gatstrabajter.de
+
+    <ElRow justify="center" align="middle" style="margin-top: 16px">
+      <img
+        src="../../assets/images/instagram-qr.jpeg"
+        alt="Instagram QR kod"
+        style="max-width: 90%; width: 140px"
+      />
+    </ElRow>
+
+    <ElRow justify="center" align="middle" style="margin: 16px 0">
+      <ElCol align="middle" class="small-text"
+        >s.art, obrt za umjetničko stvaralaštvo</ElCol
+      >
+      <ElCol align="middle" class="small-text">Baćina 2, 51219 Čavle</ElCol>
+      <ElCol align="middle" class="small-text">Matični broj: 98880349</ElCol>
+      <ElCol align="middle" class="small-text">OIB: 76720947227</ElCol>
+      <ElCol align="middle" class="small-text">Telefon: +385 99 7900 257</ElCol>
+      <ElCol align="middle" class="small-text"
+        >Banka: Erste&Steiermärkische Bank d.d.</ElCol
+      >
+      <ElCol align="middle" class="small-text">SWIFT/BIC: ESBCHR22</ElCol>
+      <ElCol align="middle" class="small-text"
+        >IBAN: HR5124020061140578266</ElCol
+      >
     </ElRow>
 
     <ElRow
@@ -96,14 +103,30 @@ const mainCategories = ref([
       align="middle"
       class="w-100 color-zinc mt-8 text-align-center"
     >
-      <NuxtLink to="https://innova-tech.live/" class="link" target="_blank">
+      <NuxtLink to="/kolacici" class="link"> Politika kolačića </NuxtLink>
+    </ElRow>
+
+    <ElRow
+      justify="center"
+      align="middle"
+      class="w-100 color-zinc mt-8 text-align-center"
+    >
+      Sva prava pridržana, s.art
+    </ElRow>
+
+    <ElRow
+      justify="center"
+      align="middle"
+      class="w-100 color-zinc mt-8 text-align-center"
+    >
+      <NuxtLink to="https://innova-tech.hr/" class="link" target="_blank">
         Web aplikaciju izradio Innovatech obrt za informatičke usluge
       </NuxtLink>
     </ElRow>
   </div>
 
   <ElRow justify="center" align="middle" class="w-100 bottom-line mt-8">
-    Copyright © 2025 Gatstrabajter.de
+    Copyright © 2025 s.art
   </ElRow>
 </template>
 
@@ -118,7 +141,6 @@ const mainCategories = ref([
   padding: 0 20px;
 }
 .link {
-  text-decoration: none;
   color: var(--el-text-color-secondary);
 }
 .link:hover {
@@ -142,5 +164,10 @@ const mainCategories = ref([
 }
 .text-align-center {
   text-align: center;
+}
+.small-text {
+  color: var(--el-text-color-secondary);
+  font-size: small;
+  font-family: Arial, Helvetica, sans-serif;
 }
 </style>

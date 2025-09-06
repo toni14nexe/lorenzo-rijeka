@@ -36,7 +36,7 @@ const colSpan = computed(() => {
         align="center"
       >
         <NuxtLink
-          :to="`${urlPrefix ? urlPrefix : '/'}${category.name === 'Naslovnica' ? '' : category.name}`"
+          :to="`${urlPrefix ? urlPrefix : '/'}${category.url}`"
           class="link"
         >
           {{ category.name }}

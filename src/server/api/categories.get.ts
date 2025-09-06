@@ -2,26 +2,12 @@ import { defineEventHandler } from 'h3'
 import { prisma } from '~/server/utils/prisma'
 
 const getAllCategories = async () => {
-  const [portal, jobs, webshop] = await Promise.all([
-    prisma.portalCategory.findMany({
-      where: { deletedAt: null },
-      orderBy: { createdAt: 'asc' }
-    }),
-    prisma.jobsCategory.findMany({
-      where: { deletedAt: null },
-      orderBy: { createdAt: 'asc' }
-    }),
-    prisma.productCategory.findMany({
-      where: { deletedAt: null },
-      orderBy: { createdAt: 'asc' }
-    })
-  ])
+  const categories = await prisma.productCategory.findMany({
+    where: { deletedAt: null },
+    orderBy: { createdAt: 'asc' }
+  })
 
-  return {
-    portal,
-    jobs,
-    webshop
-  }
+  return categories
 }
 
 const buildHierarchy = (categories: any[]) => {
@@ -44,12 +30,8 @@ const buildHierarchy = (categories: any[]) => {
 }
 
 export default defineEventHandler(async event => {
-  const allCategories = await getAllCategories()
-  const portalCategories = buildHierarchy(allCategories.portal)
+  const tempCategories = await getAllCategories()
+  const categories = buildHierarchy(tempCategories)
 
-  return {
-    portal: portalCategories,
-    jobs: allCategories.jobs,
-    webshop: allCategories.webshop
-  }
+  return categories
 })

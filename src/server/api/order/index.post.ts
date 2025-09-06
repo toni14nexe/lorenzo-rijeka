@@ -7,40 +7,28 @@ export default defineEventHandler(async event => {
     const body = await readBody(event)
 
     if (
-      !body.productId ||
-      !body.quantity ||
+      !body.totalPrice ||
       !body.buyerFullname ||
       !body.buyerEmail ||
+      !body.buyerNumber ||
       !body.buyerAddress ||
       !body.buyerPlace ||
       !body.buyerZipCode ||
-      !body.buyerCountry
+      !body.buyerCountry ||
+      !body.list ||
+      !body.shipping ||
+      !body.payment
     )
       throw createError({
         statusCode: 400,
         statusMessage:
-          "Body parameter is missing, this body should include: 'productId', 'buyerFullname', 'buyerEmail', 'buyerAddress', 'buyerPlace', 'buyerZipCode' and 'buyerCountry'. 'buyerNumber' and 'description' are optional."
+          "Body parameter is missing, this body should include: 'list', 'totalPrice', 'buyerFullname', 'buyerEmail', 'buyerNumber', 'buyerAddress', 'buyerPlace', 'buyerZipCode' and 'buyerCountry', 'shippment', 'payment'. 'buyerNumber' and 'description' are optional."
       })
-
-    let product = await prisma.product.findUnique({
-      where: {
-        id: body.productId,
-        deletedAt: null
-      }
-    })
-
-    if (!product)
-      throw createError({
-        statusCode: 404,
-        statusMessage: `Product with ID ${body.productId} can not be found.`
-      })
-
-    const totalPrice = String(Number(product.price) * body.quantity.toFixed(2))
 
     const order = await prisma.order.create({
       data: {
-        quantity: String(body.quantity),
-        totalPrice: totalPrice,
+        list: body.list,
+        totalPrice: body.totalPrice,
         buyerFullname: body.buyerFullname,
         buyerEmail: body.buyerEmail,
         buyerNumber: body.buyerNumber,
@@ -49,17 +37,9 @@ export default defineEventHandler(async event => {
         buyerZipCode: body.buyerZipCode,
         buyerCountry: body.buyerCountry,
         description: body.description,
-        product: {
-          connect: {
-            id: body.productId
-          }
-        }
+        payment: body.payment,
+        shipping: body.shipping
       }
-    })
-
-    product = await prisma.product.update({
-      where: { id: product.id },
-      data: { sold: Number(product.sold + body.quantity) }
     })
 
     const transporter = nodemailer.createTransport({
@@ -74,12 +54,27 @@ export default defineEventHandler(async event => {
       }
     })
 
+    const orderItemsHtml = order.list
+      // @ts-expect-error
+      ?.map(
+        (item: any) => `
+      <div style="margin-bottom: 10px; padding: 8px; border-bottom: 1px solid #eee;">
+        <p><b>${item.name}</b></p>
+        ${item.image ? `<img src="${item.image}" alt="${item.name}" width="120" style="margin-top:5px;"/>` : ''}
+        <p>Količina: ${item.quantity}</p>
+        <p>Cijena: ${item.price}</p>
+        <p>Ukupno: ${item.totalPrice}</p>
+      </div>
+    `
+      )
+      .join('')
+
     const mailOptions = {
-      from: `"Gastarbajter.de" <${process.env.APP_EMAIL}>`,
-      to: [body.buyerEmail, product.contactEmail, process.env.APP_EMAIL],
-      subject: `Gastarbajter.de narudžba ${order.id}`,
+      from: `"s.art" <${process.env.APP_EMAIL}>`,
+      to: [body.buyerEmail, process.env.APP_EMAIL],
+      subject: `s.art narudžba ${order.id}`,
       html: `
-               <a href="${process.env.APP_BASE_URL}" style="text-decoration: none"><h1 style="background-color: #409EFF; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">Gastarbajter.de</h1></a>
+               <a href="${process.env.APP_BASE_URL}" style="text-decoration: none"><h1 style="background-color: #d9d950; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">s.art</h1></a>
                <h3>Narudžba ${order.id} je zaprimljena u ${formatToDatetime(String(order.createdAt))}.</h3>
                <br/>
                <b><p>Kupac</p></b>
@@ -88,24 +83,26 @@ export default defineEventHandler(async event => {
                <p>Mobitel: ${order.buyerNumber || '-'}</p>
                <p>Adresa: ${order.buyerAddress}</p>
                <p>Mjesto: ${order.buyerPlace}</p>
-               <p>Država: ${order.buyerCountry}</p>
                <p>Poštanski broj: ${order.buyerZipCode}</p>
+               <p>Država: ${order.buyerCountry}</p>
                <p>Napomena: ${order.description || '-'}</p>
                <br/>
                <b><p>Prodavač</p></b>
-               <p>Email: ${product.contactEmail}</p>
-               <p>Mobitel: ${product.contactNumber}</p>
-               <p>Mjesto: ${product.locationPlace}</p>
-               <p>Država: ${product.locationCountry}</p>
+               <p>s.art, obrt za umjetničko stvaralaštvo</p>
+               <p>Email: TODO email</p>
+               <p>Mobitel: +385 99 7900 257</p>
+               <p>Adresa: Baćina 2</p>
+               <p>Mjesto: 51219 Čavle</p>
+               <p>Država: Hrvatska</p>
                <br/>
-               <b><p>Proizvod</p></b>
-               <p>ID: ${product.id}</p>
-               <p>Naziv: ${product.name}</p>
-               <p>Cijena jedinice: ${product.price} €</p>
-               <p>Količina: ${order.quantity}</p>
-               <p>Ukupna cijena: ${totalPrice} €</p>
+               <b><p>Dostava: ${order.shipping}${body.shippingPrice ? ` - ${body.shippingPrice}` : ''}</p></b>
+               <b><p>Plaćanje: ${order.payment}</p></b>
                <br/>
-               <a href="${process.env.APP_BASE_URL}/webshop/${product.id}/narudzba/${order.id}">Narudžba dostupna ovdje</a>`
+               <b><p>Narudžba</p></b>
+               ${orderItemsHtml}
+               <b><p>Ukupna cijena: ${body.totalPrice}</p></b>
+               <br/>
+               <a href="${process.env.APP_BASE_URL}/narudzba/${order.id}">Narudžba dostupna ovdje</a>`
     }
     await transporter.sendMail(mailOptions)
 

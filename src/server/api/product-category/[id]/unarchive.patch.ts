@@ -12,7 +12,7 @@ export default defineEventHandler(async event => {
   }
 
   try {
-    const productCategory = await prisma.productCategory.update({
+    const category = await prisma.productCategory.update({
       where: { id: params.id },
       data: {
         deletedAt: null,
@@ -20,12 +20,12 @@ export default defineEventHandler(async event => {
       }
     })
 
-    return productCategory
+    return category
   } catch (error) {
-    console.error('Error updating product category:', error)
+    console.error('Error updating webshop category:', error)
     throw createError({
       statusCode: 500,
-      statusMessage: 'Failed to update product category'
+      statusMessage: 'Failed to update webshop category'
     })
   }
 })

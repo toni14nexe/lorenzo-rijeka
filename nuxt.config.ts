@@ -32,13 +32,11 @@ export default defineNuxtConfig({
     }
   },
   site: {
-    url: 'https://gastarbeiter.de.com',
-    name: 'Gastarbajter.de'
+    url: '', // TODO
+    name: 's.art'
   },
   sitemap: {
-    sources: [
-      '/api/__sitemap__/urls'
-    ]
+    sources: ['/api/__sitemap__/urls']
   },
   primevue: {
     options: {
@@ -76,30 +74,30 @@ export default defineNuxtConfig({
         {
           rel: 'apple-touch-icon',
           sizes: '180x180',
-          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/favicon-180x180_we2zi4.png'
+          href: 'https://res.cloudinary.com/dnu0ujasf/image/upload/v1757004814/favicon-180x180_shzfaw.png'
         },
         {
           rel: 'icon',
           type: 'image/png',
           sizes: '32x32',
-          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519905/32_y5b1p2.png'
+          href: 'https://res.cloudinary.com/dnu0ujasf/image/upload/v1757004814/favicon-32x32_lxa5lm.png'
         },
         {
           rel: 'icon',
           type: 'image/png',
           sizes: '16x16',
-          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519887/16_ckfbsd.png'
+          href: 'https://res.cloudinary.com/dnu0ujasf/image/upload/v1757004813/favicon-16x16_fhikyg.png'
         },
         {
           rel: 'icon',
           type: 'image/png',
           sizes: '96x96',
-          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519809/96_oreti5.png'
+          href: 'https://res.cloudinary.com/dnu0ujasf/image/upload/v1757004814/favicon-96x96_rytdpo.png'
         },
         {
           rel: 'apple-touch-icon',
           sizes: '180x180',
-          href: 'https://res.cloudinary.com/dhaa1aobr/image/upload/v1747342580/favicon-180x180_we2zi4.png'
+          href: 'https://res.cloudinary.com/dnu0ujasf/image/upload/v1757004814/favicon-180x180_shzfaw.png'
         }
         /* {
           rel: 'manifest',
@@ -108,38 +106,23 @@ export default defineNuxtConfig({
       ],
       meta: [
         {
-          name: 'Gastarbajter.de',
-          content:
-            'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.'
+          name: 's.art',
+          content: '' // TODO
         },
         {
           name: 'keywords',
-          content:
-            'platforma, gastrabajtere, gastabajter, gastabajteri, gastrabajter, gastrajabjteri, gastabajtere, poslovi, oglasnik, posao, webshop, trgovina, proizvodi, domaće, domaći'
+          content: '' // TODO
         },
         { name: 'author', content: 'InnovaTech obrt za informatičke usluge' },
-        { property: 'og:title', content: 'Gastarbajter.de' },
+        { property: 'og:title', content: 's.art' },
         {
           property: 'og:description',
-          content:
-            'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.'
+          content: '' // TODO
         },
         {
           property: 'og:image',
           content:
-            'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png'
-        },
-        { property: 'twitter:card', content: 'summary_large_image' },
-        { property: 'twitter:title', content: 'Gastarbajter.de' },
-        {
-          property: 'twitter:description',
-          content:
-            'Najbolja platforma za gastrabajtere. Ovdje ćete pronaći upute za rad i život u inozemstvu zajedno s našim webshopom i oglasnikom za poslove.'
-        },
-        {
-          property: 'twitter:image',
-          content:
-            'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png'
+            'https://res.cloudinary.com/dnu0ujasf/image/upload/v1757004814/favicon-180x180_shzfaw.png'
         }
       ]
     }

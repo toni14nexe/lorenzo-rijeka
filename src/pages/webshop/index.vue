@@ -1,29 +1,23 @@
-<script lang="ts" setup>
-import WebshopPage from '~/components/webshop/WebshopPage.vue'
-
+<script setup lang="ts">
 useHead({
-  title: 'Webshop',
+  title: 'Trgovina',
   meta: [
     {
       name: 'description',
-      content:
-        'Ovdje se nalazi naš webshop s ponudom naših dostupnih i najnovijih proizvoda.'
+      content: 'Trgovina - Webshop'
     },
-    { property: 'og:title', content: 'Gastabajter.de - Webshop proizvod' },
+    { property: 'og:title', content: 'Backoffice' },
     {
       property: 'og:description',
-      content:
-        'Ovdje se nalazi naš webshop s ponudom naših dostupnih i najnovijih proizvoda.'
+      content: 's.art trgovina s našim astortimanom proizvoda.'
     }
   ]
 })
 
 useSeoMeta({
-  description:
-    'Ovdje se nalazi naš webshop s ponudom naših dostupnih i najnovijih proizvoda.',
-  ogTitle: `Webshop`,
-  ogDescription:
-    'Ovdje se nalazi naš webshop s ponudom naših dostupnih i najnovijih proizvoda.',
+  description: 'Trgovina - Webshop',
+  ogTitle: `Trgovina - Webshop`,
+  ogDescription: 's.art trgovina s našim astortimanom proizvoda.',
   ogImage:
     'https://res.cloudinary.com/dhaa1aobr/image/upload/v1748519861/180_lm9wut.png',
   twitterCard: 'summary_large_image',
@@ -32,6 +26,10 @@ useSeoMeta({
 })
 </script>
 
-<template><WebshopPage /></template>
+<template>
+  <div class="page-container">
+    <WebshopPage />
+  </div>
+</template>
 
 <style lang="css" scoped></style>

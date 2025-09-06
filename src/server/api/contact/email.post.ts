@@ -18,11 +18,11 @@ export default defineEventHandler(async event => {
   })
 
   const mailOptions = {
-    from: `"Gastarbajter.de" <${process.env.APP_EMAIL}>`,
+    from: `"s.art" <${process.env.APP_EMAIL}>`,
     to: process.env.APP_EMAIL,
-    subject: `Gastarbajter.de kontakt - ${body.email}`,
+    subject: `s.art kontakt - ${body.email}`,
     html: `
-           <a href="${url}" style="text-decoration: none"><h1 style="background-color: #409EFF; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">Gastarbajter.de</h1></a>
+           <a href="${url}" style="text-decoration: none"><h1 style="background-color: #d9d950; color: white; width: fit-content; padding: 0 15px 0 14px; border-radius: 4px">s.art</h1></a>
            <h3>Kontakt</h3>
            <p>Korisnik: ${body.fullname || '-'}</p>
            <p>Email: ${body.email}</p>

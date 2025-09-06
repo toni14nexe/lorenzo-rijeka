@@ -5,12 +5,15 @@ import {
   Edit,
   DeleteFilled,
   RefreshLeft,
-  Search
+  Search,
+  Plus
 } from '@element-plus/icons-vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import type { FormInstance, FormRules, UploadUserFile } from 'element-plus'
 
 interface RuleForm {
   name: string
+  parentId: string | null
+  image: string | null
 }
 type DialogType = 'create' | 'edit' | 'delete' | 'unarchive'
 
@@ -22,6 +25,10 @@ const isLoading = ref({
 })
 const activeCategories = ref<ProductCategory[]>()
 const deletedCategories = ref<ProductCategory[]>()
+const image = ref<UploadUserFile[]>()
+const config = useRuntimeConfig()
+const cloudinaryPreset = config.public.cloudinaryPreset
+const cloudinaryCloudName = config.public.cloudinaryCloudName
 const searchValues = ref({
   active: '',
   deleted: ''
@@ -36,7 +43,9 @@ const dialog = ref<{
   item: undefined
 })
 const form = reactive<RuleForm>({
-  name: ''
+  name: '',
+  parentId: null,
+  image: null
 })
 const ruleFormRef = ref<FormInstance>()
 const rules = reactive<FormRules<RuleForm>>({
@@ -48,13 +57,16 @@ const rules = reactive<FormRules<RuleForm>>({
 onMounted(() => getAllCategories())
 
 function getAllCategories() {
-  getActiveProductCategories()
-  getDeletedProductCategories()
+  getActiveCategories()
+  getDeletedCategories()
 }
 
 function openDialog(type: DialogType, item?: ProductCategory) {
-  if (item) form.name = String(item.name)
-
+  if (item) {
+    form.name = String(item.name)
+    form.parentId = item.parentId ? String(item.parentId) : null
+    form.image = item.image ? String(item.image) : null
+  }
   dialog.value = {
     isOpened: true,
     type,
@@ -65,13 +77,13 @@ function openDialog(type: DialogType, item?: ProductCategory) {
 function handleActiveSearch() {
   debounceActiveSearch()
 }
-const debounceActiveSearch = debounce(getActiveProductCategories, 300)
+const debounceActiveSearch = debounce(getActiveCategories, 300)
 
-async function getActiveProductCategories() {
+async function getActiveCategories() {
   isLoading.value.activeCategories = true
   try {
     const response = await $axios.get(
-      `/product-category?search=${searchValues.value.active}`
+      `/product-category?withoutHierarchy=true&search=${searchValues.value.active}`
     )
     activeCategories.value = response.data
   } catch (error) {
@@ -84,9 +96,9 @@ async function getActiveProductCategories() {
 function handleDeletedSearch() {
   debounceDeletedSearch()
 }
-const debounceDeletedSearch = debounce(getDeletedProductCategories, 300)
+const debounceDeletedSearch = debounce(getDeletedCategories, 300)
 
-async function getDeletedProductCategories() {
+async function getDeletedCategories() {
   isLoading.value.deletedCategories = true
   try {
     const response = await $axios.get(
@@ -117,7 +129,45 @@ function handleSubmitButton(formEl: FormInstance | undefined) {
 
 function handleCloseDialog() {
   form.name = ''
+  form.parentId = null
+  form.image = null
+  image.value = []
   dialog.value.isOpened = false
+}
+
+function handleUploadChange(file: any, files: any) {
+  if (files.length) files.pop()
+  form.image = ''
+  files[0] = file
+}
+
+async function uploadDataToCloudinary() {
+  if (image.value && image.value[0].raw) {
+    const url = await cloudinaryUpload(image.value[0].raw as File, 'image')
+    if (url) form.image = url
+  }
+}
+
+async function cloudinaryUpload(file: File, resourceType: 'image' | 'video') {
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('upload_preset', cloudinaryPreset)
+  formData.append('resource_type', resourceType)
+
+  try {
+    const response = await fetch(
+      `https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/${resourceType}/upload`,
+      {
+        method: 'POST',
+        body: formData
+      }
+    )
+    const data = await response.json()
+    return data.secure_url
+  } catch (error) {
+    console.error('Upload failed:', error)
+    return null
+  }
 }
 
 async function handleCreate(formEl: FormInstance | undefined) {
@@ -125,6 +175,7 @@ async function handleCreate(formEl: FormInstance | undefined) {
   await formEl.validate(async valid => {
     if (valid) {
       isLoading.value.button = true
+      await uploadDataToCloudinary()
       try {
         await $axios.post('/product-category', form)
         getAllCategories()
@@ -144,6 +195,7 @@ async function handleEdit(formEl: FormInstance | undefined) {
   await formEl.validate(async valid => {
     if (valid) {
       isLoading.value.button = true
+      await uploadDataToCloudinary()
       try {
         await $axios.put(`/product-category/${dialog.value.item?.id}`, form)
         getAllCategories()
@@ -192,7 +244,7 @@ async function handleUnarchive() {
     <ElRow justify="space-between" align="middle" class="w-100">
       <ElCol :span="6" />
       <ElCol :span="12" align="center">
-        <h3 class="color-primary">Posao kategorije</h3>
+        <h3 class="color-primary">Kategorije</h3>
       </ElCol>
       <ElCol :span="6" align="end">
         <ElButton type="primary" plain @click="openDialog('create')">
@@ -226,6 +278,11 @@ async function handleUnarchive() {
       v-loading="isLoading.activeCategories"
     >
       <ElTableColumn label="Naziv" prop="name" />
+      <!-- <ElTableColumn label="Nadkategorija" prop="parent.name">
+        <template #default="items">
+          {{ items.row.parent?.name || '-' }}
+        </template>
+      </ElTableColumn> -->
       <ElTableColumn label="Akcije" align="center" width="148">
         <template #default="items">
           <ElButton type="primary" plain @click="openDialog('edit', items.row)">
@@ -268,6 +325,11 @@ async function handleUnarchive() {
       v-loading="isLoading.deletedCategories"
     >
       <ElTableColumn label="Naziv" prop="name" />
+      <!-- <ElTableColumn label="Nadkategorija" prop="parent.name">
+        <template #default="items">
+          {{ items.row.parent?.name || '-' }}
+        </template>
+      </ElTableColumn> -->
       <ElTableColumn label="Akcije" align="center" width="80">
         <template #default="items">
           <ElButton
@@ -322,6 +384,52 @@ async function handleUnarchive() {
             placeholder="Moja kategorija"
             class="input-width"
           />
+        </ElFormItem>
+        <!-- <ElFormItem label="Nadkategorija" prop="parentId">
+          <ElSelect
+            v-model="form.parentId as string"
+            placeholder="Odaberite kategoriju"
+            class="input-width"
+            clearable
+            filterable
+          >
+            <ElOption
+              v-for="category in activeCategories"
+              :key="String(category.id)"
+              :label="String(category.name)"
+              :value="String(category.id)"
+            />
+          </ElSelect>
+        </ElFormItem> -->
+        <p class="color-danger">
+          Preporuča se slika što manje veličine (najbolje u formatu 'jpg' ili
+          'jpeg'), ne veća od 500x500px.
+        </p>
+        <ElFormItem label="Slika" prop="image">
+          <img
+            v-if="dialog.type === 'edit' && form.image"
+            class="el-upload-list__item-thumbnail"
+            :src="form.image as string"
+            style="width: 148px"
+          />
+          <ElUpload
+            v-model:file-list="image"
+            action="#"
+            list-type="picture-card"
+            :auto-upload="false"
+            multiple
+            accept="image/*"
+            @change="handleUploadChange"
+          >
+            <ElIcon><Plus /></ElIcon>
+            <template #file="{ file }">
+              <img
+                class="el-upload-list__item-thumbnail"
+                :src="file.url"
+                alt=""
+              />
+            </template>
+          </ElUpload>
         </ElFormItem>
       </ElForm>
     </ElRow>

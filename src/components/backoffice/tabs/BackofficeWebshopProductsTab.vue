@@ -28,10 +28,6 @@ interface RuleForm {
   images: String[] | null
   videos: String[] | null
   price: number
-  contactEmail: string
-  contactNumber: string
-  locationCountry: string
-  locationPlace: string
 }
 type DialogType = 'create' | 'edit' | 'delete' | 'unarchive'
 
@@ -74,11 +70,7 @@ const form = reactive<RuleForm>({
   description: '',
   images: [],
   videos: [],
-  price: 0,
-  contactEmail: '',
-  contactNumber: '',
-  locationCountry: '',
-  locationPlace: ''
+  price: 0
 })
 const ruleFormRef = ref<FormInstance>()
 const rules = reactive<FormRules<RuleForm>>({
@@ -97,40 +89,6 @@ const rules = reactive<FormRules<RuleForm>>({
   ],
   price: [
     { required: true, message: 'Unesite cijenu proizvoda', trigger: 'blur' }
-  ],
-  contactEmail: [
-    { required: true, message: 'Unesite email prodavača', trigger: 'blur' },
-    {
-      validator: (_, value, callback) => {
-        if (!validateEmail(value)) callback(new Error('Netočna email adresa'))
-        else callback()
-      },
-      trigger: 'blur'
-    }
-  ],
-  contactNumber: [
-    {
-      validator: (_, value, callback) => {
-        if (value.length && !validateMobileNumber(value))
-          callback(new Error('Netočan broj telefona'))
-        else callback()
-      },
-      trigger: 'blur'
-    }
-  ],
-  locationCountry: [
-    {
-      required: true,
-      message: 'Unesite naziv države lokacije proizvoda',
-      trigger: 'blur'
-    }
-  ],
-  locationPlace: [
-    {
-      required: true,
-      message: 'Unesite naziv mjesta lokacije proizvoda',
-      trigger: 'blur'
-    }
   ]
 })
 const activeProductsPagination = ref({
@@ -151,7 +109,8 @@ onMounted(() => getAllProducts())
 async function getCategories() {
   isLoading.value.categories = true
   try {
-    const response = await $axios.get(`/product-category`)
+    const response = await $axios.get(`/product-category?withoutHierarchy=true`)
+    console.log(response)
     categories.value = response.data
   } catch (error) {
     console.error('API Error:', error)
@@ -171,10 +130,6 @@ function openDialog(type: DialogType, item?: Product) {
     form.name = String(item.name)
     form.description = String(item.description)
     form.price = Number(item.price)
-    form.contactEmail = String(item.contactEmail)
-    form.contactNumber = item.contactNumber ? String(item.contactNumber) : ''
-    form.locationCountry = String(item.locationCountry)
-    form.locationPlace = String(item.locationPlace)
     form.images = item.images ? item.images : null
     form.videos = item.videos ? item.videos : null
     // @ts-expect-error
@@ -260,10 +215,6 @@ function handleCloseDialog() {
   form.name = ''
   form.description = ''
   form.price = 0
-  form.contactEmail = ''
-  form.contactNumber = ''
-  form.locationCountry = ''
-  form.locationPlace = ''
   form.images = null
   form.videos = null
   fileList.value.images = []
@@ -573,6 +524,7 @@ async function cloudinaryUpload(file: File, resourceType: 'image' | 'video') {
             placeholder="Odaberite kategoriju"
             class="input-width"
             clearable
+            filterable
           >
             <ElOption
               v-for="category in categories"
@@ -601,46 +553,12 @@ async function cloudinaryUpload(file: File, resourceType: 'image' | 'video') {
             placeholder="1.99"
             :step="0.01"
             class="input-width"
-          >
-            <template #suffix>€</template>
-          </ElInputNumber>
-        </ElFormItem>
-        <ElFormItem label="Email prodavača" prop="contactEmail" class="mt-20">
-          <ElInput
-            v-model="form.contactEmail"
-            placeholder="john.doe@mail.com"
-            class="input-width"
           />
         </ElFormItem>
-        <ElFormItem
-          label="Telefon prodavača"
-          prop="contactNumber"
-          class="mt-20"
-        >
-          <ElInput
-            v-model="form.contactNumber"
-            placeholder="+3850123456789"
-            class="input-width"
-          />
-        </ElFormItem>
-        <ElFormItem
-          label="Država proizvoda"
-          prop="locationCountry"
-          class="mt-20"
-        >
-          <ElInput
-            v-model="form.locationCountry"
-            placeholder="Hrvatska"
-            class="input-width"
-          />
-        </ElFormItem>
-        <ElFormItem label="Mjesto proizvoda" prop="locationPlace" class="mt-20">
-          <ElInput
-            v-model="form.locationPlace"
-            placeholder="Zagreb"
-            class="input-width"
-          />
-        </ElFormItem>
+        <p class="color-danger">
+          Preporuča se slika što manje veličine (najbolje u formatu 'jpg' ili
+          'jpeg'), ne veća od 1000x1000px.
+        </p>
         <ElFormItem label="Slike" prop="images">
           <ElUpload
             v-model:file-list="fileList.images"
